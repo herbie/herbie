@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from wayneapp import controllers
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/<str:type>/<str:key>', controllers.ControllerPathVariables.as_view()),
 ]

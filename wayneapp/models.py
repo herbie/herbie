@@ -13,6 +13,9 @@ class GenericModel(TimeStampedModel):
         unique_together = ('key', 'version')
 
 
+class GenericModelTest(GenericModel):
+    pass
+
 # automatically generate generic classes based on json schema definitions:
 # $ python manage.py generate_classes
 # ########################### start generic classes ###########################
