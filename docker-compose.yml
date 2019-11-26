@@ -1,24 +1,28 @@
-version: '2'
+version: '3'
 
 services:
-    meerkat-db:
+
+    wayne-app:
+        container_name: "wayne-app"
+        build: .
+        volumes:
+            - .:/data/www
+        depends_on:
+          - wayne-db
+        ports:
+            - "8000:8000"
+
+    wayne-db:
         container_name: "wayne-db"
         image: "postgres:11.5"
         volumes:
-            - "wayne:/var/lib/postgresql/data"
+            - "db-data:/var/lib/postgresql/data"
             - "/etc/timezone:/etc/timezone:ro"
-        ports:
-            - "5433:5432"
         environment:
-            - "POSTGRES_DB=wayne"
+            - "POSTGRES_DB=wayne_db"
             - "POSTGRES_USER=user"
             - "POSTGRES_PASSWORD=password"
-        networks:
-            - "wayne_network"
 
 volumes:
-    wayne:
+    db-data:
         driver: "local"
-
-networks:
-    wayne_network:

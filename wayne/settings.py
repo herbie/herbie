@@ -78,11 +78,11 @@ WSGI_APPLICATION = 'wayne.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'wayne',
+        'NAME': 'wayne_db',
         'USER': 'user',
         'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '5433',
+        'HOST': 'wayne-db',
+        'PORT': '5432',
     }
 }
 
