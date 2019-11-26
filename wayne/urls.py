@@ -19,5 +19,5 @@ from wayneapp import controllers
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/<str:type>/<str:key>', controllers.ControllerPathVariables.as_view()),
+    path('api/<str:type>/<str:key>', controllers.BusinessEntityController.as_view()),
 ]
