@@ -14,10 +14,10 @@ class Command(BaseCommand):
 
         w = open(model_filename, "w")
         w.write('# generated file, should not be modified manually!\n')
-        w.write('from wayneapp.models import GenericModel\n')
+        w.write('from wayneapp.models import AbstractBusinessEntity\n')
 
         for entity_name in entity_names:
-            w.write('\n\nclass {}(GenericModel):\n    pass\n'.format(entity_name))
+            w.write('\n\nclass {}(AbstractBusinessEntity):\n    pass\n'.format(entity_name))
 
         w.close()
         self.stdout.write("Generated classes: {}".format(entity_names))

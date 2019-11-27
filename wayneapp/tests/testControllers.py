@@ -1,6 +1,6 @@
 from django.test import TestCase
 from rest_framework import status
-from wayneapp.models import GenericModelTest
+from wayneapp.models import GenericModelTest, User
 from rest_framework.test import APIRequestFactory, APIClient
 
 
@@ -8,7 +8,7 @@ class ControllerPathVariablesTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super(ControllerPathVariablesTest, cls).setUpClass()
-        GenericModelTest.objects.create(key="1", version=1, data={})
+        User.objects.create(key="1", version=1, data={})
 
     def test_ControllerPathVariables_should_work(self):
         data = {

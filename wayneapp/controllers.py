@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from wayneapp.services import update_or_create_generic_model
+from wayneapp.services import update_or_create_business_entity
 from rest_framework.utils import json
 
 class BusinessEntityController(APIView):
@@ -16,8 +16,9 @@ class BusinessEntityController(APIView):
         # TODO validate(body[object],type)
         version = self._get_version(body)
         try:
-            generic_object, created = update_or_create_generic_model(type, key, version, body["object"])
+            update_or_create_business_entity(type, key, version, body["object"])
         except Exception:
+            # TODO log exception?
             return Response({}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         #TODO should we return the saved object?
         return Response({}, status=status.HTTP_200_OK)

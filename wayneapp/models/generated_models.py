@@ -1,14 +1,14 @@
 # generated file, should not be modified manually!
-from wayneapp.models import GenericModel
+from wayneapp.models import AbstractBusinessEntity
 
 
-class Address(GenericModel):
+class Address(AbstractBusinessEntity):
     pass
 
 
-class Product(GenericModel):
+class Product(AbstractBusinessEntity):
     pass
 
 
-class User(GenericModel):
+class User(AbstractBusinessEntity):
     pass

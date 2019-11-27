@@ -3,13 +3,9 @@ from django.contrib.postgres.fields import JSONField
 from model_utils.models import TimeStampedModel
 
 
-class GenericModel(TimeStampedModel):
+class AbstractBusinessEntity(TimeStampedModel):
     """
-    Abstract class that defines the generic data model for every business object.
-    Concrete implementations can be generated based on the json schema definitions
-    by executing this manage command:
-
-    $ python manage.py generate_classes
+    Abstract class that defines the generic data model for every business entity.
     """
     key = models.TextField(null=False)
     version = models.IntegerField(null=False, default=1)
@@ -20,5 +16,5 @@ class GenericModel(TimeStampedModel):
         unique_together = ('key', 'version')
 
 
-class GenericModelTest(GenericModel):
+class GenericModelTest(AbstractBusinessEntity):
     pass
