@@ -4,3 +4,4 @@ django-model-utils==3.2.0
 djangorestframework==3.10.3
 pytz==2019.3
 sqlparse==0.3.0
+git+ssh://git@github.com/project-a/wayne-json-schema

@@ -1,11 +1,13 @@
+import pkgutil
 from _ast import Dict
 
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from wayneapp.services import BusinessEntityManager
 from rest_framework.utils import json
+from wayneapp.services import BusinessEntityManager, SchemaLoader
+
 
 class BusinessEntityController(APIView):
     _entity_manager = None
@@ -27,3 +29,15 @@ class BusinessEntityController(APIView):
             return Response({}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response({}, status=status.HTTP_200_OK)
 
+
+class SchemaEntityController(APIView):
+    _schema_loader = None
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._schema_loader = SchemaLoader()
+
+    def get(self, request: Request, type: str, version: str) -> Response:
+        json_data = self._schema_loader.load(type, version)
+
+        return Response(json.loads(json_data), status=status.HTTP_200_OK)
