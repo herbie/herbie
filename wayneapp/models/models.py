@@ -14,7 +14,3 @@ class AbstractBusinessEntity(TimeStampedModel):
     class Meta:
         abstract = True
         unique_together = ('key', 'version')
-
-
-class GenericModelTest(AbstractBusinessEntity):
-    pass

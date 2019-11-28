@@ -4,10 +4,15 @@ from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from wayneapp.services import update_or_create_business_entity
+from wayneapp.services import BusinessEntityManager
 from rest_framework.utils import json
 
 class BusinessEntityController(APIView):
+    _entity_manager = None
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._entity_manager = BusinessEntityManager()
 
     def post(self, request: Request, type: str, key: str) -> Response:
         body_unicode = request.body.decode('utf-8')
@@ -16,7 +21,9 @@ class BusinessEntityController(APIView):
         # TODO validate(body[object],type)
         version = self._get_version(body)
         try:
-            update_or_create_business_entity(type, key, version, body["object"])
+            generic_object, created = self._entity_manager.update_or_create(
+                type, key, version, body['object']
+            )
         except Exception:
             # TODO log exception?
             return Response({}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

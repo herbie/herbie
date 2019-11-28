@@ -5,14 +5,16 @@ from django.test import TestCase
 
 from wayneapp import services
 from wayneapp.models import User, Address
+from wayneapp.services import BusinessEntityManager
 
 
 class BusinessEntityServiceTestCase(TestCase):
 
     def test_get_business_entity_class(self):
-        user_class = services.get_business_entity_class('User')
+        entity_manager = BusinessEntityManager()
+        user_class = entity_manager.get_class('User')
         self.assertEquals(User, user_class)
-        address_class = services.get_business_entity_class('Address')
+        address_class = entity_manager.get_class('Address')
         self.assertEquals(Address, address_class)
 
     def test_update_or_create_business_entity(self):
@@ -20,7 +22,8 @@ class BusinessEntityServiceTestCase(TestCase):
         email = 'lars_{}@project-a.com'.format(uuid1())
         version = 1
         user_data = '{"name": "Lars"}'
-        user = services.update_or_create_business_entity('User', email, version, user_data)
+        entity_manager = BusinessEntityManager()
+        user = entity_manager.update_or_create('User', email, version, user_data)
         self.assertIsNotNone(user)
         db_user = User.objects.get(key=email, version=version)
         self.assertEquals(user, db_user)
@@ -30,14 +33,18 @@ class BusinessEntityServiceTestCase(TestCase):
 
         # update user
         user_data = '{"name": "Herbert"}'
-        user = services.update_or_create_business_entity('User', email, version, user_data)
+
+        entity_manager = BusinessEntityManager()
+        user = entity_manager.update_or_create('User', email, version, user_data)
         db_user = User.objects.get(key=email, version=version)
         self.assertEquals(user_data, db_user.data)
 
         # update user in new version - old version should not be changed
         version2 = 2
         user_data_v2 = '{"name": "Willi"}'
-        user_v2 = services.update_or_create_business_entity('User', email, version2, user_data_v2)
+
+        entity_manager = BusinessEntityManager()
+        user_v2 = entity_manager.update_or_create('User', email, version2, user_data_v2)
         db_user_v1 = User.objects.get(key=email, version=version)
         db_user_v2 = User.objects.get(key=email, version=version2)
         self.assertEquals(user, db_user_v1)
@@ -47,9 +54,11 @@ class BusinessEntityServiceTestCase(TestCase):
         email = 'lars_{}@project-a.com'.format(uuid1())
         version = 1
         user_data = '{"name": "Lars"}'
-        user = services.update_or_create_business_entity('User', email, version, user_data)
+
+        entity_manager = BusinessEntityManager()
+        user = entity_manager.update_or_create('User', email, version, user_data)
         self.assertIsNotNone(User.objects.get(key=email, version=version))
 
-        services.delete_business_entity('User', email, version)
+        entity_manager.delete('User', email, version)
         with self.assertRaises(ObjectDoesNotExist):
             User.objects.get(key=email, version=version)
