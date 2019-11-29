@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.utils import json
 from wayneapp.services import BusinessEntityManager, SchemaLoader
-
+from wayneapp.validations.validator import JsonSchemaValidator
 
 class BusinessEntityController(APIView):
     _entity_manager = None
@@ -20,6 +20,11 @@ class BusinessEntityController(APIView):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         # TODO Validation Part
+        # TODO validate(body[object],type)
+        validator = JsonSchemaValidator()
+        #response_validation = validator.validate_schema(body[object])
+
+        version = self._get_version(body)
         try:
             self._entity_manager.update_or_create(
                 type, key, body['payload']['version'], body['payload']
