@@ -22,7 +22,7 @@ class BusinessEntityController(APIView):
         # TODO Validation Part
         # TODO validate(body[object],type)
         validator = JsonSchemaValidator()
-        #response_validation = validator.validate_schema(body[object])
+        #response_validation = validator.validate_schema(body[object], type, version)
 
         version = self._get_version(body)
         try:
@@ -34,6 +34,14 @@ class BusinessEntityController(APIView):
             return Response({}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response({}, status=status.HTTP_200_OK)
 
+    def get(self, test: str):
+        # TODO delete, only for testing
+        validator = JsonSchemaValidator()
+
+        jsonData = {"cNumber": 'ff', "customerId": 22, "firstNameb": 11, "lastNamef": "testFirstName"}
+        response_validation = validator.validate_schema(jsonData, 'customer', 'v1')
+
+        return Response({'test': 'yes', 'responseV': response_validation}, status=status.HTTP_200_OK)
 
 class SchemaEntityController(APIView):
     _schema_loader = None
