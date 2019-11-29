@@ -3,12 +3,12 @@ import pkgutil
 
 from wayneapp.models.models import AbstractBusinessEntity
 
+
 class BusinessEntityManager:
     def get_class(self, entity_name: str):
         models_module = importlib.import_module('wayneapp.models')
 
         return getattr(models_module, str(entity_name).capitalize())
-
 
     def update_or_create(
             self,
@@ -28,15 +28,19 @@ class BusinessEntityManager:
             }
         )
 
-        return business_entity
-
+        return created
 
     def delete(self, entity_name: str, key: str, version: int) -> None:
         business_entity_class = self.get_class(entity_name)
         business_entity_class.objects.filter(key=key, version=version).delete()
 
+    def delete_by_key(self, entity_name: str, key: str) -> None:
+        business_entity_class = self.get_class(entity_name)
+        business_entity_class.objects.filter(key=key).delete()
+
 
 class SchemaLoader:
+
     def load(self, type: str, version: str) -> str:
         file_content = pkgutil.get_data('wayne_json_schema', type + '/' + type + '_' + version + '.json')
         if file_content == None:
