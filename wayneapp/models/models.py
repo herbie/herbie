@@ -8,7 +8,7 @@ class AbstractBusinessEntity(TimeStampedModel):
     Abstract class that defines the generic data model for every business entity.
     """
     key = models.TextField(null=False)
-    version = models.IntegerField(null=False, default=1)
+    version = models.TextField(null=False, default='v1')
     data = JSONField(null=False)
 
     class Meta:

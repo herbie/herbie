@@ -14,7 +14,7 @@ class BusinessEntityManager:
             self,
             entity_name: str,
             key: str,
-            version: int,
+            version: str,
             data: str
     ) -> (AbstractBusinessEntity, bool):
         business_entity_class = self.get_class(entity_name)
@@ -30,7 +30,7 @@ class BusinessEntityManager:
 
         return created
 
-    def delete(self, entity_name: str, key: str, version: int) -> None:
+    def delete(self, entity_name: str, key: str, version: str) -> None:
         business_entity_class = self.get_class(entity_name)
         business_entity_class.objects.filter(key=key, version=version).delete()
 

@@ -6,6 +6,8 @@ from rest_framework.utils import json
 import logging
 from wayneapp.services import BusinessEntityManager, SchemaLoader
 from wayneapp.validations.validator import JsonSchemaValidator
+from wayneapp.constants import StatusConstants, ResponseConstants
+
 
 class BusinessEntityController(APIView):
     _entity_manager = None
@@ -13,20 +15,24 @@ class BusinessEntityController(APIView):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._entity_manager = BusinessEntityManager()
-        self.logger = logging.getLogger(__name__)
+        self._logger = logging.getLogger(__name__)
+        self._validator = JsonSchemaValidator()
 
     def post(self, request: Request, type: str, key: str) -> Response:
+
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
-        # TODO Validation Part
-        # TODO validate(body[object],type)
-        validator = JsonSchemaValidator()
-        #response_validation = validator.validate_schema(body[object], type, version)
 
-        version = self._get_version(body)
+        version = body['payload']['version']
+        payload = body['payload']
+
+        response_validation = self._validator.validate_schema(payload, type, version)
+        if response_validation[ResponseConstants.RESPONSE_KEY][StatusConstants.STATUS] is StatusConstants.STATUS_ERROR:
+            return Response(response_validation, status=status.HTTP_400_BAD_REQUEST)
+
         try:
             created = self._entity_manager.update_or_create(
-                type, key, body['payload']['version'], body['payload']
+                type, key, version, payload
             )
             return self.post_response(created)
         except Exception as e:
@@ -47,7 +53,7 @@ class BusinessEntityController(APIView):
             return self.handle_exception(e)
 
     def handle_exception(self, exception) -> Response:
-        self.logger.exception(exception)
+        self._logger.exception(exception)
         if type(exception) is AttributeError:
             return self.custom_response(str(exception), status.HTTP_400_BAD_REQUEST)
         return self.custom_response(str(exception), status.HTTP_400_BAD_REQUEST)

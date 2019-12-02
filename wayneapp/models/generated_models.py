@@ -2,7 +2,7 @@
 from wayneapp.models import AbstractBusinessEntity
 
 
-class Address(AbstractBusinessEntity):
+class Customer(AbstractBusinessEntity):
     pass
 
 
