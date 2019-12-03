@@ -106,7 +106,11 @@ LOGGING = {
         '': {
             'level': 'DEBUG',
             'handlers': ['console']
-        }
+        },
+        'kafka': {
+            'handlers': ['console'],
+            'level': 'WARNING'
+        },
     }
 }
 
@@ -147,3 +151,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+KAFKA = {
+    'SERVERS': 'kafka:9093',
+    'TIMEOUT': 30000
+}

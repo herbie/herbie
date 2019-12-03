@@ -18,4 +18,4 @@ _Note:_ Please make sure that port 8000 is not blocked by another service on you
 
 ## How to generate business object model classes
 Model classes can be generated based on the JSON schema definitions by running this command:
-`$ python manage.py generate_classes`
+`$ python manage.py generatemodels`

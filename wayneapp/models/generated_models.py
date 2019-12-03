@@ -8,7 +8,3 @@ class Customer(AbstractBusinessEntity):
 
 class Product(AbstractBusinessEntity):
     pass
-
-
-class User(AbstractBusinessEntity):
-    pass

@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 
+from wayneapp.services import SchemaLoader
 
 model_filename = "wayneapp/models/generated_models.py"
 
@@ -8,15 +9,14 @@ class Command(BaseCommand):
     help = 'Generates model classes based on the JSON schema definitions'
 
     def handle(self, *args, **kwargs):
-        # TODO get entity names from json schema definitions
-        entity_names = ["User", "Address", "Product"]
-        entity_names.sort()
+        entity_names = SchemaLoader().get_all_business_entity_names()
+        # entity_names = ["User", "Address", "Product"]
 
         w = open(model_filename, "w")
         w.write('# generated file, should not be modified manually!\n')
         w.write('from wayneapp.models import AbstractBusinessEntity\n')
 
-        for entity_name in entity_names:
+        for entity_name in sorted(entity_names):
             w.write('\n\nclass {}(AbstractBusinessEntity):\n    pass\n'.format(entity_name))
 
         w.close()
