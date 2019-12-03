@@ -29,11 +29,13 @@ class EntityDeleteMessage:
 
 class MessageService:
 
-    _producer = KafkaProducer(bootstrap_servers=settings.KAFKA.get('SERVERS'),
-                              request_timeout_ms=settings.KAFKA.get('TIMEOUT'),
-                              key_serializer=str.encode,
-                              value_serializer=lambda v: json.dumps(v.__dict__, cls=DjangoJSONEncoder).encode('utf-8'))
     _logger = logging.getLogger(__name__)
+
+    def __init__(self):
+        self._producer = KafkaProducer(bootstrap_servers=settings.KAFKA.get('SERVERS'),
+                                       request_timeout_ms=settings.KAFKA.get('TIMEOUT'),
+                                       key_serializer=str.encode,
+                                       value_serializer=lambda v: json.dumps(v.__dict__, cls=DjangoJSONEncoder).encode('utf-8'))
 
     def send_entity_update_message(self, entity: AbstractBusinessEntity):
         self._send_message(EntityUpdateMessage(
