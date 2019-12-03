@@ -10,14 +10,18 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         entity_names = SchemaLoader().get_all_business_entity_names()
+        entity_names_camel_case = set(map(self.snake_to_camel, entity_names))
         # entity_names = ["User", "Address", "Product"]
 
         w = open(model_filename, "w")
         w.write('# generated file, should not be modified manually!\n')
         w.write('from wayneapp.models import AbstractBusinessEntity\n')
 
-        for entity_name in sorted(entity_names):
+        for entity_name in sorted(entity_names_camel_case):
             w.write('\n\nclass {}(AbstractBusinessEntity):\n    pass\n'.format(entity_name))
 
         w.close()
-        self.stdout.write("Generated classes: {}".format(entity_names))
+        self.stdout.write("Generated classes: {}".format(entity_names_camel_case))
+
+    def snake_to_camel(self, word):
+        return ''.join(x.capitalize() or '_' for x in word.split('_'))

@@ -53,12 +53,9 @@ class SchemaLoader:
 
     def load(self, type: str, version: str) -> str:
         file_content = pkgutil.get_data('wayne_json_schema', type + '/' + type + '_' + version + '.json')
-        if file_content == None:
-            json_string = '{}'
-        else:
-            json_string = file_content.decode('utf-8')
-
-        return json_string
+        if file_content is None:
+            return '{}'
+        return file_content.decode('utf-8')
 
     def get_all_business_entity_names(self):
         schema_directory = wayne_json_schema.__path__[0]
@@ -66,6 +63,20 @@ class SchemaLoader:
         for (dirpath, dirnames, filenames) in os.walk(schema_directory):
             for dirname in dirnames:
                 if dirname != '__pycache__':
-                    business_entity_names.add(''.join(x.capitalize() or '_' for x in dirname.split('_')))
-
+                    business_entity_names.add(dirname)
         return business_entity_names
+
+    def get_all_versions(self, bussines_entity_name: str):
+        schema_directory = wayne_json_schema.__path__[0]
+        versions = set()
+        for (dirpath, dirnames, filenames) in os.walk(schema_directory):
+            for filename in filenames:
+                if bussines_entity_name in filename:
+                    version = self._get_version_from_file_name(filename)
+                    versions.add(version)
+        return versions
+
+    def _get_version_from_file_name(self, filename: str):
+        data = filename.split("_")
+        version = data[len(data)-1][:-5]
+        return version
