@@ -2,6 +2,8 @@ import os
 import wayne_json_schema
 import importlib
 import pkgutil
+import sys
+import re
 
 from wayneapp.messages import MessageService
 from wayneapp.models.models import AbstractBusinessEntity
@@ -79,4 +81,20 @@ class SchemaLoader:
     def _get_version_from_file_name(self, filename: str):
         data = filename.split("_")
         version = data[len(data)-1][:-5]
+        return version
+
+    def get_schema_latest_version(self, type: str) -> str:
+        directory_package = os.path.dirname(sys.modules['wayne_json_schema'].__file__)
+        schema_files = os.listdir(directory_package + '/' + type)
+
+        version = 0
+
+        for file in schema_files:
+            found = re.search(type + '_v(.+?).json', file)
+            found_version = int(found.group(1))
+            if found_version > version:
+                version = found_version
+
+        version = 'v' + str(version)
+
         return version
