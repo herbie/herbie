@@ -21,6 +21,9 @@ from wayneapp.controllers \
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/<str:business_entity>/save', save_business_entity_controller.SaveBusinessEntityController().as_view()),
-    path('api/<str:business_entity>/delete', delete_business_entity_controller.DeleteBusinessEntityController().as_view()),
+    path('api/<str:business_entity>/delete',
+         delete_business_entity_controller.DeleteBusinessEntityController().as_view()),
     path('api/schema/<str:business_entity>/<str:version>', schema_entity_controller.SchemaEntityController().as_view()),
+    path('api/schema/<str:business_entity>/', schema_entity_controller.SchemaEntityController().as_view(),
+         {'version': ''}),
 ]

@@ -21,7 +21,11 @@ class SaveBusinessEntityController(APIView):
         if not self._validator.schema_entity_exist(business_entity):
             return ControllerUtils.custom_response('schema files does not exist', status.HTTP_400_BAD_REQUEST)
         body = ControllerUtils.extract_body(request)
-        version = self._get_version(body, business_entity)
+
+        if 'version' not in body:
+            return ControllerUtils.custom_response('Version is missing.', status.HTTP_400_BAD_REQUEST)
+
+        version = body['version']
         key = body['key']
         payload = body['payload']
         error_messages = self._validator.validate_schema(payload, business_entity, version)
@@ -32,12 +36,6 @@ class SaveBusinessEntityController(APIView):
         )
 
         return self._create_response(created, version)
-
-    def _get_version(self, body: dict, business_entity: str) -> str:
-        if 'version' not in body:
-            return self._schema_loader.get_schema_latest_version(business_entity)
-
-        return body['version']
 
     def _create_response(self, created, version):
         if created:

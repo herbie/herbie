@@ -15,6 +15,9 @@ class SchemaEntityController(APIView):
         self._schema_loader = SchemaLoader()
 
     def get(self, request: Request, business_entity: str, version: str) -> Response:
+        if version is '':
+            version = self._schema_loader.get_schema_latest_version(business_entity)
+
         json_data = self._schema_loader.load(business_entity, version)
 
         return Response(json.loads(json_data), status=status.HTTP_200_OK)
