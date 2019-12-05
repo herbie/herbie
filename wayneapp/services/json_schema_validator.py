@@ -3,12 +3,11 @@ import re
 
 from wayneapp.services import SchemaLoader
 from jsonschema import Draft7Validator
-from wayneapp.constants import StatusConstants, ResponseConstants
+from wayneapp.constants import ResponseConstants
 
 
 class JsonSchemaValidator:
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self):
         self._schema_loader = SchemaLoader()
 
     def validate_schema(self, json_data: json, type: str, version: str) -> json:
@@ -20,6 +19,7 @@ class JsonSchemaValidator:
         data_validated = Draft7Validator(schema)
         sorted_errors = sorted(data_validated.iter_errors(json_data), key=lambda e: e.path)
         errors = {}
+
         for error in sorted_errors:
             if error.validator == ResponseConstants.REQUIRED_KEY:
                 error_property = re.search("'(.+?)'", error.message)
@@ -34,17 +34,21 @@ class JsonSchemaValidator:
                         ResponseConstants.ERROR_MESSAGE: error.message,
                         ResponseConstants.VALIDATE_KEY: error.validator_value
                     }
+
         return errors
 
     def _get_json_schema(self, type, version) -> json:
         file = self._schema_loader.load(type, version)
         schema = json.loads(file)
+
         return schema
 
     def _type_exist(self, type: str) -> bool:
         business_entity_names = self._schema_loader.get_all_business_entity_names()
+
         return type in business_entity_names
 
     def _version_exist(self, version: str, type: str) -> bool:
         versions = self._schema_loader.get_all_versions(type)
+
         return version in versions

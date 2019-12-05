@@ -8,9 +8,9 @@ services:
     volumes:
       - .:/data/www
     depends_on:
+      - wayne-zookeeper
+      - wayne-kafka
       - wayne-db
-      - kafka
-      - zookeeper
     ports:
       - "8000:8000"
 
@@ -27,23 +27,25 @@ services:
     ports:
       - "5433:5432"
 
-  zookeeper:
+  wayne-zookeeper:
+    container_name: "wayne-zookeeper"
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
 
-  kafka:
+  wayne-kafka:
+    container_name: "wayne-kafka"
     image: wurstmeister/kafka
     ports:
       - "9092:9092"
     environment:
-      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093,OUTSIDE://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://wayne-kafka:9093,OUTSIDE://localhost:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
       KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ZOOKEEPER_CONNECT: wayne-zookeeper:2181
     depends_on:
-      - zookeeper
+      - wayne-zookeeper
 
 volumes:
   db-data:

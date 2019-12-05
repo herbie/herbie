@@ -2,10 +2,8 @@ from django.test import TestCase
 from unittest.mock import patch
 from unittest.mock import MagicMock
 from rest_framework import status
-from rest_framework.test import APIRequestFactory, APIClient
+from rest_framework.test import APIClient
 
-
-from wayneapp.controllers import BusinessEntityController
 from wayneapp.services import BusinessEntityManager
 
 

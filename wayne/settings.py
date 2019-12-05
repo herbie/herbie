@@ -153,6 +153,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 KAFKA = {
-    'SERVERS': 'kafka:9093',
+    'SERVERS': 'wayne-kafka:9093',
     'TIMEOUT': 30000
 }

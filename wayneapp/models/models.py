@@ -3,6 +3,7 @@ from django.contrib.postgres.fields import JSONField
 from model_utils.models import TimeStampedModel
 
 
+
 class AbstractBusinessEntity(TimeStampedModel):
     """
     Abstract class that defines the generic data model for every business entity.
