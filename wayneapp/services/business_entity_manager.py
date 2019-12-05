@@ -1,12 +1,12 @@
 
 import importlib
-from wayneapp.services import MessageService
+from wayneapp.services import MessagePublisher
 from wayneapp.models.models import AbstractBusinessEntity
 
 
 class BusinessEntityManager:
 
-    _message_service = MessageService()
+    _message_service = MessagePublisher()
 
     def get_class(self, entity_name: str):
         models_module = importlib.import_module('wayneapp.models')

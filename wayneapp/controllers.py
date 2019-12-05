@@ -1,3 +1,4 @@
+from django.views import generic
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -47,7 +48,8 @@ class BusinessEntityController(APIView):
         self._entity_manager.delete_by_key(
             type, key
         )
-        return self._custom_response("entity deleted", None, status.HTTP_200_OK)
+
+        return self._custom_response("entity deleted", '', status.HTTP_200_OK)
 
     def _custom_response(self, message: str, version: str, status_code: status) -> Response:
         return Response(
@@ -70,4 +72,3 @@ class SchemaEntityController(APIView):
         json_data = self._schema_loader.load(type, version)
 
         return Response(json.loads(json_data), status=status.HTTP_200_OK)
-
