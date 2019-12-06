@@ -1,20 +1,23 @@
 import os
-import wayne_json_schema
 import pkgutil
-import sys
 import re
+from django.conf import settings
+import importlib
+
 
 class SchemaLoader:
+    def __init__(self):
+        self._schema_package = importlib.import_module(settings.SCHEMA_PACKAGE_NAME)
 
-    def load(self, type: str, version: str) -> str:
-        file_content = pkgutil.get_data('wayne_json_schema', type + '/' + type + '_' + version + '.json')
+    def load(self, business_entity: str, version: str) -> str:
+        file_content = pkgutil.get_data(settings.SCHEMA_PACKAGE_NAME, business_entity + '/' + business_entity + '_' + version + '.json')
         if file_content is None:
             return '{}'
 
         return file_content.decode('utf-8')
 
     def get_all_business_entity_names(self):
-        schema_directory = wayne_json_schema.__path__[0]
+        schema_directory = self._schema_package.__path__[0]
         business_entity_names = set()
         for (dirpath, dirnames, filenames) in os.walk(schema_directory):
             for dirname in dirnames:
@@ -23,12 +26,12 @@ class SchemaLoader:
 
         return business_entity_names
 
-    def get_all_versions(self, bussines_entity_name: str):
-        schema_directory = wayne_json_schema.__path__[0]
+    def get_all_versions(self, bussiness_entity_name: str):
+        schema_directory = self._schema_package.__path__[0]
         versions = set()
         for (dirpath, dirnames, filenames) in os.walk(schema_directory):
             for filename in filenames:
-                if bussines_entity_name in filename:
+                if bussiness_entity_name in filename:
                     version = self._get_version_from_file_name(filename)
                     versions.add(version)
 
@@ -40,14 +43,14 @@ class SchemaLoader:
 
         return version
 
-    def get_schema_latest_version(self, type: str) -> str:
-        directory_package = os.path.dirname(sys.modules['wayne_json_schema'].__file__)
-        schema_files = os.listdir(directory_package + '/' + type)
+    def get_schema_latest_version(self, business_entity: str) -> str:
+        directory_package = os.path.dirname(self._schema_package.__file__)
+        schema_files = os.listdir(directory_package + '/' + business_entity)
 
         version = 0
 
         for file in schema_files:
-            found = re.search(type + '_v(.+?).json', file)
+            found = re.search(business_entity + '_v(.+?).json', file)
             found_version = int(found.group(1))
             if found_version > version:
                 version = found_version
