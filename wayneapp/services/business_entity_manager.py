@@ -35,14 +35,20 @@ class BusinessEntityManager:
 
         return created
 
-    def delete(self, entity_name: str, key: str, version: str) -> None:
+    def delete(self, entity_name: str, key: str, version: str) -> int:
         business_entity_class = self.get_class(entity_name)
-        business_entity_class.objects.filter(key=key, version=version).delete()
+        number_of_deleted_objects, dictionary_with_number_of_deletions_per_object_type = business_entity_class.objects\
+            .filter(key=key, version=version).delete()
 
         self._message_service.send_entity_delete_message(entity_name, key, version)
 
-    def delete_by_key(self, entity_name: str, key: str) -> None:
+        return number_of_deleted_objects
+
+    def delete_by_key(self, entity_name: str, key: str) -> int:
         business_entity_class = self.get_class(entity_name)
-        business_entity_class.objects.filter(key=key).delete()
+        number_of_deleted_objects, dictionary_with_number_of_deletions_per_object_type = business_entity_class.objects.\
+            filter(key=key).delete()
 
         self._message_service.send_entity_delete_message(entity_name, key)
+
+        return number_of_deleted_objects

@@ -29,12 +29,14 @@ class DeleteBusinessEntityController(APIView):
         return self._delete_from_version(body, business_entity, key)
 
     def _delete_all_versions(self, business_entity, key) -> Response:
-        self._entity_manager.delete_by_key(
+        number_of_deleted_objects = self._entity_manager.delete_by_key(
             business_entity, key
         )
 
+        message = Constants.DELETE_ALL_VERSIONS_MESSAGE if number_of_deleted_objects > 0 \
+            else Constants.DELETE_ALL_VERSIONS_MESSAGE_NOT_FOUND
         return ControllerUtils.custom_response(
-            Constants.DELETE_ALL_VERSIONS_MESSAGE.format(key),
+            message.format(key),
             status.HTTP_200_OK
         )
 
@@ -45,10 +47,12 @@ class DeleteBusinessEntityController(APIView):
                 Constants.VERSION_NOT_EXIST.format(version),
                 status.HTTP_400_BAD_REQUEST
             )
-        self._entity_manager.delete(business_entity, key, version)
+        number_of_deleted_objects = self._entity_manager.delete(business_entity, key, version)
 
+        message = Constants.DELETE_FROM_VERSION_MESSAGE if number_of_deleted_objects > 0 \
+            else Constants.DELETE_FROM_VERSION_MESSAGE_NOT_FOUND
         return ControllerUtils.custom_response(
-            Constants.DELETE_FROM_VERSION_MESSAGE.format(key, version),
+            message.format(key, version),
             status.HTTP_200_OK
         )
 

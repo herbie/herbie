@@ -13,7 +13,9 @@ class ValidatorResponseConstants:
 
 class ControllerConstants:
     DELETE_ALL_VERSIONS_MESSAGE = 'entity with key {} deleted from all versions'
+    DELETE_ALL_VERSIONS_MESSAGE_NOT_FOUND = 'entity with key {} not found'
     DELETE_FROM_VERSION_MESSAGE = 'entity with key {} deleted from version {}'
+    DELETE_FROM_VERSION_MESSAGE_NOT_FOUND = 'entity with key {} and version {} not found'
     SAVE_MESSAGE = 'entity with key {} created in version {}'
     UPDATE_MESSAGE = 'entity with key {} updated in version {}'
     BUSINESS_ENTITY_NOT_EXIST = 'business entity {} does not exist'
