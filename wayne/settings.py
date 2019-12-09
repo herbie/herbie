@@ -154,6 +154,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+JSON_VIEWER = {
+    'JS_URL': 'json-viewer/jquery.json-viewer.js',
+    'CSS_URL': 'json-viewer/jquery.json-viewer.css'
+}
+WAYNE_ADMIN = {
+    'JS_URL': 'js/wayne-admin.js',
+    'CSS_URL': 'css/wayne-admin.css'
+}
+
 KAFKA = {
     'SERVERS': 'wayne-kafka:9093',
     'TIMEOUT': 30000
