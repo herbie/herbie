@@ -26,6 +26,11 @@ class JsonSchemaValidator:
                         ValidatorResponseConstants.ERROR_MESSAGE: error.message,
                         ValidatorResponseConstants.VALIDATE_KEY: error.validator
                     }
+            elif error.validator == ValidatorResponseConstants.ADDITIONAL_PROPERTIES:
+                errors[error.validator] = {
+                    ValidatorResponseConstants.ERROR_MESSAGE: error.message,
+                    ValidatorResponseConstants.VALIDATE_KEY: error.validator
+                }
             else:
                 for error_property in error.path:
                     errors[error_property] = {

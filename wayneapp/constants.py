@@ -9,6 +9,7 @@ class ValidatorResponseConstants:
     ERROR_MESSAGE = 'error_message'
     VALIDATE_KEY = 'validation_error'
     REQUIRED_KEY = 'required'
+    ADDITIONAL_PROPERTIES = 'additionalProperties'
 
 
 class ControllerConstants:
