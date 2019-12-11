@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from wayneapp.services import SchemaLoader
+from wayneapp.services import SchemaLoader, BusinessEntityUtils
 
 model_filename = "wayneapp/models/generated_models.py"
 
@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         entity_names = SchemaLoader().get_all_business_entity_names()
-        entity_names_camel_case = set(map(self.snake_to_camel, entity_names))
+        entity_names_camel_case = set(map(BusinessEntityUtils.snake_to_camel, entity_names))
         # entity_names = ["User", "Address", "Product"]
 
         w = open(model_filename, "w")
@@ -22,6 +22,3 @@ class Command(BaseCommand):
 
         w.close()
         self.stdout.write("Generated classes: {}".format(entity_names_camel_case))
-
-    def snake_to_camel(self, word):
-        return ''.join(x.capitalize() or '_' for x in word.split('_'))

@@ -1,17 +1,12 @@
+from django.db.models import QuerySet
 
-import importlib
-from wayneapp.services import MessagePublisher
+from wayneapp.services import MessagePublisher, BusinessEntityUtils
 from wayneapp.models.models import AbstractBusinessEntity
 
 
 class BusinessEntityManager:
 
     _message_service = MessagePublisher()
-
-    def get_class(self, entity_name: str):
-        models_module = importlib.import_module('wayneapp.models')
-
-        return getattr(models_module, str(entity_name).capitalize())
 
     def update_or_create(
             self,
@@ -20,7 +15,7 @@ class BusinessEntityManager:
             version: str,
             data: str
     ) -> (AbstractBusinessEntity, bool):
-        business_entity_class = self.get_class(entity_name)
+        business_entity_class = BusinessEntityUtils.get_entity_class(entity_name)
         business_entity, created = business_entity_class.objects.update_or_create(
             key=key,
             version=version,
@@ -36,19 +31,19 @@ class BusinessEntityManager:
         return created
 
     def delete(self, entity_name: str, key: str, version: str) -> int:
-        business_entity_class = self.get_class(entity_name)
-        number_of_deleted_objects, dictionary_with_number_of_deletions_per_object_type = business_entity_class.objects\
-            .filter(key=key, version=version).delete()
-
-        self._message_service.send_entity_delete_message(entity_name, key, version)
-
-        return number_of_deleted_objects
+        business_entity_class = BusinessEntityUtils.get_entity_class(entity_name)
+        return self.delete_by_queryset(business_entity_class.objects.filter(key=key, version=version))
 
     def delete_by_key(self, entity_name: str, key: str) -> int:
-        business_entity_class = self.get_class(entity_name)
-        number_of_deleted_objects, dictionary_with_number_of_deletions_per_object_type = business_entity_class.objects.\
-            filter(key=key).delete()
+        business_entity_class = BusinessEntityUtils.get_entity_class(entity_name)
+        return self.delete_by_queryset(business_entity_class.objects.filter(key=key))
 
-        self._message_service.send_entity_delete_message(entity_name, key)
+    def delete_by_queryset(self, queryset: QuerySet) -> int:
+        for entity in queryset.all():
+            self._message_service.send_entity_delete_message(entity)
+        # return only the number of deleted objects
+        return queryset.delete()[0]
 
-        return number_of_deleted_objects
+    def delete_by_instance(self, entity: AbstractBusinessEntity) -> int:
+        self._message_service.send_entity_delete_message(entity)
+        return entity.delete()[0]

@@ -4,14 +4,19 @@ from django.utils.safestring import mark_safe
 
 from wayneapp.models import AbstractBusinessEntity
 from wayne import settings
+from wayneapp.services import BusinessEntityManager
 
-admin.site.disable_action('delete_selected')
+
+if not settings.WAYNE_ADMIN.get('DELETE_ENABLED'):
+    admin.site.disable_action('delete_selected')
 
 
 class ReadOnlyAdmin(admin.ModelAdmin):
     fields = ('key', 'version', 'data_prettified', 'created', 'modified')
     list_display = ['key', 'version']
     search_fields = ['key', 'version']
+
+    _entity_manager = BusinessEntityManager()
 
     def has_add_permission(self, request, obj=None):
         return False
@@ -20,7 +25,13 @@ class ReadOnlyAdmin(admin.ModelAdmin):
         return False
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return settings.WAYNE_ADMIN.get('DELETE_ENABLED')
+
+    def delete_model(self, request, entity):
+        self._entity_manager.delete_by_instance(entity)
+
+    def delete_queryset(self, request, queryset):
+        self._entity_manager.delete_by_queryset(queryset)
 
     def data_prettified(self, model):
         json_data = json.dumps(model.data, sort_keys=True, indent=2)

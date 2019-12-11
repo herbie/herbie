@@ -7,6 +7,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 
 from wayne import settings
 from wayneapp.models import AbstractBusinessEntity
+from wayneapp.services.utils import BusinessEntityUtils
 
 
 class EntityUpdateMessage:
@@ -34,7 +35,7 @@ class MessagePublisher:
 
     def send_entity_update_message(self, entity: AbstractBusinessEntity):
         self._send_message(EntityUpdateMessage(
-            type(entity).__name__,
+            BusinessEntityUtils.get_entity_type_name(entity),
             entity.key,
             entity.version,
             entity.data,
@@ -42,11 +43,11 @@ class MessagePublisher:
             entity.modified
         ))
 
-    def send_entity_delete_message(self, entity_name: str, key: str, version: str = None):
+    def send_entity_delete_message(self, entity: AbstractBusinessEntity):
         self._send_message(EntityDeleteMessage(
-            entity_name,
-            key,
-            version
+            BusinessEntityUtils.get_entity_type_name(entity),
+            entity.key,
+            entity.version
         ))
 
     def _send_message(self, message):
