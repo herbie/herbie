@@ -1,0 +1,29 @@
+language: python
+
+python:
+  - "3.7"
+
+services:
+  - postgresql
+
+directories:
+  - $HOME/.cache/pip
+
+env:
+  global:
+    - DATABASE_URL=postgres://postgres@localhost:5432/wayne_db
+    - SECRET_KEY=thisisasecret
+
+install:
+  - pip install -r requirements.txt
+
+before_script:
+  - psql -c 'create database wayne_db;' -U postgres
+
+script:
+  - python manage.py test --noinput
+
+before_cache:
+  - rm -f $HOME/.cache/pip/log/debug.log
+
+

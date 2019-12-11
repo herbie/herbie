@@ -11,6 +11,9 @@ services:
       - wayne-zookeeper
       - wayne-kafka
       - wayne-db
+    environment:
+      - "DATABASE_URL=postgres://user:password@wayne-db:5432/wayne_db"
+      - "SECRET_KEY=thisisasecret"
     ports:
       - "8000:8000"
 

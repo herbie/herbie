@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import environ
+
+env = environ.Env()
 
 # Json schema package for validation of business objects
 SCHEMA_PACKAGE_NAME = 'wayne_json_schema'
@@ -23,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '_00h5+qe1!%048p=5zsv!a&mthvjc9n71j@x@4b_hb$y3w!kzh'
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -79,14 +82,7 @@ WSGI_APPLICATION = 'wayne.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'wayne_db',
-        'USER': 'user',
-        'PASSWORD': 'password',
-        'HOST': 'wayne-db',
-        'PORT': '5432',
-    }
+    'default': env.db('DATABASE_URL')
 }
 
 LOGGING = {
@@ -158,6 +154,7 @@ JSON_VIEWER = {
     'JS_URL': 'json-viewer/jquery.json-viewer.js',
     'CSS_URL': 'json-viewer/jquery.json-viewer.css'
 }
+
 WAYNE_ADMIN = {
     'JS_URL': 'js/wayne-admin.js',
     'CSS_URL': 'css/wayne-admin.css'

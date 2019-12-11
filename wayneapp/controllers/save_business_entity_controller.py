@@ -21,18 +21,23 @@ class SaveBusinessEntityController(APIView):
     def post(self, request: Request, business_entity: str) -> Response:
         if not self._validator.business_entity_exist(business_entity):
             return ControllerUtils.business_entity_not_exist_response(business_entity)
+
         body = ControllerUtils.extract_body(request)
+
         if Constants.VERSION not in body:
             return ControllerUtils.custom_response(
                 Constants.VERSION_MISSING,
                 status.HTTP_400_BAD_REQUEST
             )
+
         version = body[Constants.VERSION]
         key = body[Constants.KEY]
         payload = body[Constants.PAYLOAD]
         error_messages = self._validator.validate_schema(payload, business_entity, version)
+
         if error_messages:
             return ControllerUtils.custom_response(error_messages, status.HTTP_400_BAD_REQUEST)
+
         created = self._entity_manager.update_or_create(
             business_entity, key, version, payload
         )
