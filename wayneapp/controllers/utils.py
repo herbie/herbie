@@ -4,7 +4,16 @@ from rest_framework.response import Response
 from rest_framework.utils import json
 from wayneapp.constants import ControllerConstants
 
+
 class ControllerUtils:
+
+    @staticmethod
+    def unauthorized_response() -> Response:
+        return ControllerUtils.custom_response(
+            ControllerConstants.UNAUTHORIZED,
+            status.HTTP_401_UNAUTHORIZED
+        )
+
     @staticmethod
     def business_entity_not_exist_response(business_entity: str) -> Response:
         return ControllerUtils.custom_response(
@@ -27,3 +36,11 @@ class ControllerUtils:
         body = json.loads(body_unicode)
 
         return body
+
+    @staticmethod
+    def get_permission_string(action: str, business_entity: str) -> str:
+        return action + '_' + ControllerUtils.remove_underscores(business_entity)
+
+    @staticmethod
+    def remove_underscores(string: str) -> str:
+        return string.replace('_', '')

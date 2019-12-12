@@ -1,10 +1,12 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
 from unittest.mock import patch
 from unittest.mock import MagicMock
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from wayneapp.services import BusinessEntityManager, settings
+from wayneapp.controllers import SaveBusinessEntityController, DeleteBusinessEntityController
+from wayneapp.services import BusinessEntityManager, settings, JsonSchemaValidator
 
 
 class TestBusinessEntityController(TestCase):
@@ -14,9 +16,10 @@ class TestBusinessEntityController(TestCase):
         super(TestBusinessEntityController, cls).setUpClass()
         settings.SCHEMA_PACKAGE_NAME = 'wayneapp.tests.test_schema'
 
-
-    @patch.object(BusinessEntityManager, 'update_or_create', return_value={MagicMock(), True})
-    def test_create_business_entity_should_work(self, mock_manager):
+    @patch.object(BusinessEntityManager, 'update_or_create', return_value=True)
+    @patch.object(SaveBusinessEntityController, 'has_save_permission', return_value=True)
+    @patch.object(JsonSchemaValidator, 'validate_schema', return_value={})
+    def test_create_business_entity_should_work(self, mock_manager, mock_controller, mock_validator):
         data = {
             'version': 'v1',
             'key': 'x-id',
@@ -27,13 +30,15 @@ class TestBusinessEntityController(TestCase):
         }
 
         client = APIClient()
+        client.force_authenticate(user=None)
         response = client.post('/api/test_entity/save', data, format='json')
-
         self.assertEqual(response.data, {'message': 'entity with key x-id created in version v1'})
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     @patch.object(BusinessEntityManager, 'update_or_create', side_effect=Exception('Test'))
-    def test_create_business_entity_should_fail(self, mock_manager):
+    @patch.object(SaveBusinessEntityController, 'has_save_permission', return_value=True)
+    @patch.object(JsonSchemaValidator, 'validate_schema', return_value={})
+    def test_create_business_entity_should_fail(self, mock_manager, mock_controller, mock_validator):
         data = {
             'version': 'v1',
             'key': 'x-id',
@@ -45,24 +50,28 @@ class TestBusinessEntityController(TestCase):
 
         with self.assertRaises(Exception):
             client = APIClient()
+            client.force_authenticate(user=None)
             response = client.post('/api/test_entity/save', data, format='json')
 
             self.assertEqual(response.status_code, status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @patch.object(BusinessEntityManager, 'delete', return_value=1)
-    def test_delete_business_entity_should_work(self, mock_manager):
+    @patch.object(DeleteBusinessEntityController, 'has_delete_permission', return_value=True)
+    def test_delete_business_entity_should_work(self, mock_manager, mock_controller):
         data = {
             'version': 'v1',
             'key': 'x-id',
         }
 
         client = APIClient()
+        client.force_authenticate(user=None)
         response = client.post('/api/test_entity/delete', data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     @patch.object(BusinessEntityManager, 'delete', side_effect=Exception('Test'))
-    def test_delete_business_entity_should_fail(self, mock_manager):
+    @patch.object(DeleteBusinessEntityController, 'has_delete_permission', return_value=True)
+    def test_delete_business_entity_should_fail(self, mock_manager, mock_controller):
         data = {
             'version': 'v1',
             'key': 'x-id',
@@ -70,6 +79,7 @@ class TestBusinessEntityController(TestCase):
 
         with self.assertRaises(Exception):
             client = APIClient()
+            client.force_authenticate(user=None)
             response = client.post('/api/test_entity/delete', data, format='json')
 
             self.assertEqual(response.status_code, status.HTTP_500_INTERNAL_SERVER_ERROR)
