@@ -8,3 +8,4 @@ sqlparse==0.3.0
 git+https://github.com/project-a/wayne-json-schema.git
 jsonschema==3.2.0
 django-environ==0.4.5
+callee==0.3
