@@ -65,7 +65,7 @@ class SaveBusinessEntityController(APIView):
     def has_save_permission(self, business_entity: str, request: Request) -> bool:
         add_permission = ControllerUtils.get_permission_string(Constants.ADD, business_entity)
         change_permission = ControllerUtils.get_permission_string(Constants.CHANGE, business_entity)
-        permissions = Permission.objects.filter(user=request.user).all()
-        permissions_code_names = [permission.codename for permission in permissions]
-
-        return (add_permission in permissions_code_names) and (change_permission in permissions_code_names)
+        return Permission.objects \
+                   .filter(user=request.user) \
+                   .filter(codename__in=[add_permission, change_permission]) \
+                   .count() == 2
