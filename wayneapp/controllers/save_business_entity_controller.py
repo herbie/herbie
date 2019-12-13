@@ -44,7 +44,7 @@ class SaveBusinessEntityController(APIView):
             return ControllerUtils.custom_response(error_messages, status.HTTP_400_BAD_REQUEST)
 
         created = self._entity_manager.update_or_create(
-            business_entity, key, version, payload
+            business_entity, key, version, request.user, payload
         )
 
         return self._create_response(created, key, version)

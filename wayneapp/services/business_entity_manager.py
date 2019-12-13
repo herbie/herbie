@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db.models import QuerySet
 
 from wayneapp.services import MessagePublisher, BusinessEntityUtils
@@ -16,6 +17,7 @@ class BusinessEntityManager:
             entity_name: str,
             key: str,
             version: str,
+            user: User,
             data: str
     ) -> (AbstractBusinessEntity, bool):
         business_entity_class = BusinessEntityUtils.get_entity_class(entity_name)
@@ -25,6 +27,7 @@ class BusinessEntityManager:
             defaults={
                 'key': key,
                 'version': version,
+                'publisher': user,
                 'data': data
             }
         )
