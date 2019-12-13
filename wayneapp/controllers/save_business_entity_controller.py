@@ -8,7 +8,6 @@ from wayneapp.constants import ControllerConstants as Constants
 from wayneapp.controllers.utils import ControllerUtils
 from wayneapp.services import BusinessEntityManager, SchemaLoader, JsonSchemaValidator
 from rest_framework.permissions import IsAuthenticated
-from django.db.models import Q
 
 
 class SaveBusinessEntityController(APIView):

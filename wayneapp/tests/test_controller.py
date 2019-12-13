@@ -1,12 +1,10 @@
-from django.contrib.auth.models import User
 from django.test import TestCase
 from unittest.mock import patch
-from unittest.mock import MagicMock
 from rest_framework import status
 from rest_framework.test import APIClient
 
 from wayneapp.controllers import SaveBusinessEntityController, DeleteBusinessEntityController
-from wayneapp.services import BusinessEntityManager, settings, JsonSchemaValidator
+from wayneapp.services import BusinessEntityManager, settings
 
 
 class TestBusinessEntityController(TestCase):
@@ -18,8 +16,7 @@ class TestBusinessEntityController(TestCase):
 
     @patch.object(BusinessEntityManager, 'update_or_create', return_value=True)
     @patch.object(SaveBusinessEntityController, 'has_save_permission', return_value=True)
-    @patch.object(JsonSchemaValidator, 'validate_schema', return_value={})
-    def test_create_business_entity_should_work(self, mock_manager, mock_controller, mock_validator):
+    def test_create_business_entity_should_work(self, mock_manager, mock_controller):
         data = {
             'version': 'v1',
             'key': 'x-id',
@@ -37,8 +34,7 @@ class TestBusinessEntityController(TestCase):
 
     @patch.object(BusinessEntityManager, 'update_or_create', side_effect=Exception('Test'))
     @patch.object(SaveBusinessEntityController, 'has_save_permission', return_value=True)
-    @patch.object(JsonSchemaValidator, 'validate_schema', return_value={})
-    def test_create_business_entity_should_fail(self, mock_manager, mock_controller, mock_validator):
+    def test_create_business_entity_should_fail(self, mock_manager, mock_controller):
         data = {
             'version': 'v1',
             'key': 'x-id',
