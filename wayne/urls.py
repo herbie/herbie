@@ -14,7 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+
+
 from wayneapp.controllers \
     import schema_entity_controller, save_business_entity_controller, delete_business_entity_controller
 
@@ -26,4 +28,6 @@ urlpatterns = [
     path('api/schema/<str:business_entity>/<str:version>', schema_entity_controller.SchemaEntityController().as_view()),
     path('api/schema/<str:business_entity>/', schema_entity_controller.SchemaEntityController().as_view(),
          {'version': ''}),
+    path('oauth/', include('social_django.urls', namespace='social')),
+
 ]
