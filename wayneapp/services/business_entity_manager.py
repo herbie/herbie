@@ -1,6 +1,9 @@
 from django.db.models import QuerySet
 
 from wayneapp.services import MessagePublisher, BusinessEntityUtils
+import importlib
+from django.db.models import QuerySet
+from wayneapp.services import MessagePublisher
 from wayneapp.models.models import AbstractBusinessEntity
 
 
@@ -29,6 +32,10 @@ class BusinessEntityManager:
         self._message_service.send_entity_update_message(business_entity)
 
         return created
+
+    def find_all(self, entity_name: str) -> QuerySet:
+        business_entity_class = BusinessEntityUtils.get_entity_class(entity_name)
+        return business_entity_class.objects.all()
 
     def delete(self, entity_name: str, key: str, version: str) -> int:
         business_entity_class = BusinessEntityUtils.get_entity_class(entity_name)

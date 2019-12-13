@@ -18,6 +18,9 @@ env = environ.Env()
 # Json schema package for validation of business objects
 SCHEMA_PACKAGE_NAME = 'wayne_json_schema'
 
+# chunk size for exporting data
+DEFAULT_CHUNK_SIZE = 100
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
