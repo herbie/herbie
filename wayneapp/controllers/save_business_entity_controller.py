@@ -1,4 +1,4 @@
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import Permission, AnonymousUser
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -62,6 +62,8 @@ class SaveBusinessEntityController(APIView):
         )
 
     def has_save_permission(self, business_entity: str, request: Request) -> bool:
+        if type(request.user) is AnonymousUser:
+            return False
         add_permission = ControllerUtils.get_permission_string(Constants.ADD, business_entity)
         change_permission = ControllerUtils.get_permission_string(Constants.CHANGE, business_entity)
         return Permission.objects \
