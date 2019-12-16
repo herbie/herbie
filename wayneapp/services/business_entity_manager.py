@@ -10,7 +10,7 @@ from wayneapp.models.models import AbstractBusinessEntity
 
 class BusinessEntityManager:
 
-    _message_service = MessagePublisher()
+    _message_publisher = MessagePublisher()
 
     def update_or_create(
             self,
@@ -32,7 +32,7 @@ class BusinessEntityManager:
             }
         )
 
-        self._message_service.send_entity_update_message(business_entity)
+        self._message_publisher.send_entity_update_message(business_entity)
 
         return created
 
@@ -50,10 +50,10 @@ class BusinessEntityManager:
 
     def delete_by_queryset(self, queryset: QuerySet) -> int:
         for entity in queryset.all():
-            self._message_service.send_entity_delete_message(entity)
+            self._message_publisher.send_entity_delete_message(entity)
         # return only the number of deleted objects
         return queryset.delete()[0]
 
     def delete_by_instance(self, entity: AbstractBusinessEntity) -> int:
-        self._message_service.send_entity_delete_message(entity)
+        self._message_publisher.send_entity_delete_message(entity)
         return entity.delete()[0]
