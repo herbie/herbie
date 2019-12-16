@@ -1,6 +1,7 @@
 import unittest.mock as mock
 from unittest.mock import call
 
+from django.contrib.auth.models import User
 from django.db.models import QuerySet
 from django.test import TestCase
 
@@ -16,8 +17,9 @@ class ManagerTestEntity(AbstractBusinessEntity):
 entity_name = 'manager_test_entity'
 key = '123'
 version = 'v1'
+test_user = User(username="test-user")
 data = '{"field": "value"}'
-entity = ManagerTestEntity(key=key, version=version, data=data)
+entity = ManagerTestEntity(key=key, version=version, publisher=test_user, data=data)
 
 
 class BusinessEntityManagerTestCase(TestCase):
@@ -30,7 +32,7 @@ class BusinessEntityManagerTestCase(TestCase):
     @mock.patch.object(BusinessEntityUtils, 'get_entity_class', return_value=ManagerTestEntity)
     def test_create(self, mock_entity_utils, mock_objects, mock_send_entity_update_message):
         mock_objects.update_or_create.return_value = (entity, True)
-        created = self._entity_manager.update_or_create(entity_name, key, version, data)
+        created = self._entity_manager.update_or_create(entity_name, key, version, test_user, data)
 
         self.assertTrue(created)
         mock_objects.update_or_create.assert_called_once()
@@ -42,7 +44,7 @@ class BusinessEntityManagerTestCase(TestCase):
     def test_update(self, mock_entity_utils, mock_objects, mock_send_entity_update_message):
         # create entity, should send one message
         mock_objects.update_or_create.return_value = (entity, False)
-        created = self._entity_manager.update_or_create(entity_name, key, version, data)
+        created = self._entity_manager.update_or_create(entity_name, key, version, test_user, data)
 
         self.assertFalse(created)
         mock_objects.update_or_create.assert_called_once()
