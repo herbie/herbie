@@ -22,10 +22,10 @@ class SaveBusinessEntityController(APIView):
         self._permission_classes = (IsAuthenticated,)
 
     def post(self, request: Request, business_entity: str) -> Response:
-        if not self.has_save_permission(business_entity, request):
-            return ControllerUtils.unauthorized_response()
         if not self._validator.business_entity_exist(business_entity):
             return ControllerUtils.business_entity_not_exist_response(business_entity)
+        if not self.has_save_permission(business_entity, request):
+            return ControllerUtils.unauthorized_response()
 
         body = ControllerUtils.extract_body(request)
 
