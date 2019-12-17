@@ -59,7 +59,7 @@ class BusinessEntityManagerTestCase(TestCase):
         mock_queryset_delete.return_value = (1, {})
         delete_count = self._entity_manager.delete(entity_name, key, version)
 
-        self.assertEquals(1, delete_count)
+        self.assertEqual(1, delete_count)
         mock_send_entity_delete_message.assert_called_once_with(entity)
 
     @mock.patch.object(MessagePublisher, 'send_entity_delete_message')
@@ -71,5 +71,5 @@ class BusinessEntityManagerTestCase(TestCase):
         mock_queryset_delete.return_value = (2, {})
         delete_count = self._entity_manager.delete_by_key(entity_name, key)
 
-        self.assertEquals(2, delete_count)
+        self.assertEqual(2, delete_count)
         mock_send_entity_delete_message.assert_has_calls([call(entity), call(entity)])

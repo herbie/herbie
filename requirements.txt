@@ -11,3 +11,5 @@ django-environ==0.4.5
 callee==0.3
 social-auth-app-django==3.1.0
 social-auth-core==3.2.0
+pytest==5.3.1
+pytest-django==3.5.1

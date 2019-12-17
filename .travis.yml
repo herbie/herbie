@@ -24,8 +24,14 @@ install:
 before_script:
   - psql -c 'create database wayne_db;' -U postgres
 
-script:
-  - python manage.py test --noinput
+jobs:
+  include:
+    - stage: 'tests'
+      name: 'Tests'
+      script:
+        - pytest --verbose
+
+
 
 before_cache:
   - rm -f $HOME/.cache/pip/log/debug.log
