@@ -1,9 +1,9 @@
 import json
 import logging
 
+from django.core.serializers.json import DjangoJSONEncoder
 from django.utils.functional import cached_property
 from kafka import KafkaProducer
-from django.core.serializers.json import DjangoJSONEncoder
 
 from wayne import settings
 from wayneapp.models import AbstractBusinessEntity
