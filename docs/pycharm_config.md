@@ -1,3 +1,6 @@
+# Pycharm Configuration
+
+
 ### 1) Set up docker python interpreter for pycharm
 ```
 1.1) go to 

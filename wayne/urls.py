@@ -20,6 +20,12 @@ from django.urls import path, include
 from wayneapp.controllers \
     import schema_entity_controller, save_business_entity_controller, delete_business_entity_controller
 
+
+admin.site.site_header = 'Wayne'
+admin.site.site_title = 'Wayne'
+admin.site.index_title = 'Dashboard'
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/<str:business_entity>/save', save_business_entity_controller.SaveBusinessEntityController().as_view()),
@@ -29,5 +35,4 @@ urlpatterns = [
     path('api/schema/<str:business_entity>/', schema_entity_controller.SchemaEntityController().as_view(),
          {'version': ''}),
     path('oauth/', include('social_django.urls', namespace='social')),
-
 ]

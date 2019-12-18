@@ -2,7 +2,8 @@
 
 [![Build Status](https://travis-ci.org/project-a/wayne.svg?branch=master)](https://travis-ci.org/project-a/wayne)
 
-## Setup local environment
+## Quickstart
+
 In order to set up the local environment quickly, you first need to install [docker](https://docs.docker.com/install/#server) and [docker-compose](https://docs.docker.com/compose/install/).
 
 Afterwards go to the root-folder of the _wayne-project_ and run:
@@ -23,26 +24,14 @@ Model classes can be generated based on the JSON schema definitions by running t
 `$ python manage.py generatemodels`
 
 
+## API Authentication
+- [How to add an Auth Token for a Service?](docs/add_service_client.md)
 
-## Create Social api key and secret (google,github, etc.)
-
-1. Create an oauth api on Google/Github
-2. Save the auto-generated credentials (key/secret) in environment variables
-3. add the credentials to settings.py
-
-#### Google
-
-`SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env.str('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')`
-
-`SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env.str('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')`
+## Admin Panel
+- [How to add social login?](docs/social_login.md)
 
 
-#### Github
 
-`SOCIAL_AUTH_GITHUB_KEY = env.str('SOCIAL_AUTH_GITHUB_KEY')`
-`SOCIAL_AUTH_GITHUB_SECRET = env.str('SOCIAL_AUTH_GITHUB_SECRET')`
+## Wayne - Development
 
-###### Helpful Tutorials
-
-https://simpleisbetterthancomplex.com/tutorial/2016/10/24/how-to-add-social-login-to-django.html
-https://medium.com/trabe/oauth-authentication-in-django-with-social-auth-c67a002479c1
+- [PyCharm Configuration](docs/pycharm_config.md)

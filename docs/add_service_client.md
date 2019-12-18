@@ -1,3 +1,5 @@
+# Add Auth Token for a Service
+
 ##### 1) Create a super user
 ```
 python manage.py createsuperuser --username "username" --email "email-address"
