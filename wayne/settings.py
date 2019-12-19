@@ -15,6 +15,9 @@ import environ
 
 env = environ.Env()
 
+# Business entity application label
+APP_LABEL = 'wayneapp'
+
 # Json schema package for validation of business objects
 SCHEMA_PACKAGE_NAME = 'wayne_json_schema'
 
@@ -23,7 +26,6 @@ DEFAULT_CHUNK_SIZE = 100
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/

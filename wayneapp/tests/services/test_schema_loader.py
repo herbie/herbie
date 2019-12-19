@@ -2,6 +2,7 @@ from django.test import TestCase
 from unittest.mock import patch
 from wayneapp.services import settings
 
+import json
 import pkgutil
 
 from wayneapp.services import SchemaLoader
@@ -47,3 +48,11 @@ class TestSchemaLoader(TestCase):
         schema_latest_version = self._schema_loader.get_schema_latest_version(self._business_entity)
 
         self.assertEqual(self._version_latest, schema_latest_version)
+
+    def test_get_all_json_schemas(self):
+        schema_list = self._schema_loader.get_all_json_schemas()
+        for schema in schema_list:
+            schema_data = json.loads(schema)
+            self.assertEqual(self._business_entity, schema_data['business_entity'])
+
+        self.assertEqual(2, len(schema_list))
