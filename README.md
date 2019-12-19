@@ -30,6 +30,19 @@ Model classes can be generated based on the JSON schema definitions by running t
 ## Admin Panel
 - [How to add social login?](docs/social_login.md)
 
+## How to change the messaging system?
+The default Wayne setup uses Kafka (mainly because it's very popular) for distributing
+the business entity messages in a JSON format. But it should be easy to use any other
+messaging system:
+
+The messaging is implemented in
+[wayneapp/services/message_publisher.py](wayneapp/services/message_publisher.py).
+To replace the Kafka client with any other client, you just have to change the
+implementation of the internal `_send_message` method of the `MessagePublisher` class.
+
+Then you can also remove or replace the Kafka connection settings in
+[wayne/settings.py](wayne/settings.py), and also remove or replace the Kafka and
+Zookeeper images in the [docker-compose.yml](docker-compose.yml).
 
 
 ## Wayne - Development
