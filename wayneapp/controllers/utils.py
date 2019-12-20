@@ -37,10 +37,3 @@ class ControllerUtils:
 
         return body
 
-    @staticmethod
-    def get_permission_string(action: str, business_entity: str) -> str:
-        return action + '_' + ControllerUtils.remove_underscores(business_entity)
-
-    @staticmethod
-    def remove_underscores(string: str) -> str:
-        return string.replace('_', '')

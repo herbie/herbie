@@ -3,7 +3,7 @@ from unittest.mock import patch
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from wayneapp.controllers import SaveBusinessEntityController
+from wayneapp.controllers import PermissionManager
 from wayneapp.services import BusinessEntityManager, settings
 
 
@@ -26,7 +26,7 @@ class TestSaveBusinessEntityController(TestCase):
         settings.SCHEMA_REGISTRY_PACKAGE = 'wayneapp.tests.test_schema'
 
     @patch.object(BusinessEntityManager, 'update_or_create', return_value=True)
-    @patch.object(SaveBusinessEntityController, 'has_save_permission', return_value=True)
+    @patch.object(PermissionManager, 'has_save_permission', return_value=True)
     def test_save_business_entity_should_work(self, mock_manager, mock_controller):
         self.client.force_authenticate(user=None)
         response = self.client.post('/api/test_entity/save', self.data, format='json')
@@ -34,7 +34,7 @@ class TestSaveBusinessEntityController(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     @patch.object(BusinessEntityManager, 'update_or_create', return_value=False)
-    @patch.object(SaveBusinessEntityController, 'has_save_permission', return_value=True)
+    @patch.object(PermissionManager, 'has_save_permission', return_value=True)
     def test_update_business_entity_should_work(self, mock_manager, mock_controller):
         self.client.force_authenticate(user=None)
         response = self.client.post('/api/test_entity/save', self.data, format='json')
@@ -42,7 +42,7 @@ class TestSaveBusinessEntityController(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     @patch.object(BusinessEntityManager, 'update_or_create', return_value=False)
-    @patch.object(SaveBusinessEntityController, 'has_save_permission', return_value=True)
+    @patch.object(PermissionManager, 'has_save_permission', return_value=True)
     def test_save_business_entity_with_no_exist_version_should_fail(self, mock_manager, mock_controller):
         self.data['version'] = 'v111h'
         self.client.force_authenticate(user=None)
@@ -51,7 +51,7 @@ class TestSaveBusinessEntityController(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     @patch.object(BusinessEntityManager, 'update_or_create', return_value=False)
-    @patch.object(SaveBusinessEntityController, 'has_save_permission', return_value=True)
+    @patch.object(PermissionManager, 'has_save_permission', return_value=True)
     def test_save_business_entity_with_no_exist_schema_should_fail(self, mock_manager, mock_controller):
         self.client.force_authenticate(user=None)
         response = self.client.post('/api/abc/save', self.data, format='json')
@@ -59,7 +59,7 @@ class TestSaveBusinessEntityController(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     @patch.object(BusinessEntityManager, 'update_or_create', return_value=False)
-    @patch.object(SaveBusinessEntityController, 'has_save_permission', return_value=True)
+    @patch.object(PermissionManager, 'has_save_permission', return_value=True)
     def test_save_business_entity_with_invalid_json_should_fail(self, mock_manager, mock_controller):
         data = {
             'version': 'v1',
@@ -74,7 +74,7 @@ class TestSaveBusinessEntityController(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     @patch.object(BusinessEntityManager, 'update_or_create', return_value=False)
-    @patch.object(SaveBusinessEntityController, 'has_save_permission', return_value=False)
+    @patch.object(PermissionManager, 'has_save_permission', return_value=False)
     def test_save_business_entity_unauthorized_user_should_fail(self, mock_manager, mock_controller):
         client = APIClient()
         response = client.post('/api/test_entity/save', self.data, format='json')

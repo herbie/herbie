@@ -37,3 +37,7 @@ class CommandsConstants:
     BUSINESS_ENTITY = 'business_entity'
     CHUNK_SIZE = 'chunk_size'
     FULL_EXPORT = 'full_export'
+
+
+class GroupConstants:
+    BUSINESS_ENTITIES_VIEW_GROUP = 'business_entities_view_group'

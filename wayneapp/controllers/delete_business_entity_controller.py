@@ -8,6 +8,7 @@ import logging
 from wayneapp.constants import ControllerConstants as Constants
 from wayneapp.controllers.utils import ControllerUtils
 from wayneapp.services import BusinessEntityManager, JsonSchemaValidator
+from wayneapp.services.permission_manager import PermissionManager
 
 
 class DeleteBusinessEntityController(APIView):
@@ -20,9 +21,10 @@ class DeleteBusinessEntityController(APIView):
         self._logger = logging.getLogger(__name__)
         self._validator = JsonSchemaValidator()
         self._permission_classes = (IsAuthenticated,)
+        self._permission_manager = PermissionManager()
 
     def post(self, request: Request, business_entity: str) -> Response:
-        if not self.has_delete_permission(business_entity, request):
+        if not self._permission_manager.has_delete_permission(business_entity, request):
             return ControllerUtils.unauthorized_response()
         body = ControllerUtils.extract_body(request)
         key = body[Constants.KEY]
@@ -61,10 +63,3 @@ class DeleteBusinessEntityController(APIView):
             status.HTTP_200_OK
         )
 
-    def has_delete_permission(self, business_entity: str, request: Request) -> bool:
-        delete_permission = ControllerUtils.get_permission_string(Constants.DELETE, business_entity)
-
-        return Permission.objects\
-            .filter(user=request.user)\
-            .filter(codename=delete_permission)\
-            .exists()

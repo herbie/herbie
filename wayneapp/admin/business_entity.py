@@ -2,13 +2,10 @@ import json
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
+from wayneapp.constants import GroupConstants
 from wayneapp.models import AbstractBusinessEntity
 from wayne import settings
 from wayneapp.services import BusinessEntityManager
-
-
-if not settings.WAYNE_ADMIN.get('DELETE_ENABLED'):
-    admin.site.disable_action('delete_selected')
 
 
 class ReadOnlyAdmin(admin.ModelAdmin):
@@ -18,14 +15,17 @@ class ReadOnlyAdmin(admin.ModelAdmin):
 
     _entity_manager = BusinessEntityManager()
 
+    def has_view_permission(self, request, obj=None):
+        if super().has_view_permission(request, obj):
+            return True
+
+        return request.user.has_perm('wayneapp.view_business_entities')
+
     def has_add_permission(self, request, obj=None):
         return False
 
     def has_change_permission(self, request, obj=None):
         return False
-
-    def has_delete_permission(self, request, obj=None):
-        return settings.WAYNE_ADMIN.get('DELETE_ENABLED')
 
     def delete_model(self, request, entity):
         self._entity_manager.delete_by_instance(entity)

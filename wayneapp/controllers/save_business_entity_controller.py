@@ -9,6 +9,8 @@ from wayneapp.controllers.utils import ControllerUtils
 from wayneapp.services import BusinessEntityManager, SchemaRegistry, JsonSchemaValidator
 from rest_framework.permissions import IsAuthenticated
 
+from wayneapp.services.permission_manager import PermissionManager
+
 
 class SaveBusinessEntityController(APIView):
     _entity_manager = None
@@ -20,11 +22,12 @@ class SaveBusinessEntityController(APIView):
         self._validator = JsonSchemaValidator()
         self._schema_registry = SchemaRegistry()
         self._permission_classes = (IsAuthenticated,)
+        self._permission_manager = PermissionManager()
 
     def post(self, request: Request, business_entity: str) -> Response:
         if not self._validator.business_entity_exist(business_entity):
             return ControllerUtils.business_entity_not_exist_response(business_entity)
-        if not self.has_save_permission(business_entity, request):
+        if not self._permission_manager.has_save_permission(business_entity, request):
             return ControllerUtils.unauthorized_response()
 
         body = ControllerUtils.extract_body(request)
@@ -61,12 +64,4 @@ class SaveBusinessEntityController(APIView):
             status.HTTP_200_OK
         )
 
-    def has_save_permission(self, business_entity: str, request: Request) -> bool:
-        if type(request.user) is AnonymousUser:
-            return False
-        add_permission = ControllerUtils.get_permission_string(Constants.ADD, business_entity)
-        change_permission = ControllerUtils.get_permission_string(Constants.CHANGE, business_entity)
-        return Permission.objects \
-                   .filter(user=request.user) \
-                   .filter(codename__in=[add_permission, change_permission]) \
-                   .count() == 2
+

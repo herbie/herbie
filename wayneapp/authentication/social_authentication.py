@@ -1,10 +1,10 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
+from wayneapp.constants import GroupConstants
 
 
 def process_roles(details, user, **kwargs):
-    if User.objects.filter(username=user.get_username).exists() is False:
+    if not User.objects.filter(username=user.get_username).exists():
+        my_group = Group.objects.get(name=GroupConstants.BUSINESS_ENTITIES_VIEW_GROUP)
         user.is_staff = True
-        user.is_superuser = True
-
+        user.groups.add(my_group)
         user.save()
-

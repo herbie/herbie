@@ -215,8 +215,6 @@ JSON_VIEWER = {
 WAYNE_ADMIN = {
     'JS_URL': 'js/wayne-admin.js',
     'CSS_URL': 'css/wayne-admin.css',
-    # feature flag to enable delete functionality in the admin tool
-    'DELETE_ENABLED': True
 }
 
 KAFKA = {
