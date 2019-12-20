@@ -23,6 +23,7 @@ class Command(BaseCommand):
         self._chunk_size = kwargs[Constants.CHUNK_SIZE]
         business_entity = kwargs[Constants.BUSINESS_ENTITY]
         queryset = self._entity_manager.find_all(business_entity)
+        tags = [Constants.FULL_EXPORT]
         for business_entity in queryset.iterator(chunk_size=self._chunk_size):
-            self._message_service.send_entity_update_message(business_entity)
+            self._message_service.send_entity_update_message(business_entity, tags)
         self._message_service.shutdown()

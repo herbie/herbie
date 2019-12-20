@@ -4,14 +4,14 @@ import logging
 from django.core.serializers.json import DjangoJSONEncoder
 from django.utils.functional import cached_property
 from kafka import KafkaProducer
-
 from wayne import settings
 from wayneapp.models import AbstractBusinessEntity
 from wayneapp.services.utils import BusinessEntityUtils
 
 
 class EntityUpdateMessage:
-    def __init__(self, _type, key, version, payload, created, modified):
+    def __init__(self, _type, key, version, payload, created, modified, tags):
+        self.tags = tags
         self.action = 'update'
         self.type = _type
         self.key = key
@@ -33,14 +33,17 @@ class MessagePublisher:
 
     _logger = logging.getLogger(__name__)
 
-    def send_entity_update_message(self, entity: AbstractBusinessEntity):
+    def send_entity_update_message(self, entity: AbstractBusinessEntity, tags=None):
+        if tags is None:
+            tags = []
         self._send_message(EntityUpdateMessage(
             BusinessEntityUtils.get_entity_type_name(entity),
             entity.key,
             entity.version,
             entity.data,
             entity.created,
-            entity.modified
+            entity.modified,
+            tags
         ))
 
     def send_entity_delete_message(self, entity: AbstractBusinessEntity):

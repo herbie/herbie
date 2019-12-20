@@ -29,7 +29,7 @@ class MessagePublisherTestCase(TestCase):
         self._message_publisher.send_entity_update_message(entity)
 
         mock_producer.send.assert_called_once_with(topic, key=key, value=Matcher(
-            EntityUpdateMessage, {'action': 'update', 'type': topic, 'key': key, 'version': version, 'payload': data}
+            EntityUpdateMessage, {'action': 'update', 'type': topic, 'key': key, 'version': version, 'payload': data, 'tags': []}
         ))
 
     @mock.patch.object(MessagePublisher, '_producer')
