@@ -19,7 +19,7 @@ env = environ.Env()
 APP_LABEL = 'wayneapp'
 
 # Json schema package for validation of business objects
-SCHEMA_PACKAGE_NAME = 'wayne_json_schema'
+SCHEMA_REGISTRY_PACKAGE = 'wayne_json_schema'
 
 # chunk size for exporting data
 DEFAULT_CHUNK_SIZE = 100

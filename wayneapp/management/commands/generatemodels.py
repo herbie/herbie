@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from wayneapp.services import SchemaLoader, BusinessEntityUtils
+from wayneapp.services import SchemaRegistry, BusinessEntityUtils
 
 model_filename = "wayneapp/models/generated_models.py"
 
@@ -9,7 +9,7 @@ class Command(BaseCommand):
     help = 'Generates model classes based on the JSON schema definitions'
 
     def handle(self, *args, **kwargs):
-        entity_names = SchemaLoader().get_all_business_entity_names()
+        entity_names = SchemaRegistry().get_all_business_entity_names()
         entity_names_camel_case = set(map(BusinessEntityUtils.snake_to_camel, entity_names))
 
         w = open(model_filename, "w")

@@ -7,7 +7,7 @@ class JsonSchemaValidatorTestCase(TestCase):
     @classmethod
     def setUpClass(cls):
         super(JsonSchemaValidatorTestCase, cls).setUpClass()
-        settings.SCHEMA_PACKAGE_NAME = 'wayneapp.tests.test_schema'
+        settings.SCHEMA_REGISTRY_PACKAGE = 'wayneapp.tests.test_schema'
         cls._schema_validator = JsonSchemaValidator()
         cls._business_entity = 'test_entity'
         cls._version_1 = 'v1'

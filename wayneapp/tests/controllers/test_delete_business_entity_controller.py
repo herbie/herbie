@@ -12,7 +12,7 @@ class TestDeleteBusinessEntityController(TestCase):
     @classmethod
     def setUpClass(cls):
         super(TestDeleteBusinessEntityController, cls).setUpClass()
-        settings.SCHEMA_PACKAGE_NAME = 'wayneapp.tests.test_schema'
+        settings.SCHEMA_REGISTRY_PACKAGE = 'wayneapp.tests.test_schema'
 
     @patch.object(BusinessEntityManager, 'delete', return_value=1)
     @patch.object(DeleteBusinessEntityController, 'has_delete_permission', return_value=True)

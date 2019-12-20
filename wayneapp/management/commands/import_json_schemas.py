@@ -1,6 +1,6 @@
 import json
 from django.core.management import BaseCommand
-from wayneapp.services import SchemaLoader, logging
+from wayneapp.services import SchemaRegistry, logging
 from wayneapp.models import BusinessSchema
 
 
@@ -9,7 +9,7 @@ class Command(BaseCommand):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self._schema_loader = SchemaLoader()
+        self._schema_loader = SchemaRegistry()
         self._logger = logging.getLogger(__name__)
 
     def handle(self, *args, **kwargs):

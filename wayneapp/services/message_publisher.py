@@ -57,7 +57,7 @@ class MessagePublisher:
 
     @cached_property
     def _producer(self) -> KafkaProducer:
-        self._logger.info("initializing kafka address: {} timeout: {} "
+        self._logger.info('initializing kafka address: {} timeout: {} '
                           .format(settings.KAFKA.get('SERVERS'), settings.KAFKA.get('TIMEOUT')))
         # lazy init of the kafka producer, because kafka may not be available yet when starting the app with docker
         return KafkaProducer(bootstrap_servers=settings.KAFKA.get('SERVERS'),
@@ -72,5 +72,5 @@ class MessagePublisher:
         self._logger.error('Message delivery failed: {}'.format(excp), exc_info=excp)
 
     def shutdown(self):
-        self._logger.info("flushing kafka producer")
+        self._logger.info('flushing kafka producer')
         self._producer.flush()

@@ -5,16 +5,16 @@ from wayneapp.services import settings
 import json
 import pkgutil
 
-from wayneapp.services import SchemaLoader
+from wayneapp.services import SchemaRegistry
 
 
-class TestSchemaLoader(TestCase):
+class TestSchemaRegistry(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        super(TestSchemaLoader, cls).setUpClass()
-        settings.SCHEMA_PACKAGE_NAME = 'wayneapp.tests.test_schema'
-        cls._schema_loader = SchemaLoader()
+        super(TestSchemaRegistry, cls).setUpClass()
+        settings.SCHEMA_REGISTRY_PACKAGE = 'wayneapp.tests.test_schema'
+        cls._schema_loader = SchemaRegistry()
         cls._business_entity = 'test_entity'
         cls._version_1 = 'v1'
         cls._version_latest = 'v2'
@@ -34,7 +34,7 @@ class TestSchemaLoader(TestCase):
 
     def test_load_json_success(self):
         get_json_schema = self._schema_loader.load(self._business_entity, self._version_1)
-        test_json_schema = pkgutil.get_data(settings.SCHEMA_PACKAGE_NAME, self._business_entity + '/' +
+        test_json_schema = pkgutil.get_data(settings.SCHEMA_REGISTRY_PACKAGE, self._business_entity + '/' +
                                             self._business_entity + '_' + self._version_1 + '.json')
 
         self.assertEqual(test_json_schema.decode('utf-8'), get_json_schema)

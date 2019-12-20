@@ -17,8 +17,9 @@ from django.contrib import admin
 from django.urls import path, include
 
 
-from wayneapp.controllers \
-    import schema_entity_controller, save_business_entity_controller, delete_business_entity_controller
+from wayneapp.controllers import SchemaRegistryController,\
+    SaveBusinessEntityController,\
+    DeleteBusinessEntityController
 
 
 admin.site.site_header = 'Wayne'
@@ -27,12 +28,11 @@ admin.site.index_title = 'Dashboard'
 
 
 urlpatterns = [
+    path('', admin.site.urls),
     path('admin/', admin.site.urls),
-    path('api/<str:business_entity>/save', save_business_entity_controller.SaveBusinessEntityController().as_view()),
-    path('api/<str:business_entity>/delete',
-         delete_business_entity_controller.DeleteBusinessEntityController().as_view()),
-    path('api/schema/<str:business_entity>/<str:version>', schema_entity_controller.SchemaEntityController().as_view()),
-    path('api/schema/<str:business_entity>/', schema_entity_controller.SchemaEntityController().as_view(),
-         {'version': ''}),
+    path('api/<str:business_entity>/save', SaveBusinessEntityController().as_view()),
+    path('api/<str:business_entity>/delete', DeleteBusinessEntityController().as_view()),
+    path('api/schema-registry/<str:business_entity>/<str:version>', SchemaRegistryController().as_view()),
+    path('api/schema-registry/<str:business_entity>/', SchemaRegistryController().as_view(), {'version': ''}),
     path('oauth/', include('social_django.urls', namespace='social')),
 ]

@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 import logging
 from wayneapp.constants import ControllerConstants as Constants
 from wayneapp.controllers.utils import ControllerUtils
-from wayneapp.services import BusinessEntityManager, SchemaLoader, JsonSchemaValidator
+from wayneapp.services import BusinessEntityManager, SchemaRegistry, JsonSchemaValidator
 from rest_framework.permissions import IsAuthenticated
 
 
@@ -18,7 +18,7 @@ class SaveBusinessEntityController(APIView):
         self._entity_manager = BusinessEntityManager()
         self._logger = logging.getLogger(__name__)
         self._validator = JsonSchemaValidator()
-        self._schema_loader = SchemaLoader()
+        self._schema_registry = SchemaRegistry()
         self._permission_classes = (IsAuthenticated,)
 
     def post(self, request: Request, business_entity: str) -> Response:

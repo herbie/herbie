@@ -3,7 +3,7 @@ from unittest.mock import patch
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from wayneapp.controllers import SaveBusinessEntityController, DeleteBusinessEntityController
+from wayneapp.controllers import SaveBusinessEntityController
 from wayneapp.services import BusinessEntityManager, settings
 
 
@@ -23,7 +23,7 @@ class TestSaveBusinessEntityController(TestCase):
     @classmethod
     def setUpClass(cls):
         super(TestSaveBusinessEntityController, cls).setUpClass()
-        settings.SCHEMA_PACKAGE_NAME = 'wayneapp.tests.test_schema'
+        settings.SCHEMA_REGISTRY_PACKAGE = 'wayneapp.tests.test_schema'
 
     @patch.object(BusinessEntityManager, 'update_or_create', return_value=True)
     @patch.object(SaveBusinessEntityController, 'has_save_permission', return_value=True)

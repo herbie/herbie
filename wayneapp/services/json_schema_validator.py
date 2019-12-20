@@ -1,14 +1,14 @@
 import json
 import re
 
-from wayneapp.services import SchemaLoader
+from wayneapp.services import SchemaRegistry
 from jsonschema import Draft7Validator
 from wayneapp.constants import ValidatorResponseConstants, ControllerConstants
 
 
 class JsonSchemaValidator:
     def __init__(self):
-        self._schema_loader = SchemaLoader()
+        self._schema_loader = SchemaRegistry()
 
     def validate_schema(self, json_data: json, business_entity: str, version: str) -> json:
         if not self.version_exist(version, business_entity):
