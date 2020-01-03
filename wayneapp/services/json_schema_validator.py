@@ -8,7 +8,7 @@ from wayneapp.constants import ValidatorResponseConstants, ControllerConstants
 
 class JsonSchemaValidator:
     def __init__(self):
-        self._schema_loader = SchemaRegistry()
+        self._schema_registry = SchemaRegistry()
 
     def validate_schema(self, json_data: json, business_entity: str, version: str) -> json:
         if not self.version_exist(version, business_entity):
@@ -41,17 +41,17 @@ class JsonSchemaValidator:
         return errors
 
     def _get_json_schema(self, business_entity, version) -> json:
-        file = self._schema_loader.load(business_entity, version)
-        schema = json.loads(file)
+        json_string = self._schema_registry.find_schema(business_entity, version)
+        schema = json.loads(json_string)
 
         return schema
 
     def business_entity_exist(self, business_entity: str) -> bool:
-        business_entity_names = self._schema_loader.get_all_business_entity_names()
+        business_entity_names = self._schema_registry.get_all_schema_names()
 
         return business_entity in business_entity_names
 
     def version_exist(self, version: str, business_entity: str) -> bool:
-        versions = self._schema_loader.get_all_versions(business_entity)
+        versions = self._schema_registry.get_all_versions(business_entity)
 
         return version in versions

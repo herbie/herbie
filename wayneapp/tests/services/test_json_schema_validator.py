@@ -1,6 +1,9 @@
+import pkgutil
+from unittest import mock
+
 from django.test import TestCase
 from wayneapp.services import settings
-from wayneapp.services import JsonSchemaValidator
+from wayneapp.services import JsonSchemaValidator, SchemaRegistry
 
 
 class JsonSchemaValidatorTestCase(TestCase):
@@ -12,7 +15,13 @@ class JsonSchemaValidatorTestCase(TestCase):
         cls._business_entity = 'test_entity'
         cls._version_1 = 'v1'
 
-    def test_validate_success(self):
+    @mock.patch.object(SchemaRegistry, 'get_all_versions')
+    @mock.patch.object(SchemaRegistry, 'find_schema')
+    def test_validate_success(self, mock_find_schema, mock_get_all_versions):
+        test_schema = self._load_test_schema(self._business_entity, self._version_1)
+        mock_get_all_versions.return_value = [self._version_1]
+        mock_find_schema.return_value = test_schema.decode('utf-8')
+
         json_data = {
             "testId": 12,
             "name": "testName"
@@ -22,7 +31,13 @@ class JsonSchemaValidatorTestCase(TestCase):
 
         self.assertEqual({}, validation_messages)
 
-    def test_validate_additional_property_error(self):
+    @mock.patch.object(SchemaRegistry, 'get_all_versions')
+    @mock.patch.object(SchemaRegistry, 'find_schema')
+    def test_validate_additional_property_error(self, mock_find_schema, mock_get_all_versions):
+        test_schema = self._load_test_schema(self._business_entity, self._version_1)
+        mock_get_all_versions.return_value = [self._version_1]
+        mock_find_schema.return_value = test_schema.decode('utf-8')
+
         json_data = {
             "testId": 12,
             "name": "testName",
@@ -38,7 +53,13 @@ class JsonSchemaValidatorTestCase(TestCase):
 
         self.assertEqual(message_response_expected, validation_messages)
 
-    def test_validate_required_error(self):
+    @mock.patch.object(SchemaRegistry, 'get_all_versions')
+    @mock.patch.object(SchemaRegistry, 'find_schema')
+    def test_validate_required_error(self, mock_find_schema, mock_get_all_versions):
+        test_schema = self._load_test_schema(self._business_entity, self._version_1)
+        mock_get_all_versions.return_value = [self._version_1]
+        mock_find_schema.return_value = test_schema.decode('utf-8')
+
         json_data = {
             "name": "testName",
         }
@@ -53,7 +74,13 @@ class JsonSchemaValidatorTestCase(TestCase):
 
         self.assertEqual(message_response_expected, validation_messages)
 
-    def test_validate_type_error(self):
+    @mock.patch.object(SchemaRegistry, 'find_schema')
+    @mock.patch.object(SchemaRegistry, 'get_all_versions')
+    def test_validate_type_error(self, mock_get_all_versions, mock_find_schema):
+        test_schema = self._load_test_schema(self._business_entity, self._version_1)
+        mock_get_all_versions.return_value = [self._version_1]
+        mock_find_schema.return_value = test_schema.decode('utf-8')
+
         json_data = {
             "testId": "wrongType",
             "name": "testName",
@@ -79,3 +106,7 @@ class JsonSchemaValidatorTestCase(TestCase):
         message_response_expected = "version " + self._version_1 + " does not exist"
 
         self.assertEqual(message_response_expected, validation_messages)
+
+    def _load_test_schema(self, business_entity, version):
+        return pkgutil.get_data('wayneapp.tests.test_schema',
+                                business_entity + '/' + business_entity + '_' + version +  '.json')

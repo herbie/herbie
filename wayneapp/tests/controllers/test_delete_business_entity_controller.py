@@ -3,20 +3,15 @@ from unittest.mock import patch
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from wayneapp.controllers import DeleteBusinessEntityController, PermissionManager
+from wayneapp.controllers import PermissionManager
 from wayneapp.services import BusinessEntityManager, settings
 
 
 class TestDeleteBusinessEntityController(TestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        super(TestDeleteBusinessEntityController, cls).setUpClass()
-        settings.SCHEMA_REGISTRY_PACKAGE = 'wayneapp.tests.test_schema'
-
     @patch.object(BusinessEntityManager, 'delete', return_value=1)
     @patch.object(PermissionManager, 'has_delete_permission', return_value=True)
-    def test_delete_business_entity_should_work(self, mock_manager, mock_controller):
+    def test_delete_business_entity_should_work(self, permission_manager, entity_manager):
         data = {
             'version': 'v1',
             'key': 'x-id',

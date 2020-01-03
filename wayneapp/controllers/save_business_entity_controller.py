@@ -1,4 +1,3 @@
-from django.contrib.auth.models import Permission, AnonymousUser
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response

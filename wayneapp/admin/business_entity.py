@@ -1,8 +1,6 @@
 import json
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-
-from wayneapp.constants import GroupConstants
 from wayneapp.models import AbstractBusinessEntity
 from wayne import settings
 from wayneapp.services import BusinessEntityManager

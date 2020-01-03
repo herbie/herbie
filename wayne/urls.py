@@ -28,7 +28,6 @@ admin.site.index_title = 'Dashboard'
 
 
 urlpatterns = [
-    path('', admin.site.urls),
     path('admin/', admin.site.urls),
     path('api/<str:business_entity>/save', SaveBusinessEntityController().as_view()),
     path('api/<str:business_entity>/delete', DeleteBusinessEntityController().as_view()),

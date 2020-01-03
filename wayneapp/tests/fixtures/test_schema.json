@@ -1,0 +1,11 @@
+[
+ {
+   "pk": 1,
+   "model": "wayneapp.schema",
+   "fields": {
+     "name": "test_entity",
+     "version": "v1",
+     "content": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"test/test_entity_v1.json\",\n  \"title\": \"test_entity\",\n  \"description\": \"Test Entity schema\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"testId\": { \"type\": \"integer\"},\n    \"name\": {\"type\": \"string\"},\n    \"optional_name\": {\"type\": \"string\"}\n  },\n  \"required\": [ \"testId\", \"name\" ],\n  \"additionalProperties\": false\n}"
+   }
+ }
+]

@@ -18,6 +18,6 @@ class SchemaRegistryController(APIView):
         if version is '':
             version = self._schema_registry.get_schema_latest_version(business_entity)
 
-        json_data = self._schema_registry.load(business_entity, version)
+        json_data = self._schema_registry.find_schema(business_entity, version)
 
         return Response(json.loads(json_data), status=status.HTTP_200_OK)

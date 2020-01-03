@@ -26,6 +26,7 @@ class DeleteBusinessEntityController(APIView):
     def post(self, request: Request, business_entity: str) -> Response:
         if not self._permission_manager.has_delete_permission(business_entity, request):
             return ControllerUtils.unauthorized_response()
+
         body = ControllerUtils.extract_body(request)
         key = body[Constants.KEY]
         if not self._validator.business_entity_exist(business_entity):

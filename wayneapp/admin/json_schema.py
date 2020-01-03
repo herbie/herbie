@@ -2,14 +2,14 @@ import json
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from wayneapp.models import BusinessSchema
+from wayneapp.models import Schema
 from wayne import settings
 
 
 class JsonSchemaAdmin(admin.ModelAdmin):
-    fields = ('business_entity', 'version', 'json_schema', 'created', 'modified')
-    list_display = ['business_entity', 'version']
-    search_fields = ['business_entity', 'version']
+    fields = ('name', 'version', 'json_schema', 'created', 'modified')
+    list_display = ['name', 'version']
+    search_fields = ['name', 'version']
 
     def has_add_permission(self, request, obj=None):
         return False
@@ -21,7 +21,7 @@ class JsonSchemaAdmin(admin.ModelAdmin):
         return False
 
     def json_schema(self, model):
-        json_data = json.dumps(model.schema, sort_keys=True, indent=2)
+        json_data = json.dumps(model.content, sort_keys=True, indent=2)
         return mark_safe('<pre id="json-renderer" class="json-document">' + json_data + '</pre>')
 
     class Media:
@@ -31,4 +31,4 @@ class JsonSchemaAdmin(admin.ModelAdmin):
         }
 
 
-admin.site.register(BusinessSchema, JsonSchemaAdmin)
+admin.site.register(Schema, JsonSchemaAdmin)

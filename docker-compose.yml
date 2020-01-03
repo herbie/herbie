@@ -28,7 +28,6 @@ services:
     image: 'postgres:11.5'
     volumes:
       - 'db-data:/var/lib/postgresql/data'
-      - '/etc/timezone:/etc/timezone:ro'
     environment:
       - 'POSTGRES_DB=wayne_db'
       - 'POSTGRES_USER=user'
