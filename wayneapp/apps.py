@@ -8,5 +8,4 @@ class WayneappConfig(AppConfig):
 
     def ready(self):
         from wayneapp.services.permission_manager import PermissionManager
-        permissionManager = PermissionManager()
-        post_migrate.connect(permissionManager.create_group_and_permission_for_view_access, sender=self)
+        post_migrate.connect(PermissionManager.create_group_and_permission_for_view_access, sender=self)

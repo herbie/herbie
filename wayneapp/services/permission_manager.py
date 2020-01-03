@@ -4,6 +4,8 @@ from wayneapp.constants import ControllerConstants, GroupConstants
 from django.contrib.auth.models import Permission, Group
 from django.contrib.contenttypes.models import ContentType
 
+from wayneapp.models import AbstractBusinessEntity
+
 
 class PermissionManager:
 
@@ -36,8 +38,9 @@ class PermissionManager:
     def _remove_underscores(self, string: str) -> str:
         return string.replace('_', '')
 
+    @staticmethod
     def create_group_and_permission_for_view_access(sender, **kwargs):
-        content_type, created = ContentType.objects.get_or_create(app_label='wayneapp', model='business_entity')
+        content_type = ContentType.objects.get_for_model(AbstractBusinessEntity)
         permission, created = Permission.objects.get_or_create(
             name='Can view all business entities',
             codename='view_business_entities',
