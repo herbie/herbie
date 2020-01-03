@@ -42,7 +42,72 @@ After the boot-process is finished switch to your browser and check: [http://loc
 
 _Note:_ Please make sure that port 8000 is not blocked by another service on your host-machine.
 
+# How to setup wayne for your project?
+### 1 Clone/Fork
+In order to setup a Wayne-Project from scratch you can either fork or clone the repository. We suggest you to fork the project, 
+because like that you have a separate repository so you can make custom modifications (e.g. change the messaging provider) 
+and at the same time receive changes from the official repository in an easy manner
 
+### 2 Add Business Entities Schemas Package
+Next step is to define your schemas for your business entities and integrate them with Wayne. There are 2 choices, having a different
+repository for your schemas and load them to wayne as a python package with pip, or adding them directly to the Wayne as a python package
+
+##### Business Entities Schemas package folders structure
+```
+---business_entities_schemas
+        init.py 
+        ------  business_entity1
+                    ------- business_entity1_v1.json
+                    ------- business_entity1_v2.json    
+        ------  business_entity2
+```
+##### example
+```
+---wayne-json-schema
+        init.py
+        ------  customer
+                    ------- customer_v1.json
+                    ------- customer_v2.json    
+        ------  product
+                    ------- product_v1.json
+```
+https://github.com/project-a/wayne-json-schema
+
+
+##### Different Github Repository
+- Create a github repository
+- In requirements.txt file append your schemas repository url in order for pip to collect your package.
+(e.g.  git+https://github.com/project-a/wayne-json-schema.git)
+- In setting.py file of Wayne project assign your package name to the 'SCHEMA_REGISTRY_PACKAGE' variable
+
+(Keep in mind that in case of a private repository, it also needs to provide a private ssh key to the docker container and pull the project with ssh in order for Wayne
+to have access on the repository. For the developing process you can directly provide you personal private ssh key but for production you need to create a new one
+for Wayne)
+
+##### Add them directly to the Project
+- Add/Create your package to the root folder of Wayne Project.
+- In setting.py file of Wayne project assign your package name to the 'SCHEMA_REGISTRY_PACKAGE' variable
+
+# Run Wayne on Docker
+- Clone the project(from your forked or the official repository)
+- Build and run Wayne
+```
+docker-compose up -d --build
+```
+- Connect to wayne-app container
+```
+docker exec -it wayne-app bash
+```
+- Generate business object model classes from your schemas package
+```
+python manage.py generatemodels
+```
+
+- Create and execute migration files to initialize your database
+```
+python manage.py makemigrations
+python manage.py migrate
+```
 
 ## How to generate business object model classes
 Model classes can be generated based on the JSON schema definitions by running this command:
@@ -78,5 +143,4 @@ Zookeeper images in the [docker-compose.yml](docker-compose.yml).
 
 
 ## Wayne - Development
-
 - [PyCharm Configuration](docs/pycharm_config.md)
