@@ -18,10 +18,10 @@ Each business entity represent a channel/topic and has
 4 different permissions (add, change, delete, view)
 
 Example for Customer business entity:
-wayneapp | customer | Can add customer
-wayneapp | customer | Can change customer
-wayneapp | customer | Can delete customer
-wayneapp | customer | Can view customer
+herbieapp | customer | Can add customer
+herbieapp | customer | Can change customer
+herbieapp | customer | Can delete customer
+herbieapp | customer | Can view customer
 
 For save requests (api/<business_entity>/save) you need to have both add and change permissions 
 ```

@@ -8,7 +8,7 @@ To start the consumer script locally, build and run the docker image:
 ```
 cd examples/consumer/
 docker build -t "exampleconsumer" .
-docker run --net wayne_wayne-network exampleconsumer
+docker run --net herbie_herbie-network exampleconsumer
 ```
 
-(The wayne container should also be running, so that the consumer can connect to the wayne-kafka)
+(The herbie container should also be running, so that the consumer can connect to the herbie-kafka)

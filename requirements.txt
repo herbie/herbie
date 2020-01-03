@@ -5,7 +5,7 @@ django-model-utils==4.0.0
 djangorestframework==3.11.0
 pytz==2019.3
 sqlparse==0.3.0
-git+https://github.com/project-a/wayne-json-schema.git
+git+https://github.com/project-a/herbie-json-schema.git
 jsonschema==3.2.0
 django-environ==0.4.5
 social-auth-app-django==3.1.0

@@ -2,17 +2,17 @@ version: '3'
 
 services:
 
-  wayne-app:
-    container_name: 'wayne-app'
+  herbie-app:
+    container_name: 'herbie-app'
     build: .
     volumes:
       - '.:/data/www'
     depends_on:
-      - 'wayne-zookeeper'
-      - 'wayne-kafka'
-      - 'wayne-db'
+      - 'herbie-zookeeper'
+      - 'herbie-kafka'
+      - 'herbie-db'
     environment:
-      - 'DATABASE_URL=postgres://user:password@wayne-db:5432/wayne_db'
+      - 'DATABASE_URL=postgres://user:password@herbie-db:5432/herbie_db'
       - 'SECRET_KEY=thisisasecret'
       - 'SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=1085816269462-7lhdascr5pbssj2bb5u2hfr1bf10pak0.apps.googleusercontent.com'
       - 'SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=YrgT3gNXxRj_qnBuKPIu4hEI'
@@ -21,50 +21,50 @@ services:
     ports:
       - '8000:8000'
     networks:
-      - 'wayne-network'
+      - 'herbie-network'
 
-  wayne-db:
-    container_name: 'wayne-db'
+  herbie-db:
+    container_name: 'herbie-db'
     image: 'postgres:11.5'
     volumes:
       - 'db-data:/var/lib/postgresql/data'
     environment:
-      - 'POSTGRES_DB=wayne_db'
+      - 'POSTGRES_DB=herbie_db'
       - 'POSTGRES_USER=user'
       - 'POSTGRES_PASSWORD=password'
     ports:
       - '5433:5432'
     networks:
-      - 'wayne-network'
+      - 'herbie-network'
 
-  wayne-zookeeper:
-    container_name: 'wayne-zookeeper'
+  herbie-zookeeper:
+    container_name: 'herbie-zookeeper'
     image: 'wurstmeister/zookeeper'
     ports:
       - '2181:2181'
     networks:
-      - 'wayne-network'
+      - 'herbie-network'
 
-  wayne-kafka:
-    container_name: 'wayne-kafka'
+  herbie-kafka:
+    container_name: 'herbie-kafka'
     image: 'wurstmeister/kafka'
     ports:
       - '9092:9092'
     environment:
-      KAFKA_ADVERTISED_LISTENERS: 'INSIDE://wayne-kafka:9093,OUTSIDE://localhost:9092'
+      KAFKA_ADVERTISED_LISTENERS: 'INSIDE://herbie-kafka:9093,OUTSIDE://localhost:9092'
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT'
       KAFKA_LISTENERS: 'INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092'
       KAFKA_INTER_BROKER_LISTENER_NAME: 'INSIDE'
-      KAFKA_ZOOKEEPER_CONNECT: 'wayne-zookeeper:2181'
+      KAFKA_ZOOKEEPER_CONNECT: 'herbie-zookeeper:2181'
     depends_on:
-      - 'wayne-zookeeper'
+      - 'herbie-zookeeper'
     networks:
-      - 'wayne-network'
+      - 'herbie-network'
 
 volumes:
   db-data:
     driver: 'local'
 
 networks:
-  wayne-network:
+  herbie-network:
     driver: 'bridge'

@@ -16,7 +16,7 @@
 1.2) Configuration steps
 	→ new Docker Server (if not one already exist)
 	→ Configuration file(s) : ./docker-compose.yml
-	→ Service : wayne-app
+	→ Service : herbie-app
 	→ click ok 
 ```
 ### 2) Configure Django Server
@@ -30,7 +30,7 @@
 	→ create a Django Server (if not one already exist)
 	→ Host : 0.0.0.0
 	→ Port : 8000
-	→ add variable DJANGO_SETTINGS_MODULE=wayne.settings
+	→ add variable DJANGO_SETTINGS_MODULE=herbie.settings
 	→ Python interpreter : choose the remote interpreter that you created before 
 	→ Working directory : /data/www
 ```
