@@ -14,10 +14,6 @@ services:
     environment:
       - 'DATABASE_URL=postgres://user:password@herbie-db:5432/herbie_db'
       - 'SECRET_KEY=thisisasecret'
-      - 'SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=1085816269462-7lhdascr5pbssj2bb5u2hfr1bf10pak0.apps.googleusercontent.com'
-      - 'SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=YrgT3gNXxRj_qnBuKPIu4hEI'
-      - 'SOCIAL_AUTH_GITHUB_KEY=0afc5297c8e8e21b1737'
-      - 'SOCIAL_AUTH_GITHUB_SECRET=ce263d98c06c25c9b0126d41ffc6642a3f3dc6b1'
     ports:
       - '8000:8000'
     networks:
