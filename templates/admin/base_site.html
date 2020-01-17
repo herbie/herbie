@@ -8,17 +8,8 @@
 
 <style>
   /* GLOBAL */
-  * {
-    box-sizing: border-box;
-  }
-
-  *::before,
-  *::after {
-    box-sizing: inherit;
-    font-family: inherit;
-  }
-
-  body {
+  html {
+    /* COLOR PALLETTE */
     --color-blue-persian: #1717e5;
 
     --color-black: #000;
@@ -34,6 +25,12 @@
     --color-media-watch: #ff7d0d;
     --color-media-read: #f2330d;
     --color-media-join: #ff0d4f;
+    --color-border-standard: rgba(255, 255, 255, 0.3);
+    /*  */
+
+    /* TYPOGRAPHY */
+    --font-family-standard: "IBM Plex Sans", sans-serif;
+    --font-family-mono: "IBM Plex Mono", "Courier New", Courier, monospace;
 
     --font-size-orange: 32px;
     --line-height-orange: 44px;
@@ -44,15 +41,29 @@
     --font-size-peach: 16px;
     --line-height-peach: 24px;
 
+    /*  */
+
+    /* SPACING */
     --page-max-width: 1140px;
-    --line-transparency: 0.4;
+    --padding-standard: 16px;
+    /*  */
 
-    --standard-padding: 16px;
+    /* OTHER */
+    --border-radius-standard: 4px;
+    /*  */
+  }
 
-    --standard-border-color: rgba(255, 255, 255, 0.3);
+  * {
+    box-sizing: border-box;
+  }
 
-    font-family: "IBM Plex Sans", sans-serif;
+  *::before,
+  *::after {
+    box-sizing: inherit;
+    font-family: inherit;
+  }
 
+  body {
     color: var(--color-white);
     background: radial-gradient(
       circle at center,
@@ -64,8 +75,6 @@
     /*background-color:var(--color-black)*/
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
-
-    /* font-family: 'IBM Plex Mono', 'Courier New', Courier, monospace; */
   }
 
   body *,
@@ -75,6 +84,11 @@
     font-weight: inherit;
     color: inherit !important;
     background-color: inherit !important;
+  }
+
+  .warning {
+    color: var(--color-media-watch) !important;
+    font-size: var(--font-size-peach) !important;
   }
 
   /* */
@@ -134,8 +148,12 @@
   /* MAIN CONTENT */
   #container #content {
     width: auto;
-    padding: 0;
-    padding: var(--standard-padding);
+    padding: 0 var(--padding-standard);
+  }
+
+  #container #content > * {
+    padding-left: 16px;
+    padding-right: 0;
   }
 
   #container #content h1 {
@@ -152,14 +170,27 @@
     padding: 16px;
   }
 
+  #container .breadcrumbs {
+    padding: 0 calc(var(--padding-standard) * 2);
+  }
+
   .module {
     margin-bottom: 92px;
+  }
+
+  fieldset.module {
+    padding: 0;
+  }
+
+  fieldset.module > * {
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .module * {
     font-size: var(--font-size-peach);
     line-height: var(--line-height-peach);
-    border-color: var(--standard-border-color);
+    border-color: var(--color-border-standard);
   }
 
   #content .module h2,
@@ -168,6 +199,149 @@
     padding: 0;
     margin: 0;
   }
+
+  #content form .submit-row {
+    border: none;
+  }
+
+  #content form .submit-row > * {
+    border: 1px solid var(--color-border-standard);
+    height: auto;
+    margin: 0;
+  }
+
+  #content form .submit-row > *:hover {
+    background-color: var(--color-blue-persian) !important;
+  }
+
+  #changelist > * {
+    width: 100%;
+  }
+
+  #changelist * {
+    border-color: var(--color-border-standard) !important;
+  }
+
+  #changelist #result_list thead {
+    padding: 16px 0;
+  }
+
+  #changelist .results {
+    width: 100%;
+  }
+
+  /* #changelist .results .sortable a {
+    padding: var(--padding-standard) 0;
+  }
+
+  #changelist .results .sortoptions {
+    padding: var(--padding-standard) 0;
+  } */
+
+  #changelist .paginator {
+    border: none;
+    padding: var(--padding-standard) 0 !important;
+  }
+
+  #changelist #changelist-filter {
+    position: static;
+    padding: var(--padding-standard) 0;
+  }
+
+  #changelist #changelist-form > * {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  #changelist-form .actions {
+    width: 100%;
+  }
+
+  #changelist-filter h2 {
+    font-size: var(--font-size-peach);
+    margin-bottom: 16px !important;
+    font-weight: bold;
+    border-bottom: 1px solid var(--color-border-standard);
+  }
+
+  #changelist-search div {
+    display: flex;
+    align-items: center;
+  }
+  #changelist-search label {
+    display: none;
+  }
+
+  #changelist-search input[type="text"] {
+    padding: 16px 0 !important;
+    margin-left: 0 !important;
+  }
+
+  #changelist-search div > * {
+    margin-left: 8px !important;
+  }
+
+  #changelist-search div > *:first-child {
+    margin-left: 0 !important;
+  }
+
+  #changelist #toolbar {
+    width: 100%;
+    border: none;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  #changelist-filter h3 {
+    font-size: var(--font-size-peach);
+    padding: 4px 0 !important;
+  }
+
+  #changelist-filter h3::after {
+    content: ":";
+  }
+
+  #changelist-filter ul {
+    display: flex;
+    padding: 0;
+    border: none;
+    margin-bottom: 16px;
+  }
+
+  #changelist-filter li {
+    margin-left: 150px !important;
+    padding: 0 !important;
+  }
+
+  #changelist-filter li:first-child {
+    margin-left: 0 !important;
+  }
+
+  #changelist-filter li.selected {
+    border: none;
+    border-bottom: 1px solid var(--color-border-standard);
+    font-weight: bold;
+  }
+
+  #changelist-filter li a:hover {
+    color: var(--color-blue-persian) !important;
+  }
+
+  #content .addlink,
+  #content .changelink,
+  #content .viewlink {
+    background: none;
+    padding: 8px 12px;
+    border-radius: var(--border-radius-standard);
+    border: 1px solid var(--color-border-standard) !important;
+  }
+
+  #content .addlink:hover,
+  #content .changelink:hover,
+  #content .viewlink:hover {
+    background-color: var(--color-blue-persian) !important;
+  }
+
   /* */
 
   /* DASHBOARD */
@@ -196,7 +370,8 @@
   }
 
   .dashboard #container caption {
-    border-bottom: 1px solid var(--standard-border-color);
+    border-bottom: 1px solid var(--color-border-standard);
+    font-weight: bold;
   }
 
   .dashboard #container th,
@@ -205,57 +380,77 @@
   }
 
   .dashboard #container #content #recent-actions-module h2 {
-    border-bottom: 1px solid var(--standard-border-color);
+    border-bottom: 1px solid var(--color-border-standard);
     margin-bottom: 16px;
-    padding: 16px 0;
+    padding: 0;
   }
 
   .dashboard #container #content #recent-actions-module h3 {
     display: none;
   }
 
-  .dashboard #content .addlink,
-  .dashboard #content .changelink,
-  .dashboard #content .viewlink {
-    background: none;
-    padding: 8px 12px;
-    border-radius: 25%;
-  }
-
-  .dashboard #content .addlink:hover,
-  .dashboard #content .changelink:hover,
-  .dashboard #content .viewlink:hover {
-    background: radial-gradient(
-      var(--color-blue-persian) 0%,
-      transparent 100%
-    ) !important;
-  }
-
-  .dashboard #content .addlink {
-    background: radial-gradient(
-      var(--color-media-listen) 0%,
-      transparent 100%
-    ) !important;
-  }
-
-  .dashboard #content .changelink {
-    background: radial-gradient(
-      var(--color-media-watch) 0%,
-      transparent 100%
-    ) !important;
-  }
-
-  .dashboard #content .viewlink {
-    background: radial-gradient(
-      var(--color-media-join) 0%,
-      transparent 100%
-    ) !important;
-  }
-
-  /* .dashboard a:hover {
-    text-transform: uppercase;
+  .dashboard #content th a {
     font-weight: bold;
-  } */
+    transition: border 0.3s ease-in-out;
+  }
+
+  .dashboard #content th a:hover,
+  .dashboard #content caption a:hover {
+    border-bottom: none;
+    text-decoration: none;
+    color: var(--color-blue-persian) !important;
+  }
+
+  /* */
+
+  /* SCHEMA DETAILS PAGE */
+  #schema_form {
+    padding: 0;
+  }
+
+  .field-json_schema #json-renderer {
+    font-family: var(--font-family-mono);
+    line-height: 32px;
+    padding: 0;
+    font-size: var(--font-size-peach);
+    background: black !important;
+  }
+
+  .field-json_schema #json-renderer * {
+    line-height: inherit;
+    font-size: inherit;
+    border-color: var(--color-border-standard);
+  }
+
+  #json-renderer ul {
+    margin-left: 32px;
+  }
+
+  #json-renderer li {
+    font-weight: bold;
+  }
+
+  #json-renderer .json-string {
+    font-weight: normal;
+  }
+
+  a.json-string {
+    /* color: var(--color-blue-persian) !important; */
+  }
+
+  span.json-string {
+    /* color: var(--color-blue-persian) !important; */
+  }
+
+  #content-main .historylink {
+    border: 1px solid var(--color-border-standard);
+    border-radius: var(--border-radius-standard);
+  }
+
+  #content-main .historylink:hover {
+    background-color: var(--color-blue-persian) !important;
+  }
+  /*  */
 </style>
 
 {% endblock %}
