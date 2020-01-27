@@ -11,7 +11,7 @@ class SchemaImporter:
     def import_schemas(self):
         schema_list = self._schema_package.get_all_json_schemas()
 
-        if len(schema_list) is 0:
+        if len(schema_list) == 0:
             self._logger.error('No schemas defined!')
             return 0
 

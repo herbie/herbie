@@ -4,12 +4,12 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from herbieapp.controllers import PermissionManager
-from herbieapp.services import BusinessEntityManager, settings
+from herbieapp.services import BusinessEntityHandler, settings
 
 
 class TestDeleteBusinessEntityController(TestCase):
 
-    @patch.object(BusinessEntityManager, 'delete', return_value=1)
+    @patch.object(BusinessEntityHandler, 'delete', return_value=1)
     @patch.object(PermissionManager, 'has_delete_permission', return_value=True)
     def test_delete_business_entity_should_work(self, permission_manager, entity_manager):
         data = {
@@ -23,7 +23,7 @@ class TestDeleteBusinessEntityController(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    @patch.object(BusinessEntityManager, 'delete', side_effect=Exception('Test'))
+    @patch.object(BusinessEntityHandler, 'delete', side_effect=Exception('Test'))
     @patch.object(PermissionManager, 'has_delete_permission', return_value=True)
     def test_delete_business_entity_should_fail(self, mock_manager, mock_controller):
         data = {
@@ -38,7 +38,7 @@ class TestDeleteBusinessEntityController(TestCase):
 
             self.assertEqual(response.status_code, status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    @patch.object(BusinessEntityManager, 'delete', side_effect=Exception('Test'))
+    @patch.object(BusinessEntityHandler, 'delete', side_effect=Exception('Test'))
     @patch.object(PermissionManager, 'has_delete_permission', return_value=False)
     def test_delete_business_entity_should_fail_unauthorized(self, mock_manager, mock_controller):
         data = {
@@ -53,7 +53,7 @@ class TestDeleteBusinessEntityController(TestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertEqual(response.data, {'message': 'unauthorized'})
 
-    @patch.object(BusinessEntityManager, 'delete_by_key', return_value=2)
+    @patch.object(BusinessEntityHandler, 'delete_by_key', return_value=2)
     @patch.object(PermissionManager, 'has_delete_permission', return_value=True)
     def test_delete_business_entity_all_versions_success(self, mock_manager, mock_controller):
         data = {
@@ -67,7 +67,7 @@ class TestDeleteBusinessEntityController(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, {'message': 'entity with key x-id deleted from all versions'})
 
-    @patch.object(BusinessEntityManager, 'delete_by_key', return_value=0)
+    @patch.object(BusinessEntityHandler, 'delete_by_key', return_value=0)
     @patch.object(PermissionManager, 'has_delete_permission', return_value=True)
     def test_delete_business_entity_all_versions_fail(self, mock_manager, mock_controller):
         data = {
@@ -81,7 +81,7 @@ class TestDeleteBusinessEntityController(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, {'message': 'entity with key x-id not found'})
 
-    @patch.object(BusinessEntityManager, 'delete_by_key', return_value=2)
+    @patch.object(BusinessEntityHandler, 'delete_by_key', return_value=2)
     @patch.object(PermissionManager, 'has_delete_permission', return_value=False)
     def test_delete_business_entity_all_versions_fail_unauthorized(self, mock_manager, mock_controller):
         data = {

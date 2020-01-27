@@ -6,5 +6,17 @@ class Customer(AbstractBusinessEntity):
     pass
 
 
+class Price(AbstractBusinessEntity):
+    pass
+
+
 class Product(AbstractBusinessEntity):
+    pass
+
+
+class ProductDescription(AbstractBusinessEntity):
+    pass
+
+
+class Stock(AbstractBusinessEntity):
     pass

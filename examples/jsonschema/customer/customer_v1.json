@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://herbie.json-schema/customer/customer_v1.json",
+  "title": "Customer",
+  "description": "Customer info",
+  "type": "object",
+  "properties": {
+    "customerId": {
+      "description": "The unique identifier for a customer",
+      "type": "string"
+    },
+    "firstName": {"type": "string"},
+    "lastName": {"type": "string"}
+  },
+  "required": [ "firstName" ],
+  "additionalProperties": false
+}
