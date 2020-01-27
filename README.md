@@ -54,22 +54,24 @@ repository for your schemas and load them to herbie as a python package with pip
 
 ##### Business Entities Schemas package folders structure
 ```
----business_entities_schemas
-        init.py 
-        ------  business_entity1
-                    ------- business_entity1_v1.json
-                    ------- business_entity1_v2.json    
-        ------  business_entity2
+.
+└── business_entities_schemas
+    ├── init.py 
+    ├── business_entity1
+    │   ├── business_entity1_v1.json
+    │   └── business_entity1_v2.json    
+    └── business_entity2
 ```
 ##### example
 ```
----herbie-json-schema
-        init.py
-        ------  customer
-                    ------- customer_v1.json
-                    ------- customer_v2.json    
-        ------  product
-                    ------- product_v1.json
+.
+└── herbie-json-schema
+    ├── init.py
+    ├── customer
+    │   ├── customer_v1.json
+    │   └── customer_v2.json    
+    └── product
+        └── product_v1.json
 ```
 https://github.com/project-a/herbie-json-schema
 
