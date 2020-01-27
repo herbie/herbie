@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from herbieapp.controllers import PermissionManager
-from herbieapp.services import BusinessEntityManager, settings
+from herbieapp.services import BusinessEntityHandler, settings
 
 
 class TestSaveBusinessEntityController(TestCase):
@@ -25,7 +25,7 @@ class TestSaveBusinessEntityController(TestCase):
         super(TestSaveBusinessEntityController, cls).setUpClass()
         settings.SCHEMA_REGISTRY_PACKAGE = 'herbieapp.tests.test_schema'
 
-    @patch.object(BusinessEntityManager, 'update_or_create', return_value=True)
+    @patch.object(BusinessEntityHandler, 'save', return_value=True)
     @patch.object(PermissionManager, 'has_save_permission', return_value=True)
     def test_save_business_entity_should_work(self, mock_manager, mock_controller):
         self.client.force_authenticate(user=None)
@@ -33,7 +33,7 @@ class TestSaveBusinessEntityController(TestCase):
         self.assertEqual(response.data, {'message': 'entity with key x-id created in version v1'})
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    @patch.object(BusinessEntityManager, 'update_or_create', return_value=False)
+    @patch.object(BusinessEntityHandler, 'save', return_value=False)
     @patch.object(PermissionManager, 'has_save_permission', return_value=True)
     def test_update_business_entity_should_work(self, mock_manager, mock_controller):
         self.client.force_authenticate(user=None)
@@ -41,7 +41,7 @@ class TestSaveBusinessEntityController(TestCase):
         self.assertEqual(response.data, {'message': 'entity with key x-id updated in version v1'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    @patch.object(BusinessEntityManager, 'update_or_create', return_value=False)
+    @patch.object(BusinessEntityHandler, 'save', return_value=False)
     @patch.object(PermissionManager, 'has_save_permission', return_value=True)
     def test_save_business_entity_with_no_exist_version_should_fail(self, mock_manager, mock_controller):
         self.data['version'] = 'v111h'
@@ -50,7 +50,7 @@ class TestSaveBusinessEntityController(TestCase):
         self.assertEqual(response.data, {'message': 'version v111h does not exist'})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    @patch.object(BusinessEntityManager, 'update_or_create', return_value=False)
+    @patch.object(BusinessEntityHandler, 'save', return_value=False)
     @patch.object(PermissionManager, 'has_save_permission', return_value=True)
     def test_save_business_entity_with_no_exist_schema_should_fail(self, mock_manager, mock_controller):
         self.client.force_authenticate(user=None)
@@ -58,7 +58,7 @@ class TestSaveBusinessEntityController(TestCase):
         self.assertEqual(response.data, {'message': 'business entity abc does not exist'})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    @patch.object(BusinessEntityManager, 'update_or_create', return_value=False)
+    @patch.object(BusinessEntityHandler, 'save', return_value=False)
     @patch.object(PermissionManager, 'has_save_permission', return_value=True)
     def test_save_business_entity_with_invalid_json_should_fail(self, mock_manager, mock_controller):
         data = {
@@ -73,7 +73,7 @@ class TestSaveBusinessEntityController(TestCase):
         self.assertEqual(response.data['message']['name']['error_message'], '\'name\' is a required property')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    @patch.object(BusinessEntityManager, 'update_or_create', return_value=False)
+    @patch.object(BusinessEntityHandler, 'save', return_value=False)
     @patch.object(PermissionManager, 'has_save_permission', return_value=False)
     def test_save_business_entity_unauthorized_user_should_fail(self, mock_manager, mock_controller):
         client = APIClient()

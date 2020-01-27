@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
+import logging
 import os
 import environ
 
@@ -19,7 +19,7 @@ env = environ.Env()
 APP_LABEL = 'herbieapp'
 
 # Json schema package for validation of business objects
-SCHEMA_REGISTRY_PACKAGE = 'herbie_json_schema'
+SCHEMA_REGISTRY_PACKAGE = 'examples.jsonschema'
 
 # chunk size for exporting data
 DEFAULT_CHUNK_SIZE = 100
@@ -129,8 +129,8 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'console': {
-            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-            'datefmt' : "%d/%b/%Y %H:%M:%S"
+            'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt': "%d/%b/%Y %H:%M:%S"
         }
     },
     'handlers': {

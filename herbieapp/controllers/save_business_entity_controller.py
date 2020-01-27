@@ -1,22 +1,26 @@
+import logging
+
+from django.contrib.auth.models import Permission, AnonymousUser
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-import logging
+from rest_framework.permissions import IsAuthenticated
+
 from herbieapp.constants import ControllerConstants as Constants
 from herbieapp.controllers.utils import ControllerUtils
-from herbieapp.services import BusinessEntityManager, SchemaRegistry, JsonSchemaValidator
-from rest_framework.permissions import IsAuthenticated
+from herbieapp.services import SchemaRegistry, JsonSchemaValidator
+from herbieapp.services.business_entity_handler import BusinessEntityHandler
 
 from herbieapp.services.permission_manager import PermissionManager
 
 
 class SaveBusinessEntityController(APIView):
-    _entity_manager = None
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self._entity_manager = BusinessEntityManager()
+        self._entity_handler = BusinessEntityHandler()
         self._logger = logging.getLogger(__name__)
         self._validator = JsonSchemaValidator()
         self._schema_registry = SchemaRegistry()
@@ -45,7 +49,7 @@ class SaveBusinessEntityController(APIView):
         if error_messages:
             return ControllerUtils.custom_response(error_messages, status.HTTP_400_BAD_REQUEST)
 
-        created = self._entity_manager.update_or_create(
+        created = self._entity_handler.save(
             business_entity, key, version, request.user, payload
         )
 

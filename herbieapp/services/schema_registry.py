@@ -9,6 +9,10 @@ class SchemaRegistry:
 
         return schema.content
 
+    def find_composite_schemas(self, entity_type_name: str) -> [Schema]:
+        """ finds all schemas that are a composition with the given entity_type as one part of the composition"""
+        return Schema.objects.filter(content__composition__contains=[{'businessEntity': entity_type_name}]).all()
+
     def get_all_schema_names(self):
         schema_names = Schema.objects.values_list('name', flat=True).distinct()
 

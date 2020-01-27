@@ -7,17 +7,15 @@ from rest_framework.views import APIView
 import logging
 from herbieapp.constants import ControllerConstants as Constants
 from herbieapp.controllers.utils import ControllerUtils
-from herbieapp.services import BusinessEntityManager, JsonSchemaValidator
+from herbieapp.services import BusinessEntityHandler, JsonSchemaValidator
 from herbieapp.services.permission_manager import PermissionManager
 
 
 class DeleteBusinessEntityController(APIView):
 
-    _entity_manager = None
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self._entity_manager = BusinessEntityManager()
+        self._entity_handler = BusinessEntityHandler()
         self._logger = logging.getLogger(__name__)
         self._validator = JsonSchemaValidator()
         self._permission_classes = (IsAuthenticated,)
@@ -37,7 +35,7 @@ class DeleteBusinessEntityController(APIView):
         return self._delete_from_version(body, business_entity, key)
 
     def _delete_all_versions(self, business_entity, key) -> Response:
-        number_of_deleted_objects = self._entity_manager.delete_by_key(
+        number_of_deleted_objects = self._entity_handler.delete_by_key(
             business_entity, key
         )
 
@@ -55,7 +53,7 @@ class DeleteBusinessEntityController(APIView):
                 Constants.VERSION_NOT_EXIST.format(version),
                 status.HTTP_400_BAD_REQUEST
             )
-        number_of_deleted_objects = self._entity_manager.delete(business_entity, key, version)
+        number_of_deleted_objects = self._entity_handler.delete(business_entity, key, version)
 
         message = Constants.DELETE_FROM_VERSION_MESSAGE if number_of_deleted_objects > 0 \
             else Constants.DELETE_FROM_VERSION_MESSAGE_NOT_FOUND

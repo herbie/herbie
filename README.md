@@ -144,5 +144,8 @@ Then you can also remove or replace the Kafka connection settings in
 Zookeeper images in the [docker-compose.yml](docker-compose.yml).
 
 
+## Combining Business Entities
+- [How to automatically combine multiple business entities into a new entity](docs/combining_business_entities.md)
+
 ## Herbie - Development
 - [PyCharm Configuration](docs/pycharm_config.md)

@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://herbie.json-schema/product_description/product_description_v1.json",
+  "title": "Product Description",
+  "description": "product description",
+  "type": "object",
+  "properties": {
+    "productId": {"type": "string"},
+    "name": {"type": "string"},
+    "description": {"type": "string"},
+    "imageUrl": {"type": "string"}
+  },
+  "required": [ "productId", "name" ]
+}
