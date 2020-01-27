@@ -2,97 +2,160 @@
 
 [![Build Status](https://travis-ci.org/project-a/herbie.svg?branch=master)](https://travis-ci.org/project-a/herbie)
 
+## What is Herbie?
+Herbie is an abstract data layer that makes it easier to exchange data across distributed systems. You define business entities such as “customer” or “order” as JSON schemas which you store in a central schema registry. Herbie can listen for data updates in one system and publish new data to other systems based on your business rules. 
+
+## Why should you use Herbie
+It simplifies the process of building integrations and connectors for all your systems. Maybe you want to build a connector between MailChimp and Salesforce, but also between MailChimp and Shopify, and maybe also between Salesforce and Shopify. Each time, you have to customize your connector to the requirements of the two systems. What if all your systems connected to one central data layer? - that’s Herbie. 
+ 
+Once all your systems are connected to Herbie, they can then talk to one another. Once the system can subscribe to changes in another system. Just updated your contacts in Salesforce? Your MailChimp connector can listen for the changes and update the Mailchimp database accordingly.
+
 
 ## Overview
 
-Two Problems that can often be observed in a distributed service architecture are:
-
-A. **Too many dependencies** between services.
-
-B. No common **platform-wide definition** of a data object or business entity.
-
-Herbie approaches those problems with the idea of a _schema registry combined with a central data store_ for business 
+Herbie uses a _schema registry_ combined with a _central data store_ for business 
 entities. 
-It is built with Django and comes with a simple API to create business entities. The integration of _json-schema_ 
-allows to define custom schema definitions, that will be used to validate the entities. A service that
-needs updates of a certain entity-type is also able to subscribe to _event-streams_, the default technology 
-for that is Kafka.
+* It's built with _Django_ and comes with a simple API to create business entities.
+* The _json-schema_ integration allows you to define custom schema definitions which Herbie uses to validate the entities. 
+* By default, Herbie uses _Kafka_ to provide _event streams_ — your services can subscribe to these event streams and find out when a certain entity-type is updated.
 
-The philosophy behind Herbie is to avoid behavior that appears to a developers as "magic" and instead is built in very
+    However, you don't have to use Kafka - you can also update Herbie to [use your preferred messaging system](#changing-the-messaging-system).
+
+The philosophy behind Herbie is to avoid behavior that seems like a "black box" and is instead built in very
 straightforward way, following Django best practices. It is also meant to be extendable and easy to adapt.
 
 **Further reading:**
 
-- [Core Concepts of Herbie](docs/core_concepts.md)
+- [Core Concepts](docs/core_concepts.md)
 
+## Prerequisites
+* [Docker](https://docs.docker.com/install/#server)
+* [Docker Compose](https://docs.docker.com/compose/install/)
+* Basic knowlegde of Django and Python.
 
-## Quickstart
+## Quick Start
 
-In order to set up the local environment quickly, you first need to install [docker](https://docs.docker.com/install/#server)
-and [docker-compose](https://docs.docker.com/compose/install/).
-
-Afterwards go to the root-folder of the _herbie-project_ and run:
+1. Install the prerequisites if you haven't already.
+1. After cloning this repository, navigate to the root folder and run:
 `$ docker-compose up -d`
-and then 
-`$ docker logs herbie-app -f` 
-to watch the progress.
 
-After the boot-process is finished switch to your browser and check: [http://localhost:8000](http://localhost:8000)
+   On first run, Docker builds the required images and installs the dependencies listed in [`requirements.txt`](./requirements.txt).
+
+1. Run `$ docker logs herbie-app -f` to start the app and watch the progress.
+1. After the app has booted, connect to herbie-app container:
+
+    ```
+    docker exec -it herbie-app bash
+    ```    
+1. In the container, run the following setup commands:
+
+    1. Generate model classes for the sample business objects that are included in the Herbie [schemas package](https://github.com/project-a/herbie-json-schema).
+  
+        ```
+        python manage.py generatemodels
+        ```
+    1. Create and execute migration files to initialize your database
+  
+        ```
+        python manage.py makemigrations
+        python manage.py migrate
+        ```
+    1. Create an admin user so that you can log in to the admin dashboard.
+       ```
+       python manage.py createsuperuser --username "username" --email "email@email-address.com"
+       ```
+
+1. In your browser, open the admin dashboard at [http://localhost:8000/admin](http://localhost:8000/admin).
+
+    > **_NOTE:_** Make sure that port 8000 isn't blocked by another service on your host machine.
+
+1. Enter the credentials for the admin user that you created in step 5.3 and log in.
 
 
-_Note:_ Please make sure that port 8000 is not blocked by another service on your host-machine.
 
-# How to setup herbie for your project?
-### 1 Clone/Fork
-In order to setup a Herbie-Project from scratch you can either fork or clone the repository. We suggest you to fork the project, 
-because like that you have a separate repository so you can make custom modifications (e.g. change the messaging provider) 
-and at the same time receive changes from the official repository in an easy manner
 
-### 2 Add Business Entities Schemas Package
-Next step is to define your schemas for your business entities and integrate them with Herbie. There are 2 choices, having a different
-repository for your schemas and load them to herbie as a python package with pip, or adding them directly to the Herbie as a python package
+# How to set up your own Herbie project
 
-##### Business Entities Schemas package folders structure
+## 1. Either fork or clone this repository
+
+We suggest you to fork the project, 
+because you'll be able to make custom modifications (e.g. change the messaging provider) but you'll also get changes from the official repository.
+
+## 2. Define your business entities and integrate them with Herbie
+    
+You define your business entities with JSON schemas. There are two ways to define your business entities:
+
+1. Create a separate repository for your schemas and use pip to load them into Herbie as a Python package.
+
+1. Store your schemas in a Python package that lives directly in your Herbie repository.
+
+
+### Package structure
+
+Regardless of your preferred option, you should structure your package according to the following template:
+
 ```
-.
-└── business_entities_schemas
-    ├── init.py 
-    ├── business_entity1
-    │   ├── business_entity1_v1.json
-    │   └── business_entity1_v2.json    
-    └── business_entity2
+---business_entities_schemas
+        init.py 
+        ------  business_entity1
+                    ------- business_entity1_v1.json
+                    ------- business_entity1_v2.json    
+        ------  business_entity2
 ```
-##### example
+
+You can also refer to the sample in the default [Herbie schema repostory](https://github.com/project-a/herbie-json-schema) as a guideline.
+
+This sample contains schema definitions for the business entities 'customer' and 'product':
+
 ```
-.
-└── herbie-json-schema
-    ├── init.py
-    ├── customer
-    │   ├── customer_v1.json
-    │   └── customer_v2.json    
-    └── product
-        └── product_v1.json
+---herbie-json-schema
+        init.py
+        ------  customer
+                    ------- customer_v1.json
+                    ------- customer_v2.json    
+        ------  product
+                    ------- product_v1.json
 ```
-https://github.com/project-a/herbie-json-schema
 
 
-##### Different Github Repository
-- Create a github repository
-- In requirements.txt file append your schemas repository url in order for pip to collect your package.
-(e.g.  git+https://github.com/project-a/herbie-json-schema.git)
-- In setting.py file of Herbie project assign your package name to the 'SCHEMA_REGISTRY_PACKAGE' variable
 
-(Keep in mind that in case of a private repository, it also needs to provide a private ssh key to the docker container and pull the project with ssh in order for Herbie
-to have access on the repository. For the developing process you can directly provide you personal private ssh key but for production you need to create a new one
-for Herbie)
+### 2.1 Using a Separate Github Repository
 
-##### Add them directly to the Project
-- Add/Create your package to the root folder of Herbie Project.
-- In setting.py file of Herbie project assign your package name to the 'SCHEMA_REGISTRY_PACKAGE' variable
+1. Create a new GitHub repository for and commit your schema files according to the previously described package structure.
+1. In your main Herbie repository, update the dependencies so that Herbie uses your new schema package. 
+
+    * In [`requirements.txt`](./requirements.txt), locate the following line and replace it with the location of your schema package.
+    
+        `git+https://github.com/project-a/herbie-json-schema.git`
+
+        For example:
+    
+        `git+https://github.com/treesus/treesus-schemas.git`
+
+    * In [`herbie/settings.py`](./herbie/settings.py), locate the variable `SCHEMA_REGISTRY_PACKAGE` variable and update the value with the name of your package.
+
+       For example:
+       ```
+       # Json schema package for validation of business objects
+       SCHEMA_REGISTRY_PACKAGE = 'treesus_schemas'
+       ````
+
+    > **_NOTE:_** If you're storing your schemas in a _private_ repository, make sure that you provide the `herbie-app` container with a private ssh key. Then, ensure that you use the ssh to clone the repository on the `herbie-app` container. Otherwise, Herbie will not be able to access your JSON schemas. <br/><br/>
+    During development, it's OK to use a personal ssh key. However, for production, we recommend that you create a dedicated ssh key for the Herbie app.
+
+### 2.2 Storing the schemas package in the main Herbie repository
+1. In the root folder of your Herbie respository, commit your schema files according to the previously described package structure.
+1. In [`herbie/settings.py`](./herbie/settings.py), locate the variable `SCHEMA_REGISTRY_PACKAGE` variable and update the value with the name of your package.
+
+       For example:
+       ```
+       # Json schema package for validation of business objects
+       SCHEMA_REGISTRY_PACKAGE = 'treesus_schemas'
+       ````
 
 # Run Herbie on Docker
-- Clone the project(from your forked or the official repository)
-- Build and run Herbie
+1. Clone the project (from your forked version or from the official repository)
+1. Build and run Herbie
 ```
 docker-compose up -d --build
 ```
@@ -129,7 +192,7 @@ Run the command to import json schemas into db
 ## Admin Panel
 - [How to add social login?](docs/social_login.md)
 
-## How to change the messaging system?
+## Changing the messaging system
 The default Herbie setup uses Kafka (mainly because it's very popular) for distributing
 the business entity messages in a JSON format. But it should be easy to use any other
 messaging system:
