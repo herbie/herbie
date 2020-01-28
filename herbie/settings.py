@@ -28,7 +28,7 @@ DEFAULT_CHUNK_SIZE = 100
 MESSAGING_PROVIDER = env.str('MESSAGING_PROVIDER')
 
 # Google Cloud Pub/Sub
-GCLOUD_PUBSUB_PROJECT_ID = env.str('GCLOUD_PUBSUB_PROJECT_ID')
+GCLOUD_PUBSUB_PROJECT_ID = env.str('GCLOUD_PUBSUB_PROJECT_ID', " ")
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
