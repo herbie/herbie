@@ -1,5 +1,5 @@
 kafka-python==1.4.7
-Django==3.0
+Django==3.0.2
 psycopg2==2.8.4
 django-model-utils==4.0.0
 djangorestframework==3.11.0
