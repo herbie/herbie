@@ -13,8 +13,8 @@ services:
     environment:
       - 'DATABASE_URL=postgres://user:password@herbie-db:5432/herbie_db'
       - 'SECRET_KEY=thisisasecret'
-      - 'GCLOUD_PUBSUB_PROJECT_ID=herbie-app'
       - 'MESSAGING_PROVIDER=google_pub_sub'
+      - 'GCLOUD_PUBSUB_PROJECT_ID=herbie-app'
       - 'PUBSUB_EMULATOR_HOST=herbie-google-pub-sub:8085'
     ports:
       - '8000:8000'

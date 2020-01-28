@@ -14,7 +14,8 @@ class MessagePublisher:
         self._logger = logging.getLogger(__name__)
         if settings.MESSAGING_PROVIDER == 'kafka':
             self.messaging_provider = KafkaPublisher()
-        self.messaging_provider = GooglePubSubPublisher()
+        elif settings.MESSAGING_PROVIDER == 'google_pub_sub':
+            self.messaging_provider = GooglePubSubPublisher()
 
     def send_entity_update_message(self, entity: AbstractBusinessEntity, tags=None):
         if tags is None:

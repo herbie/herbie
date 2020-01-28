@@ -3,7 +3,7 @@ import unittest.mock as mock
 from django.test import TestCase
 
 from herbieapp.models import AbstractBusinessEntity
-from herbieapp.services import MessagePublisher, EntityUpdateMessage, EntityDeleteMessage, KafkaPublisher
+from herbieapp.services import MessagePublisher, EntityUpdateMessage, EntityDeleteMessage, KafkaPublisher, settings
 from herbieapp.tests.services.matcher import Matcher
 
 
@@ -22,6 +22,7 @@ entity = MessageTestEntity(key=key, version=version, data=data)
 class MessagePublisherTestCase(TestCase):
 
     def setUp(self):
+        settings.MESSAGING_PROVIDER = 'kafka'
         self._message_publisher = MessagePublisher()
 
     @mock.patch.object(KafkaPublisher, '_producer')
