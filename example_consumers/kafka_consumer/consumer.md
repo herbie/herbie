@@ -6,9 +6,9 @@ It will continuously read the messages and print them to sys.stdout.
 To start the consumer script locally, build and run the docker image:
 
 ```
-cd examples/consumer/
+cd example_consumers/consumer/
 docker build -t "exampleconsumer" .
 docker run --net herbie_herbie-network exampleconsumer
 ```
 
-(The herbie container should also be running, so that the consumer can connect to the herbie-kafka)
+(The herbie, kafka and zookeper containers should also be running, so that the consumer can connect to the herbie-kafka)

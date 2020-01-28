@@ -17,7 +17,7 @@ Herbie uses a _schema registry_ combined with a _central data store_ for busines
 entities. 
 * It's built with _Django_ and comes with a simple API to create business entities.
 * The _json-schema_ integration allows you to define custom schema definitions which Herbie uses to validate the entities. 
-* By default, Herbie uses _Kafka_ to provide _event streams_ — your services can subscribe to these event streams and find out when a certain entity-type is updated.
+* By default, we provide support for _Kafka_ or _Google Pub/Sub_ to provide _event streams_ — your services can subscribe to these event streams and find out when a certain entity-type is updated.
 
     However, you don't have to use Kafka - you can also update Herbie to [use your preferred messaging system](#changing-the-messaging-system).
 
@@ -36,10 +36,12 @@ straightforward way, following Django best practices. It is also meant to be ext
 ## Quick Start
 
 1. Install the prerequisites if you haven't already.
-1. After cloning this repository, navigate to the root folder and run:
-`$ docker-compose up -d`
-
+1. After cloning this repository, navigate to the root folder and run one of the following commands:
+    * To start with Kafka: `docker-compose -f docker-compose-kafka.yml up -d`
+    * To star with Google Pub/Sub: `docker-compose -f docker-compose-google-pubsub.yml up -d`
+    
    On first run, Docker builds the required images and installs the dependencies listed in [`requirements.txt`](./requirements.txt).
+
 
 1. Run `$ docker logs herbie-app -f` to start the app and watch the progress.
 1. After the app has booted, connect to herbie-app container:
@@ -159,7 +161,7 @@ This sample contains schema definitions for the business entities 'customer' and
 1. Clone the project (from your forked version or from the official repository)
 1. Build and run Herbie
 ```
-docker-compose up -d --build
+docker-compose -f docker-compose-google-pubsub.yml up -d
 ```
 - Connect to herbie-app container
 ```
@@ -170,11 +172,13 @@ docker exec -it herbie-app bash
 python manage.py generatemodels
 ```
 
-- Create and execute migration files to initialize your database
-```
-python manage.py makemigrations
-python manage.py migrate
-```
+1. Create and execute migration files to initialize your database
+        ```
+        python manage.py makemigrations
+        python manage.py migrate
+        ```
+        > NOTE: If you're using Google Pub/Sub run the following extra command: `the command` 
+
 
 ## How to generate business object model classes
 Model classes can be generated based on the JSON schema definitions by running this command:
@@ -200,13 +204,13 @@ the business entity messages in a JSON format. But it should be easy to use any 
 messaging system:
 
 The messaging is implemented in
-[herbieapp/services/message_publisher.py](herbieapp/services/message_publisher.py).
+[herbieapp/services/message_publisher.py](herbieapp/services/message_publisher/message_publisher.py).
 To replace the Kafka client with any other client, you just have to change the
 implementation of the internal `_send_message` method of the `MessagePublisher` class.
 
 Then you can also remove or replace the Kafka connection settings in
 [herbie/settings.py](herbie/settings.py), and also remove or replace the Kafka and
-Zookeeper images in the [docker-compose.yml](docker-compose.yml).
+Zookeeper images in the [docker-compose.yml](docker-compose-kafka.yml).
 
 
 ## Herbie - Development
