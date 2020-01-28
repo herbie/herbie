@@ -180,6 +180,13 @@ python manage.py generatemodels
         > NOTE: If you're using Google Pub/Sub run the following extra command: `the command` 
 
 
+- In case that you use herbie with google pub sub you have to run the initialization
+command in order to create the topics for your business entities
+```
+python manage.py init_pubsub
+```
+
+
 ## How to generate business object model classes
 Model classes can be generated based on the JSON schema definitions by running this command:
 `$ python manage.py generatemodels`
