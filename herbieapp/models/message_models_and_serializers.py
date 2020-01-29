@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.fields import JSONField
 
-from herbieapp.constants import MessageActionsConstants as Constants
+from herbieapp.constants import MessageActionConstants as Constants
 
 
 class EntityUpdateMessage:

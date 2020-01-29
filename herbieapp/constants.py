@@ -43,6 +43,6 @@ class GroupConstants:
     BUSINESS_ENTITIES_VIEW_GROUP = 'business_entities_view_group'
 
 
-class MessageActionsConstants:
+class MessageActionConstants:
     UPDATE = 'update'
     DELETE = 'delete'
