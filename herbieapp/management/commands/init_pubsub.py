@@ -19,5 +19,4 @@ class Command(BaseCommand):
         print(names)
         for name in names:
             self._publisher.create_topic(name)
-            self._publisher.create_subscription(name, 'subscription_'+name)
 

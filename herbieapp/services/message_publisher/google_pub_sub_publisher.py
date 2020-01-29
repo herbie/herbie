@@ -1,6 +1,6 @@
 import logging
 from google.api_core.exceptions import AlreadyExists
-from google.cloud.pubsub_v1 import PublisherClient, SubscriberClient
+from google.cloud.pubsub_v1 import PublisherClient
 from herbie import settings
 from rest_framework.renderers import JSONRenderer
 
@@ -14,7 +14,6 @@ class GooglePubSubPublisher:
         super().__init__(**kwargs)
         self._logger = logging.getLogger(__name__)
         self._publisher = PublisherClient()
-        self._subscriber = SubscriberClient()
 
     def send_message(self, message):
         serializer = self._get_serializer(message)
@@ -38,16 +37,6 @@ class GooglePubSubPublisher:
             self._publisher.create_topic(topic_path)
         except AlreadyExists as e:
             self._logger.info(f'Topic {topic} already exists.')
-
-    def create_subscription(self, topic: str, subscription: str):
-        topic_path = self._subscriber.topic_path(settings.GCLOUD_PUBSUB_PROJECT_ID, topic)
-        subscription_path = self._subscriber.subscription_path(settings.GCLOUD_PUBSUB_PROJECT_ID, subscription)
-
-        try:
-            self._subscriber.create_subscription(subscription_path, topic_path)
-        except AlreadyExists as e:
-            self._logger.info(f'Subscription {subscription} already exists.')
-            pass
 
     def _get_serializer(self, message):
         if isinstance(message, EntityUpdateMessage):
