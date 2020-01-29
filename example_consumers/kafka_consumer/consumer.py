@@ -4,7 +4,7 @@ import sys
 from kafka import KafkaConsumer
 
 if len(sys.argv) < 2:
-    print('please provide an entity name parameter when running the script, e.g. "python consumer.py customer"')
+    print('please provide an entity name parameter when running the script, e.g. "python kafka_consumer.py customer"')
     exit()
 
 entity_name = sys.argv[1]

@@ -24,6 +24,12 @@ SCHEMA_REGISTRY_PACKAGE = 'herbie_json_schema'
 # chunk size for exporting data
 DEFAULT_CHUNK_SIZE = 100
 
+# message_provider (e.g. kafka, google pubsub)
+MESSAGING_PROVIDER = 'google_pub_sub'
+
+# Google Cloud Pub/Sub
+GCLOUD_PUBSUB_PROJECT_ID = env.str('GCLOUD_PUBSUB_PROJECT_ID', " ")
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

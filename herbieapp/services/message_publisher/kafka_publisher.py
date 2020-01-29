@@ -5,55 +5,15 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.utils.functional import cached_property
 from kafka import KafkaProducer
 from herbie import settings
-from herbieapp.models import AbstractBusinessEntity
-from herbieapp.services.utils import BusinessEntityUtils
 
 
-class EntityUpdateMessage:
-    def __init__(self, _type, key, version, payload, created, modified, tags):
-        self.tags = tags
-        self.action = 'update'
-        self.type = _type
-        self.key = key
-        self.version = version
-        self.payload = payload
-        self.created = created
-        self.modified = modified
+class KafkaPublisher:
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._logger = logging.getLogger(__name__)
 
-class EntityDeleteMessage:
-    def __init__(self, _type, key, version=None):
-        self.action = 'delete'
-        self.type = _type
-        self.key = key
-        self.version = version
-
-
-class MessagePublisher:
-
-    _logger = logging.getLogger(__name__)
-
-    def send_entity_update_message(self, entity: AbstractBusinessEntity, tags=None):
-        if tags is None:
-            tags = []
-        self._send_message(EntityUpdateMessage(
-            BusinessEntityUtils.get_entity_type_name(entity),
-            entity.key,
-            entity.version,
-            entity.data,
-            entity.created,
-            entity.modified,
-            tags
-        ))
-
-    def send_entity_delete_message(self, entity: AbstractBusinessEntity):
-        self._send_message(EntityDeleteMessage(
-            BusinessEntityUtils.get_entity_type_name(entity),
-            entity.key,
-            entity.version
-        ))
-
-    def _send_message(self, message):
+    def send_message(self, message):
         self._producer.send(message.type, value=message, key=message.key)\
             .add_callback(self._on_send_success)\
             .add_errback(self._on_send_error)
