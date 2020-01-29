@@ -17,7 +17,7 @@ class GooglePubSubPublisher:
 
         json_data = JSONRenderer().render(serializer.data)
 
-        topic_path = self._publisher.topic_path(settings.GCLOUD_PUBSUB_PROJECT_ID, 'customer')
+        topic_path = self._publisher.topic_path(settings.GCLOUD_PUBSUB_PROJECT_ID, serializer.data['type'])
         future = self._publisher.publish(topic_path, data=json_data)
         future.add_done_callback(self._publish_callback)
 
