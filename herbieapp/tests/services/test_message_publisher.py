@@ -3,7 +3,8 @@ import unittest.mock as mock
 from django.test import TestCase
 
 from herbieapp.models import AbstractBusinessEntity
-from herbieapp.services import MessagePublisher, EntityUpdateMessage, EntityDeleteMessage, KafkaPublisher, settings
+from herbieapp.services import MessagePublisher, EntityUpdateMessage, EntityDeleteMessage, settings
+from herbieapp.services.message_publisher.kafka_publisher import KafkaPublisher
 from herbieapp.tests.services.matcher import Matcher
 
 
