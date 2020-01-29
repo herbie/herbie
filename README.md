@@ -95,12 +95,13 @@ You define your business entities with JSON schemas. There are two ways to defin
 Regardless of your preferred option, you should structure your package according to the following template:
 
 ```
----business_entities_schemas
-        init.py 
-        ------  business_entity1
-                    ------- business_entity1_v1.json
-                    ------- business_entity1_v2.json    
-        ------  business_entity2
+.
+└── business_entities_schemas
+    ├── init.py 
+    ├── business_entity1
+    │   ├── business_entity1_v1.json
+    │   └── business_entity1_v2.json    
+    └── business_entity2
 ```
 
 You can also refer to the sample in the default [Herbie schema repostory](https://github.com/project-a/herbie-json-schema) as a guideline.
@@ -108,13 +109,14 @@ You can also refer to the sample in the default [Herbie schema repostory](https:
 This sample contains schema definitions for the business entities 'customer' and 'product':
 
 ```
----herbie-json-schema
-        init.py
-        ------  customer
-                    ------- customer_v1.json
-                    ------- customer_v2.json    
-        ------  product
-                    ------- product_v1.json
+.
+└── herbie-json-schema
+    ├── init.py
+    ├── customer
+    │   ├── customer_v1.json
+    │   └── customer_v2.json    
+    └── product
+        └── product_v1.json
 ```
 
 
