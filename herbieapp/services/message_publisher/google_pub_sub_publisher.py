@@ -4,9 +4,6 @@ from google.cloud.pubsub_v1 import PublisherClient
 from herbie import settings
 from rest_framework.renderers import JSONRenderer
 
-from herbieapp.models.message_models_serializers import EntityUpdateMessage, EntityUpdateMessageSerializer, \
-    EntityDeleteMessage, EntityDeleteMessageMessageSerializer
-
 
 class GooglePubSubPublisher:
 
@@ -16,7 +13,7 @@ class GooglePubSubPublisher:
         self._publisher = PublisherClient()
 
     def send_message(self, message):
-        serializer = self._get_serializer(message)
+        serializer = message.get_serializer()
 
         json_data = JSONRenderer().render(serializer.data)
 
@@ -37,10 +34,3 @@ class GooglePubSubPublisher:
             self._publisher.create_topic(topic_path)
         except AlreadyExists as e:
             self._logger.info(f'Topic {topic} already exists.')
-
-    def _get_serializer(self, message):
-        if isinstance(message, EntityUpdateMessage):
-            return EntityUpdateMessageSerializer(message)
-        if isinstance(message, EntityDeleteMessage):
-            return EntityDeleteMessageMessageSerializer(message)
-        raise Exception('message model does not exist')

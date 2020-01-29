@@ -1,6 +1,7 @@
 from herbie import settings
 from herbieapp.exceptions import InvalidMessagingProvider
-from herbieapp.services import KafkaPublisher, GooglePubSubPublisher
+from herbieapp.services.message_publisher.google_pub_sub_publisher import GooglePubSubPublisher
+from herbieapp.services.message_publisher.kafka_publisher import KafkaPublisher
 
 
 class MessagePublisherUtils:

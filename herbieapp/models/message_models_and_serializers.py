@@ -15,6 +15,9 @@ class EntityUpdateMessage:
         self.created = created
         self.modified = modified
 
+    def get_serializer(self):
+        return EntityUpdateMessageSerializer(self)
+
 
 class EntityDeleteMessage:
     def __init__(self, _type, key, version=None):
@@ -23,6 +26,8 @@ class EntityDeleteMessage:
         self.key = key
         self.version = version
 
+    def get_serializer(self):
+        return EntityDeleteMessageMessageSerializer(self)
 
 class EntityUpdateMessageSerializer(serializers.Serializer):
     tags = serializers.ListField()
