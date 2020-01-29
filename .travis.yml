@@ -13,7 +13,6 @@ env:
   global:
     - DATABASE_URL=postgres://postgres@localhost:5432/herbie_db
     - SECRET_KEY=thisisasecret
-    - MESSAGING_PROVIDER=kafka
 
 install:
   - pip install -r requirements.txt

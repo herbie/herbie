@@ -25,7 +25,7 @@ SCHEMA_REGISTRY_PACKAGE = 'herbie_json_schema'
 DEFAULT_CHUNK_SIZE = 100
 
 # message_provider (e.g. kafka, google pubsub)
-MESSAGING_PROVIDER = env.str('MESSAGING_PROVIDER')
+MESSAGING_PROVIDER = 'google_pub_sub'
 
 # Google Cloud Pub/Sub
 GCLOUD_PUBSUB_PROJECT_ID = env.str('GCLOUD_PUBSUB_PROJECT_ID', " ")
