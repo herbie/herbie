@@ -104,7 +104,7 @@
   #header {
     color: var(--color-white);
     background-color: var(--color-black);
-    padding: 48px 32px;
+    padding: 48px var(--padding-standard);
     display: flex;
     justify-content: space-between;
   }
@@ -118,10 +118,9 @@
 
   #branding #site-name a {
     display: block;
-    padding: 4px 14px;
+    padding: 4px var(--padding-standard);
     margin: 0;
-    padding: 4px 14px;
-    border: 2px solid var(--color-white);
+    /* border: 2px solid var(--color-white); */
     color: var(--color-white);
   }
 
@@ -321,7 +320,11 @@
 
   #content .addlink,
   #content .changelink,
-  #content .viewlink {
+  #content .viewlink, 
+  #content .deletelink,
+  #content .cancel-link,
+  .delete-confirmation input{
+    height: auto;
     background: none;
     padding: 8px 12px;
     border-radius: var(--border-radius-standard);
@@ -330,11 +333,19 @@
 
   #content .addlink:hover,
   #content .changelink:hover,
-  #content .viewlink:hover {
+  #content .viewlink:hover,
+  #content .deletelink:hover,
+  #content .cancel-link:hover,
+  .delete-confirmation input:hover{
     background-color: var(--color-blue) !important;
   }
 
   /* DASHBOARD */
+
+  .dashboard #container #content .actionlist {
+    margin: 0;
+  }
+
   .dashboard #container #content {
     display: flex;
     flex-direction: column;
