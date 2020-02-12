@@ -6,3 +6,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+
+# packages from private scope (for example schemas)
+/extra_packages/
