@@ -19,7 +19,7 @@ env = environ.Env()
 APP_LABEL = 'herbieapp'
 
 # Json schema package for validation of business objects
-SCHEMA_REGISTRY_PACKAGE = 'herbie_json_schema'
+SCHEMA_REGISTRY_PACKAGE = 'carl_business_json_schema' # must be installed through extra packages system
 
 # chunk size for exporting data
 DEFAULT_CHUNK_SIZE = 100

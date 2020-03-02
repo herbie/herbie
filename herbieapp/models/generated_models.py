@@ -4,7 +4,3 @@ from herbieapp.models import AbstractBusinessEntity
 
 class Customer(AbstractBusinessEntity):
     pass
-
-
-class Product(AbstractBusinessEntity):
-    pass
