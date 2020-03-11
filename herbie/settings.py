@@ -57,7 +57,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'herbieapp.apps.HerbieappConfig',
     'rest_framework.authtoken',
-    'social_django'
+    'social_django',
+    'herbie_bigquery_export.apps.HerbieBigqueryExportConfig'
 ]
 
 MIDDLEWARE = [
@@ -125,9 +126,9 @@ WSGI_APPLICATION = 'herbie.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
+DEV_DEFAULT_DB = {'ENGINE': 'django.db.backends.postgresql', 'NAME': 'herbie'}
 DATABASES = {
-    'default': env.db('DATABASE_URL')
+    'default': {**DEV_DEFAULT_DB, **env.db('DATABASE_URL')}
 }
 
 LOGGING = {

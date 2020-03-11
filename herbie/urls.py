@@ -34,4 +34,5 @@ urlpatterns = [
     path('api/schema-registry/<str:business_entity>/<str:version>', SchemaRegistryController().as_view()),
     path('api/schema-registry/<str:business_entity>/', SchemaRegistryController().as_view(), {'version': ''}),
     path('oauth/', include('social_django.urls', namespace='social')),
+    path('bigquery_export/', include('herbie_bigquery_export.urls', namespace='bigquery_export')),
 ]
