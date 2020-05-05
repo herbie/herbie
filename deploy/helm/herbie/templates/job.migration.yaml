@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.herbie.name }}-migration-{{ .Values.env_values.cluster_env }}
+  annotations:
+    "helm.sh/hook": {{ .Values.db_migration.hooks }}
+    "helm.sh/hook-weight": {{ .Values.db_migration.weight | quote }}
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.herbie.name }}-migration-{{ .Values.env_values.cluster_env }}
+    spec:
+      containers:
+        - name: {{ .Values.herbie.name }}-db-migration-{{ .Values.env_values.cluster_env }}
+          image: {{ .Values.herbie.image_url }}:{{ .Values.env_values.image_version }}
+          command: ["/bin/sh","-c"]
+          args: ["python manage.py migrate;"]
+          env:
+{{ include "herbie_env_vars" . | nindent 10 }}
+          imagePullPolicy: {{ .Values.herbie.image_pull_strategy }}
+      restartPolicy: Never
+  backoffLimit: 5

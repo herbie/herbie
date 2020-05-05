@@ -1,0 +1,31 @@
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.herbie.name }}-{{ .Values.env_values.cluster_env }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: YOUR_CERTIFICATE_PREFIX-{{ .Values.env_values.cluster_env }}
+    {{- if eq .Values.env_values.enable_auth true }}
+    nginx.ingress.kubernetes.io/auth-url: "https://auth.{{ .Values.herbie.dns_name }}/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://auth.{{ .Values.herbie.dns_name }}/oauth2/start?rd=https%3A%2F%2F$host$request_uri"
+    {{- end }}
+  labels:
+    app: {{ .Values.herbie.name }}-{{ .Values.env_values.cluster_env }}
+    environment: {{ .Values.env_values.cluster_env }}
+spec:
+  tls:
+  - hosts:
+    - {{ .Values.env_values.host_prefix }}.{{ .Values.herbie.dns_name }}
+    secretName: YOUR_SECRET_NAME_PREFIX-{{ .Values.env_values.cluster_env }}
+  rules:
+  - host: {{ .Values.env_values.host_prefix }}.{{ .Values.herbie.dns_name }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ .Values.herbie.name }}-{{ .Values.env_values.cluster_env }}
+          servicePort: {{ .Values.herbie.port }}
+        path: /

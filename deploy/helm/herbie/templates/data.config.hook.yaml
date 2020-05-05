@@ -1,0 +1,4 @@
+{{- define "data_config_hook" -}}
+"helm.sh/hook": {{ .Values.data_preconfigure.hooks }}
+"helm.sh/hook-weight": {{ .Values.data_preconfigure.weight | quote }}
+{{- end -}}

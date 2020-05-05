@@ -1,0 +1,119 @@
+apiVersion: apps/v1
+kind: Deployment # the cloudsqlproxy deployment only needed if deploying on GKE to access SQL instance
+metadata:
+  name: cloudsqlproxy-{{ .Values.herbie.name }}-{{ .Values.env_values.cluster_env }}
+  annotations:
+    "helm.sh/hook": {{ .Values.db_migration.hooks }}
+    "helm.sh/hook-weight": {{ .Values.data_preconfigure.weight | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudsqlproxy-{{ .Values.herbie.name }}-{{ .Values.env_values.cluster_env }}
+  template:
+    metadata:
+      labels:
+        app: cloudsqlproxy-{{ .Values.herbie.name }}-{{ .Values.env_values.cluster_env }}
+    spec:
+      containers:
+      - image: b.gcr.io/cloudsql-docker/gce-proxy:latest
+        imagePullPolicy: Always
+        name: cloudsqlproxy-{{ .Values.herbie.name }}-{{ .Values.env_values.cluster_env }}
+        command:
+        - /cloud_sql_proxy
+        - -dir=/cloudsql
+        - -instances={{ .Values.herbie.project_name_with_region }}:{{ .Values.env_values.cloudsql_instance_cluster }}=tcp:0.0.0.0:5432
+        - -credential_file=/secrets/cloudsql/credentials.json
+        - term_timeout=10s
+        lifecycle:
+          preStop:
+            exec:
+              command: ['sleep', '300']
+        ports:
+        - name: port-database
+          containerPort: 5432
+
+        volumeMounts:
+          - name: cloudsql-oauth-credentials
+            mountPath: /secrets/cloudsql
+            readOnly: true
+          - name: ssl-certs
+            mountPath: /etc/ssl/certs
+          - name: cloudsql
+            mountPath: /cloudsql
+
+      volumes:
+        - name: cloudsql-oauth-credentials
+          secret:
+            secretName: cloudsql-oauth-credentials
+        - name: ssl-certs
+          hostPath:
+            path: /etc/ssl/certs
+        - name: cloudsql
+          emptyDir:
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.herbie.name }}-{{ .Values.env_values.cluster_env }}
+spec:
+  replicas: {{ .Values.herbie.replicas }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.herbie.name }}-{{ .Values.env_values.cluster_env }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.herbie.name }}-{{ .Values.env_values.cluster_env }}
+      annotations:
+        timestamp: {{ date "20060102150405" .Release.Time | quote }}
+    spec:
+      containers:
+        - name: {{ .Values.herbie.name }}-{{ .Values.env_values.cluster_env }}
+          image: {{ .Values.herbie.image_url }}:{{ .Values.env_values.image_version }}
+          command: ["gunicorn", "-c", "gunicorn_config.py", "herbie.wsgi"]
+          resources:
+            requests:
+              memory: {{ .Values.env_values.herbie.resources.requests.memory }}
+              cpu: {{ .Values.env_values.herbie.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.env_values.herbie.resources.limits.memory }}
+              cpu: {{ .Values.env_values.herbie.resources.limits.cpu }}
+          ports:
+            - containerPort: {{ .Values.herbie.port }}
+          readinessProbe:
+            httpGet:
+              path: '/health-check/'
+              port: {{ .Values.herbie.port }}
+            initialDelaySeconds: 50
+            timeoutSeconds: 20
+            periodSeconds: 20
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: '/health-check/'
+              port: {{ .Values.herbie.port }}
+            initialDelaySeconds: 50
+            timeoutSeconds: 10
+            periodSeconds: 20
+            failureThreshold: 5
+          env:
+          - name: GOOGLE_APPLICATION_CREDENTIALS # if deployed on GKE
+            value: /var/secrets/google/key.json
+{{ include "herbie_env_vars" . | nindent 10 }}
+          imagePullPolicy: {{ .Values.herbie.image_pull_strategy }}
+          volumeMounts:
+          - name: google-cloud-key  # if deployed on GKE
+            mountPath: /var/secrets/google
+      volumes:
+      - name: google-cloud-key  # if deployed on GKE
+        secret:
+          secretName: pubsub-key
+
+      restartPolicy: Always

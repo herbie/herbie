@@ -1,0 +1,16 @@
+herbie:
+  name: 'herbie'
+  image_url: 'docker.pkg.github.com/herbie/herbie'
+  port: 8000
+  replicas: 1
+  image_pull_strategy: Always
+  project_name_with_region: 'YOUR_PROJECT_NAME:YOUR_PROJECT_REGION'
+
+db_migration:
+  hooks: "pre-install, pre-upgrade"
+  weight: "2"
+
+
+data_preconfigure:
+  hooks: "pre-install, pre-upgrade"
+  weight: "1"
