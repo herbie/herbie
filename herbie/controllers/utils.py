@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.utils import json
-from herbieapp.constants import ControllerConstants
+from herbie.constants import ControllerConstants
 
 
 class ControllerUtils:

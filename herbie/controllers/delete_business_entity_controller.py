@@ -5,10 +5,10 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import logging
-from herbieapp.constants import ControllerConstants as Constants
-from herbieapp.controllers.utils import ControllerUtils
-from herbieapp.services import BusinessEntityManager, JsonSchemaValidator
-from herbieapp.services.permission_manager import PermissionManager
+from herbie.constants import ControllerConstants as Constants
+from herbie.controllers.utils import ControllerUtils
+from herbie.services import BusinessEntityManager, JsonSchemaValidator
+from herbie.services.permission_manager import PermissionManager
 
 
 class DeleteBusinessEntityController(APIView):

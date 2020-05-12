@@ -104,7 +104,7 @@ SOCIAL_AUTH_STORAGE = 'social_django.models.DjangoStorage'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'herbie/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

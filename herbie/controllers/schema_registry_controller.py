@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.utils import json
 from rest_framework.views import APIView
 
-from herbieapp.services import SchemaRegistry
+from herbie.services import SchemaRegistry
 
 
 class SchemaRegistryController(APIView):
