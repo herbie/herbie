@@ -68,29 +68,3 @@ jobs:
         SECRET_KEY: thisisasecret
         PUBSUB_EMULATOR_HOST: localhost:8085
         GCLOUD_PUBSUB_PROJECT_ID: herbie-app
-
-
-  docker-image:
-    name: Build & Publish Docker Image
-    needs: [tests]
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout working branch
-      uses: actions/checkout@v1
-
-    - name: Set Docker Registry
-      run: echo ::set-env name=DOCKER_REGISTRY::docker.pkg.github.com
-
-    - name: Set Docker Image Path
-      run: echo ::set-env name=DOCKER_IMAGE_PATH::${{ env.DOCKER_REGISTRY }}/${GITHUB_REPOSITORY}/herbie
-
-
-    - name: Publish Docker Image
-      uses: elgohr/Publish-Docker-Github-Action@2.14
-      with:
-        name: ${{ env.DOCKER_IMAGE_PATH }}
-        username: ${GITHUB_ACTOR}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        registry: ${{ env.DOCKER_REGISTRY }}
-        tag_names: true
