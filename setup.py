@@ -10,5 +10,6 @@ setup(
     author_email='',
     description='Herbie',
     setup_requires=['setuptools_scm'],
-    include_package_data=True
+    include_package_data=True,
+    install_requires=["django>=2.2"],
 )
