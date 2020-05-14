@@ -1,6 +1,6 @@
 # Herbie
 
-[![Build Status](https://travis-ci.org/project-a/herbie.svg?branch=master)](https://travis-ci.org/project-a/herbie)
+[![CI Build](https://github.com/herbie/herbie/workflows/CI/badge.svg?branch=master)](https://github.com/herbie/herbie/actions?query=workflow%3ACI)
 
 ## What is Herbie?
 Herbie is an abstract data layer that makes it easier to exchange data across distributed systems. You define business entities such as “customer” or “order” as JSON schemas which you store in a central schema registry. Herbie can listen for data updates in one system and publish new data to other systems based on your business rules. 

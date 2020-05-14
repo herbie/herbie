@@ -6,8 +6,16 @@ RUN mkdir -p /data/www/
 
 WORKDIR /data/www/
 
-COPY . /data/www/
+### Setup poetry ################################
+RUN pip install poetry
+RUN poetry config virtualenvs.create false
 
-RUN pip install -r requirements.txt
+COPY poetry.lock /data/www/
+COPY pyproject.toml /data/www/
+
+### Poetry install ##############################
+RUN poetry install --no-interaction;
+
+COPY . /data/www/
 
 CMD ["python", "consumer.py", "customer"]

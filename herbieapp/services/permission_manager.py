@@ -10,7 +10,7 @@ from herbieapp.models import AbstractBusinessEntity
 class PermissionManager:
 
     def has_save_permission(self, business_entity: str, request: Request) -> bool:
-        if type(request.user) is AnonymousUser:
+        if type(request.user) == AnonymousUser:
             return False
 
         add_permission = self.get_permission_string(ControllerConstants.ADD, business_entity)

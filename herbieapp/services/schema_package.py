@@ -21,7 +21,7 @@ class SchemaPackage:
                 version = data[len(data) - 1][:-5]
                 business_entity = filename.rpartition('_')[0]
 
-                if business_entity is '' or '__init_' in business_entity or version is '':
+                if business_entity == '' or '__init_' in business_entity or version == '':
                     continue
 
                 schema_files.add(json.dumps({
