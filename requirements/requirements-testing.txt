@@ -1,3 +1,5 @@
 flake8>=3.7.9
 pytest>=5.3.2
 pytest-django>=3.7.0
+google-cloud-pubsub==1.1.0
+kafka-python==1.4.7

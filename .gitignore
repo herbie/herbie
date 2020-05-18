@@ -9,4 +9,5 @@ __pycache__/
 test
 dist
 .eggs
+.tox
 build
