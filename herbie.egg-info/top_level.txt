@@ -1,3 +1,0 @@
-herbie
-legacy
-tests
