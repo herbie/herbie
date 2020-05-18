@@ -62,5 +62,3 @@ class SaveBusinessEntityView(APIView):
             Constants.UPDATE_MESSAGE.format(key, version),
             status.HTTP_200_OK
         )
-
-

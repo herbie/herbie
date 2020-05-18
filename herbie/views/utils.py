@@ -36,4 +36,3 @@ class ViewUtils:
         body = json.loads(body_unicode)
 
         return body
-

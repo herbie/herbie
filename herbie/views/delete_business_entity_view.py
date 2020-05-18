@@ -1,4 +1,3 @@
-from django.contrib.auth.models import Permission
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
@@ -65,4 +64,3 @@ class DeleteBusinessEntityView(APIView):
             message.format(key, version),
             status.HTTP_200_OK
         )
-
