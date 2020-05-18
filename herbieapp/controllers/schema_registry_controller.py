@@ -1,7 +1,6 @@
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.utils import json
 from rest_framework.views import APIView
 
 from herbieapp.services import SchemaRegistry
@@ -10,9 +9,10 @@ from herbieapp.services import SchemaRegistry
 class SchemaRegistryController(APIView):
     _schema_registry = None
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self._schema_registry = SchemaRegistry()
+    def __init__(self, _schema_registry: SchemaRegistry):
+        # super().__init__(**kwargs)
+
+        self._schema_registry = _schema_registry
 
     def get(self, request: Request, business_entity: str, version: str) -> Response:
         if version == '':
@@ -20,4 +20,4 @@ class SchemaRegistryController(APIView):
 
         json_data = self._schema_registry.find_schema(business_entity, version)
 
-        return Response(json.loads(json_data), status=status.HTTP_200_OK)
+        return Response(json_data, status=status.HTTP_200_OK)

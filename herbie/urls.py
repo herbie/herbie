@@ -20,7 +20,10 @@ from django.urls import path, include
 from herbieapp.controllers import SchemaRegistryController,\
     SaveBusinessEntityController,\
     DeleteBusinessEntityController
+from herbieapp.controllers.dependency_containers import SchemaRegistryDependencyContainer
 
+
+from herbieapp.services import SchemaRegistry
 
 admin.site.site_header = 'Herbie'
 admin.site.site_title = 'Herbie'
@@ -31,7 +34,15 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/<str:business_entity>/save', SaveBusinessEntityController().as_view()),
     path('api/<str:business_entity>/delete', DeleteBusinessEntityController().as_view()),
-    path('api/schema-registry/<str:business_entity>/<str:version>', SchemaRegistryController().as_view()),
-    path('api/schema-registry/<str:business_entity>/', SchemaRegistryController().as_view(), {'version': ''}),
+    path('api/schema-registry/<str:business_entity>/<str:version>',
+         SchemaRegistryDependencyContainer.schema_registry_controller().as_view(
+                _schema_registry=SchemaRegistryDependencyContainer.schema_registry()
+            )
+         ),
+    path('api/schema-registry/<str:business_entity>/',
+         SchemaRegistryDependencyContainer.schema_registry_controller().as_view(
+                 _schema_registry=SchemaRegistryDependencyContainer.schema_registry()
+             ), {'version': ''}
+         ),
     path('oauth/', include('social_django.urls', namespace='social')),
 ]
