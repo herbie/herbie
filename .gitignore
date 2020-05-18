@@ -8,4 +8,4 @@ __pycache__/
 *.py[cod]
 test
 dist
-.eggs/
+.eggs
