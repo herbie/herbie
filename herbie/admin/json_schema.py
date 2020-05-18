@@ -1,9 +1,9 @@
 import json
 from django.contrib import admin
 from django.utils.safestring import mark_safe
+from django.conf import settings
 
-from herbieapp.models import Schema
-from herbie import settings
+from herbie.models import Schema
 
 
 class JsonSchemaAdmin(admin.ModelAdmin):

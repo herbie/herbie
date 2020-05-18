@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  herbie-test-db:
+    container_name: 'herbie-test-db'
+    image: 'postgres:11.5'
+    environment:
+      - 'POSTGRES_DB=herbie_test_db'
+      - 'POSTGRES_USER=user'
+      - 'POSTGRES_PASSWORD=password'
+    ports:
+      - '8888:5432'

@@ -3,8 +3,8 @@ import logging
 
 from django.core.serializers.json import DjangoJSONEncoder
 from django.utils.functional import cached_property
+from django.conf import settings
 from kafka import KafkaProducer
-from herbie import settings
 
 
 class KafkaPublisher:

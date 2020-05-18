@@ -1,8 +1,8 @@
 from django.core.management.base import BaseCommand
 
-from herbieapp.services import BusinessEntityUtils, SchemaPackage
+from herbie.services import BusinessEntityUtils, SchemaPackage
 
-model_filename = "herbieapp/models/generated_models.py"
+model_filename = "herbie/models/generated_models.py"
 
 
 class Command(BaseCommand):
@@ -14,7 +14,7 @@ class Command(BaseCommand):
 
         w = open(model_filename, "w")
         w.write('# generated file, should not be modified manually!\n')
-        w.write('from herbieapp.models import AbstractBusinessEntity\n')
+        w.write('from herbie.models import AbstractBusinessEntity\n')
 
         for entity_name in sorted(entity_names_camel_case):
             w.write('\n\nclass {}(AbstractBusinessEntity):\n    pass\n'.format(entity_name))

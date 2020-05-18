@@ -1,7 +1,7 @@
 from django.core.management import BaseCommand
 from django.core.paginator import Paginator, Page
-from herbieapp.constants import CommandsConstants as Constants
-from herbieapp.services import BusinessEntityManager, logging, settings, MessagePublisher
+from herbie.constants import CommandsConstants as Constants
+from herbie.services import BusinessEntityManager, logging, settings, MessagePublisher
 
 
 class Command(BaseCommand):

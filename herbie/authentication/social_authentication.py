@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User, Group
-from herbieapp.constants import GroupConstants
+from herbie.constants import GroupConstants
 
 
 def process_roles(details, user, **kwargs):

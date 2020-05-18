@@ -3,7 +3,7 @@ import json
 import os
 import pkgutil
 
-from herbie import settings
+from django.conf import settings
 
 
 class SchemaPackage:

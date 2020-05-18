@@ -1,10 +1,10 @@
-Metadata-Version: 1.0
+Metadata-Version: 2.1
 Name: herbie
-Version: 0.1.0
-Summary: Herbie
-Home-page: https://github.com/herbie/herbie
-Author: UNKNOWN
-Author-email: UNKNOWN
+Version: 0.1
+Summary: Herbie is a central data store for business data in a distributed service architecture.
+Home-page: https://github.com/herbie
+Author: 
+Author-email: 
 License: MIT
 Description: # Herbie
         
@@ -228,3 +228,8 @@ Description: # Herbie
         - [PyCharm Configuration](docs/pycharm_config.md)
         
 Platform: UNKNOWN
+Requires-Python: >=3.6
+Provides-Extra: social_auth_app_django
+Provides-Extra: social_auth_core
+Provides-Extra: google_cloud_pubsub
+Provides-Extra: kafka_python

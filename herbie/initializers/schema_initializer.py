@@ -1,5 +1,5 @@
-from herbieapp.initializers.abstract_initializer import AbstractInitializer
-from herbieapp.services.schema_importer import SchemaImporter
+from herbie.initializers.abstract_initializer import AbstractInitializer
+from herbie.services.schema_importer import SchemaImporter
 
 
 class SchemaInitializer(AbstractInitializer):

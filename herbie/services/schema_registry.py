@@ -1,4 +1,4 @@
-from herbieapp.models.schema import Schema
+from herbie.models.schema import Schema
 
 
 class SchemaRegistry:

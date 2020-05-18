@@ -1,9 +1,9 @@
 import json
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from herbieapp.models import AbstractBusinessEntity
-from herbie import settings
-from herbieapp.services import BusinessEntityManager
+from django.conf import settings
+from herbie.models import AbstractBusinessEntity
+from herbie.services import BusinessEntityManager
 
 
 class ReadOnlyAdmin(admin.ModelAdmin):
@@ -17,7 +17,7 @@ class ReadOnlyAdmin(admin.ModelAdmin):
         if super().has_view_permission(request, obj):
             return True
 
-        return request.user.has_perm('herbieapp.view_business_entities')
+        return request.user.has_perm('herbie.view_business_entities')
 
     def has_add_permission(self, request, obj=None):
         return False

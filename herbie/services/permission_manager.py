@@ -1,10 +1,10 @@
 from django.contrib.auth.models import AnonymousUser
 from rest_framework.request import Request
-from herbieapp.constants import ControllerConstants, GroupConstants
+from herbie.constants import ControllerConstants, GroupConstants
 from django.contrib.auth.models import Permission, Group
 from django.contrib.contenttypes.models import ContentType
 
-from herbieapp.models import AbstractBusinessEntity
+from herbie.models import AbstractBusinessEntity
 
 
 class PermissionManager:

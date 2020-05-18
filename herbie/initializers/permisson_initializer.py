@@ -1,5 +1,5 @@
-from herbieapp.initializers.abstract_initializer import AbstractInitializer
-from herbieapp.services.permission_manager import PermissionManager
+from herbie.initializers.abstract_initializer import AbstractInitializer
+from herbie.services.permission_manager import PermissionManager
 
 
 class PermissionInitializer(AbstractInitializer):

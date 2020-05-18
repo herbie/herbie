@@ -1,8 +1,8 @@
 import logging
-from herbieapp.models import AbstractBusinessEntity
-from herbieapp.models.message_models_and_serializers import EntityUpdateMessage, EntityDeleteMessage
-from herbieapp.services.message_publisher.utils import MessagePublisherUtils
-from herbieapp.services.utils import BusinessEntityUtils
+from herbie.models import AbstractBusinessEntity
+from herbie.models.message_models_and_serializers import EntityUpdateMessage, EntityDeleteMessage
+from herbie.services.message_publisher.utils import MessagePublisherUtils
+from herbie.services.utils import BusinessEntityUtils
 
 
 class MessagePublisher:

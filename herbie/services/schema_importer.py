@@ -1,6 +1,6 @@
 import json
-from herbieapp.services import logging, SchemaRegistry, SchemaPackage
-from herbieapp.models import Schema
+from herbie.services import logging, SchemaRegistry, SchemaPackage
+from herbie.models import Schema
 
 class SchemaImporter:
 

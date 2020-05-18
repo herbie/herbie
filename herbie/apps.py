@@ -1,6 +1,11 @@
 from django.apps import AppConfig
-from herbie import settings
+from django.conf import settings
+from herbie import default_settings
+
+settings.configure(default_settings=default_settings)
 
 
-class HerbieappConfig(AppConfig):
-    name = settings.APP_LABEL
+class HerbieConfig(AppConfig):
+    name = 'herbie'
+    verbose_name = 'Herbie'
+

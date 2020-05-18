@@ -1,5 +1,5 @@
 from django.core.management import BaseCommand
-from herbieapp.services.schema_importer import SchemaImporter
+from herbie.services.schema_importer import SchemaImporter
 
 
 class Command(BaseCommand):

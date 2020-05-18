@@ -1,9 +1,9 @@
 import json
 import re
 
-from herbieapp.services import SchemaRegistry
+from herbie.services import SchemaRegistry
 from jsonschema import Draft7Validator
-from herbieapp.constants import ValidatorResponseConstants, ControllerConstants
+from herbie.constants import ValidatorResponseConstants, ControllerConstants
 
 
 class JsonSchemaValidator:

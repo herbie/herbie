@@ -1,7 +1,7 @@
 import logging
 from google.api_core.exceptions import AlreadyExists
 from google.cloud.pubsub_v1 import PublisherClient
-from herbie import settings
+from django.conf import settings
 from rest_framework.renderers import JSONRenderer
 
 

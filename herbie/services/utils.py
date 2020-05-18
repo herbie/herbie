@@ -1,7 +1,7 @@
 import re
 
-import herbieapp.models
-from herbieapp.models import AbstractBusinessEntity
+import herbie.models
+from herbie.models import AbstractBusinessEntity
 
 
 class BusinessEntityUtils:
@@ -22,4 +22,4 @@ class BusinessEntityUtils:
 
     @staticmethod
     def get_entity_class(entity_type_name: str):
-        return getattr(herbieapp.models, BusinessEntityUtils.snake_to_camel(entity_type_name))
+        return getattr(herbie.models, BusinessEntityUtils.snake_to_camel(entity_type_name))
