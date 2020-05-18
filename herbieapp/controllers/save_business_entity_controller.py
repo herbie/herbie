@@ -22,18 +22,19 @@ class SaveBusinessEntityController(APIView):
     def __init__(
             self,
             _entity_manager: BusinessEntityManager,
-            _logger,
             _validator: JsonSchemaValidator,
             _schema_registry: SchemaRegistry,
-            _permission_manager: PermissionManager
+            _permission_classes: IsAuthenticated,
+            _permission_manager: PermissionManager,
+            **kwargs
     ):
-        #super().__init__(**kwargs)
         self._entity_manager = _entity_manager
-        self._logger = _logger
         self._validator = _validator
         self._schema_registry = _schema_registry
-        self._permission_classes = (IsAuthenticated,)
+        self._permission_classes = _permission_classes
         self._permission_manager = _permission_manager
+        self._logger = logging.getLogger(__name__)
+        super().__init__(**kwargs)
 
     def post(self, request: Request, business_entity: str) -> Response:
         if not self._validator.business_entity_exist(business_entity):

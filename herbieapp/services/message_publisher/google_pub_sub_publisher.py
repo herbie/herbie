@@ -6,8 +6,13 @@ from rest_framework.renderers import JSONRenderer
 
 
 class GooglePubSubPublisher:
+    _publisher = None
 
-    def __init__(self, **kwargs):
+    def __init__(
+            self,
+            _publisher: PublisherClient,
+            **kwargs
+    ):
         super().__init__(**kwargs)
         self._logger = logging.getLogger(__name__)
         self._publisher = PublisherClient()

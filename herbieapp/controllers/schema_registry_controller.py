@@ -9,10 +9,9 @@ from herbieapp.services import SchemaRegistry
 class SchemaRegistryController(APIView):
     _schema_registry = None
 
-    def __init__(self, _schema_registry: SchemaRegistry):
-        # super().__init__(**kwargs)
-
+    def __init__(self, _schema_registry: SchemaRegistry, **kwargs):
         self._schema_registry = _schema_registry
+        super().__init__(**kwargs)
 
     def get(self, request: Request, business_entity: str, version: str) -> Response:
         if version == '':

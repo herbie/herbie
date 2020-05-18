@@ -7,8 +7,8 @@ from herbieapp.constants import ValidatorResponseConstants, ControllerConstants
 
 
 class JsonSchemaValidator:
-    def __init__(self):
-        self._schema_registry = SchemaRegistry()
+    def __init__(self, _schema_registry: SchemaRegistry):
+        self._schema_registry = _schema_registry
 
     def validate_schema(self, json_data: json, business_entity: str, version: str) -> json:
         if not self.version_exist(version, business_entity):

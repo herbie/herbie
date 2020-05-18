@@ -14,14 +14,25 @@ from herbieapp.services.permission_manager import PermissionManager
 class DeleteBusinessEntityController(APIView):
 
     _entity_manager = None
+    _logger = None
+    _validator = None
+    _permission_manager = None
+    _permission_classes = None
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self._entity_manager = BusinessEntityManager()
+    def __init__(
+            self,
+            _entity_manager: BusinessEntityManager,
+            _validator: JsonSchemaValidator,
+            _permission_classes: IsAuthenticated,
+            _permission_manager: PermissionManager,
+            **kwargs
+    ):
+        self._entity_manager = _entity_manager
+        self._validator = _validator
+        self._permission_classes = _permission_classes
+        self._permission_manager = _permission_manager
         self._logger = logging.getLogger(__name__)
-        self._validator = JsonSchemaValidator()
-        self._permission_classes = (IsAuthenticated,)
-        self._permission_manager = PermissionManager()
+        super().__init__(**kwargs)
 
     def post(self, request: Request, business_entity: str) -> Response:
         if not self._permission_manager.has_delete_permission(business_entity, request):
