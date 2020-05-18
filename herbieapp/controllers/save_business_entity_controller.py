@@ -13,15 +13,27 @@ from herbieapp.services.permission_manager import PermissionManager
 
 class SaveBusinessEntityController(APIView):
     _entity_manager = None
+    _logger = None
+    _validator = None
+    _schema_registry = None
+    _permission_manager = None
+    _permission_classes = None
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self._entity_manager = BusinessEntityManager()
-        self._logger = logging.getLogger(__name__)
-        self._validator = JsonSchemaValidator()
-        self._schema_registry = SchemaRegistry()
+    def __init__(
+            self,
+            _entity_manager: BusinessEntityManager,
+            _logger,
+            _validator: JsonSchemaValidator,
+            _schema_registry: SchemaRegistry,
+            _permission_manager: PermissionManager
+    ):
+        #super().__init__(**kwargs)
+        self._entity_manager = _entity_manager
+        self._logger = _logger
+        self._validator = _validator
+        self._schema_registry = _schema_registry
         self._permission_classes = (IsAuthenticated,)
-        self._permission_manager = PermissionManager()
+        self._permission_manager = _permission_manager
 
     def post(self, request: Request, business_entity: str) -> Response:
         if not self._validator.business_entity_exist(business_entity):

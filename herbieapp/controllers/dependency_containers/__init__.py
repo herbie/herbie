@@ -1,1 +1,1 @@
-from .schema_registry_dependency_container import *
+from .controller_dependency_container import *
