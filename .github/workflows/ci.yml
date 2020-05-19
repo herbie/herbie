@@ -17,7 +17,7 @@ jobs:
           POSTGRES_PASSWORD: password
           POSTGRES_DB: herbie_test_db
         ports:
-        - 8888:5432
+        - 5432:5432
     steps:
 
     - name: Checkout working branch
