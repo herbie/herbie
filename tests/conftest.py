@@ -1,9 +1,12 @@
 import fnmatch
 import os
-
+import environ
 import pytest
+
 from django.core.management import call_command
 from django.conf import settings
+
+env = environ.Env()
 
 
 def pytest_configure(config):
@@ -24,8 +27,8 @@ def pytest_configure(config):
                 'NAME': 'herbie_test_db',
                 'USER': 'user',
                 'PASSWORD': 'password',
-                'HOST': 'localhost',
-                'PORT': '8888',
+                'HOST': env.str('DB_HOST', 'localhost'),
+                'PORT': env.str('DB_PORT', '5432'),
             }
         },
         JSON_VIEWER={

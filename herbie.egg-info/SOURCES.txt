@@ -30,7 +30,6 @@ herbie/management/commands/import_json_schemas.py
 herbie/management/commands/init_db.py
 herbie/management/commands/init_pubsub.py
 herbie/migrations/0001_initial.py
-herbie/migrations/0002_customer_product.py
 herbie/migrations/__init__.py
 herbie/models/__init__.py
 herbie/models/generated_models.py
