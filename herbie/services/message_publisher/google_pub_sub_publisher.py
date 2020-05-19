@@ -3,16 +3,18 @@ from google.api_core.exceptions import AlreadyExists
 from google.cloud.pubsub_v1 import PublisherClient
 from django.conf import settings
 from rest_framework.renderers import JSONRenderer
+from herbie.services.message_publisher.abstract_publisher import AbstractPublisher
+from herbie.models.message_models_and_serializers import Message
 
 
-class GooglePubSubPublisher:
+class GooglePubSubPublisher(AbstractPublisher):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._logger = logging.getLogger(__name__)
         self._publisher = PublisherClient()
 
-    def send_message(self, message):
+    def send_message(self, message: Message):
         serializer = message.get_serializer()
 
         json_data = JSONRenderer().render(serializer.data)

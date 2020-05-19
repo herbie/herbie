@@ -1,10 +1,21 @@
 from rest_framework import serializers
 from rest_framework.fields import JSONField
-
+from abc import abstractmethod
 from herbie.constants import MessageActionConstants as Constants
 
 
-class EntityUpdateMessage:
+class Message:
+    type = None
+    action = None
+    key = None
+    version = None
+
+    @abstractmethod
+    def get_serializer(self):
+        pass
+
+
+class EntityUpdateMessage(Message):
     def __init__(self, _type, key, version, payload, created, modified, tags):
         self.tags = tags
         self.action = Constants.UPDATE
@@ -19,7 +30,7 @@ class EntityUpdateMessage:
         return EntityUpdateMessageSerializer(self)
 
 
-class EntityDeleteMessage:
+class EntityDeleteMessage(Message):
     def __init__(self, _type, key, version=None):
         self.action = Constants.DELETE
         self.type = _type

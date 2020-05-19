@@ -5,15 +5,20 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.utils.functional import cached_property
 from django.conf import settings
 from kafka import KafkaProducer
+from herbie.models.message_models_and_serializers import Message
+from herbie.services.message_publisher.abstract_publisher import AbstractPublisher
 
 
-class KafkaPublisher:
+class KafkaPublisher(AbstractPublisher):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._logger = logging.getLogger(__name__)
 
-    def send_message(self, message):
+    def get_name(self) -> str:
+        return 'kafka'
+
+    def send_message(self, message: Message):
         self._producer.send(message.type, value=message, key=message.key)\
             .add_callback(self._on_send_success)\
             .add_errback(self._on_send_error)
