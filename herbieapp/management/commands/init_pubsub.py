@@ -1,11 +1,8 @@
 import logging
-
+import inject
 from django.core.management import BaseCommand
-
 from herbieapp.services import SchemaPackage
 from herbieapp.services.message_publisher.google_pub_sub_publisher import GooglePubSubPublisher
-from herbieapp.inject_config import InjectConfig
-import inject
 
 
 class Command(BaseCommand):

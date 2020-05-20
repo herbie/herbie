@@ -1,19 +1,23 @@
+import inject
 from django.core.management import BaseCommand
-from django.core.paginator import Paginator, Page
 from herbieapp.constants import CommandsConstants as Constants
 from herbieapp.services import BusinessEntityManager, logging, settings, MessagePublisher
 
 
 class Command(BaseCommand):
-
     help = 'publish all data from a business entity to the business entity channel/topic'
 
-    def __init__(self, **kwargs):
+    @inject.autoparams()
+    def __init__(self,
+                 message_service: MessagePublisher,
+                 entity_manager: BusinessEntityManager,
+                 **kwargs
+                 ):
         super().__init__(**kwargs)
-        self._entity_manager = BusinessEntityManager()
+        self._message_service = message_service
+        self._entity_manager = entity_manager
         self._logger = logging.getLogger(__name__)
         self._chunk_size = settings.DEFAULT_CHUNK_SIZE
-        self._message_service = MessagePublisher()
 
     def add_arguments(self, parser):
         parser.add_argument(Constants.BUSINESS_ENTITY, type=str)

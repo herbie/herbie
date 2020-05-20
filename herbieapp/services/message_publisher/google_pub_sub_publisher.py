@@ -10,12 +10,12 @@ class GooglePubSubPublisher:
 
     def __init__(
             self,
-            _publisher: PublisherClient,
+            publisher: PublisherClient,
             **kwargs
     ):
         super().__init__(**kwargs)
         self._logger = logging.getLogger(__name__)
-        self._publisher = PublisherClient()
+        self._publisher = publisher
 
     def send_message(self, message):
         serializer = message.get_serializer()
@@ -39,3 +39,7 @@ class GooglePubSubPublisher:
             self._publisher.create_topic(topic_path)
         except AlreadyExists as e:
             self._logger.info(f'Topic {topic} already exists.')
+
+    def shutdown(self):
+        self._logger.info('export finished pubsub')
+

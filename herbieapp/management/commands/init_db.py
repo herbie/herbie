@@ -1,10 +1,9 @@
+import inject
 from django.core.management import BaseCommand
 from herbieapp.initializers.abstract_initializer import AbstractInitializer
 from herbieapp.initializers.permisson_initializer import PermissionInitializer
 from herbieapp.initializers.schema_initializer import SchemaInitializer
 from herbieapp.services import logging
-from herbieapp.inject_config import InjectConfig
-import inject
 
 
 class Command(BaseCommand):
