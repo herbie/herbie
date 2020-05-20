@@ -2,6 +2,7 @@ import json
 from herbie.services import logging, SchemaRegistry, SchemaPackage
 from herbie.models import Schema
 
+
 class SchemaImporter:
 
     def __init__(self):
