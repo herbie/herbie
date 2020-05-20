@@ -7,10 +7,9 @@ from herbie.services.message_publisher.abstract_publisher import AbstractPublish
 from herbie.models.message_models_and_serializers import Message
 
 
-class GooglePubSubPublisher(AbstractPublisher):
+class GooglePubsubPublisher(AbstractPublisher):
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self):
         self._logger = logging.getLogger(__name__)
         self._publisher = PublisherClient()
 

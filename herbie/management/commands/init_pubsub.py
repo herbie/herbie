@@ -3,7 +3,7 @@ import logging
 from django.core.management import BaseCommand
 
 from herbie.services import SchemaPackage
-from herbie.services.message_publisher.google_pub_sub_publisher import GooglePubSubPublisher
+from herbie_google_pubsub.publisher.google_pub_sub_publisher import GooglePubSubPublisher
 
 
 class Command(BaseCommand):

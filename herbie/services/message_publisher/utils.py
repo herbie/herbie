@@ -1,6 +1,6 @@
 from django.conf import settings
 from herbie.exceptions import InvalidMessagingProvider
-from herbie.services.message_publisher.google_pub_sub_publisher import GooglePubSubPublisher
+from herbie_google_pubsub.publisher.google_pub_sub_publisher import GooglePubSubPublisher
 from herbie.services.message_publisher.kafka_publisher import KafkaPublisher
 
 

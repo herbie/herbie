@@ -1,21 +1,21 @@
 import logging
 from herbie.models import AbstractBusinessEntity
 from herbie.models.message_models_and_serializers import EntityUpdateMessage, EntityDeleteMessage
-from herbie.services.message_publisher.utils import MessagePublisherUtils
+from herbie.services.message_publisher.registry import Registry
 from herbie.services.utils import BusinessEntityUtils
 
 
 class MessagePublisher:
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self):
         self._logger = logging.getLogger(__name__)
-        self._messaging_provider = MessagePublisherUtils.get_messaging_provider()
+        self._publisher_list = Registry.get_publisher_list()
 
     def send_entity_update_message(self, entity: AbstractBusinessEntity, tags=None):
         if tags is None:
             tags = []
-        self._messaging_provider.send_message(EntityUpdateMessage(
+
+        update_message = EntityUpdateMessage(
             BusinessEntityUtils.get_entity_type_name(entity),
             entity.key,
             entity.version,
@@ -23,11 +23,19 @@ class MessagePublisher:
             entity.created,
             entity.modified,
             tags
-        ))
+        )
+
+        self._send_message(update_message)
 
     def send_entity_delete_message(self, entity: AbstractBusinessEntity):
-        self._messaging_provider.send_message(EntityDeleteMessage(
+        delete_message = EntityDeleteMessage(
             BusinessEntityUtils.get_entity_type_name(entity),
             entity.key,
             entity.version
-        ))
+        )
+
+        self._send_message(delete_message)
+
+    def _send_message(self, message: Message):
+        for publisher in self._publisher_list:
+            publisher.send_message(message)

@@ -11,8 +11,7 @@ from herbie.services.message_publisher.abstract_publisher import AbstractPublish
 
 class KafkaPublisher(AbstractPublisher):
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self):
         self._logger = logging.getLogger(__name__)
 
     def get_name(self) -> str:
