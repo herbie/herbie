@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
 
-class HerbieConfig(AppConfig):
+class HerbieCoreConfig(AppConfig):
     name = 'herbie'
     verbose_name = 'Herbie'
 
