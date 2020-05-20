@@ -11,7 +11,7 @@ env = environ.Env()
 
 def pytest_configure(config):
     settings.configure(
-        APP_LABEL='herbie-test',
+        APP_LABEL='herbie_core-test',
         SECRET_KEY='not very secret in tests',
         SCHEMA_REGISTRY_PACKAGE='test',
         MESSAGING_PROVIDER='kafka',
@@ -44,7 +44,7 @@ def pytest_configure(config):
             'django.contrib.staticfiles',
             'rest_framework',
             'rest_framework.authtoken',
-            'herbie'
+            'herbie_core'
         ),
         MIDDLEWARE=[
             'django.middleware.security.SecurityMiddleware',
@@ -75,17 +75,18 @@ def pytest_configure(config):
             ),
         },
         HERBIE_ADMIN={
-            'JS_URL': 'js/herbie-admin.js',
-            'CSS_URL': 'css/herbie-admin.css',
+            'JS_URL': 'js/herbie_core-admin.js',
+            'CSS_URL': 'css/herbie_core-admin.css',
         },
         AUTHENTICATION_BACKENDS=(
             'django.contrib.auth.backends.ModelBackend',
         ),
-        ROOT_URLCONF='herbie.urls',
+        ROOT_URLCONF='herbie_core.urls',
         TEMPLATES=[
             {
                 'BACKEND': 'django.template.backends.django.DjangoTemplates',
-                'DIRS': [os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'herbie/templates')],
+                'DIRS': [os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                      'herbie_core/templates')],
                 'APP_DIRS': True,
                 'OPTIONS': {
                     'context_processors': [

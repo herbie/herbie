@@ -5,8 +5,8 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.utils.functional import cached_property
 from django.conf import settings
 from kafka import KafkaProducer
-from herbie.models.message_models_and_serializers import Message
-from herbie.services.message_publisher.abstract_publisher import AbstractPublisher
+from herbie_core.models.message_models_and_serializers import Message
+from herbie_core.services.message_publisher.abstract_publisher import AbstractPublisher
 
 
 class KafkaPublisher(AbstractPublisher):

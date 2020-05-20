@@ -136,7 +136,7 @@ This sample contains schema definitions for the business entities 'customer' and
     
         `git+https://github.com/treesus/treesus-schemas.git`
 
-    * In [`herbie/settings.py`](./herbie/settings.py), locate the variable `SCHEMA_REGISTRY_PACKAGE` variable and update the value with the name of your package.
+    * In [`herbie/settings.py`](herbie_core/settings.py), locate the variable `SCHEMA_REGISTRY_PACKAGE` variable and update the value with the name of your package.
 
        For example:
        ```
@@ -149,7 +149,7 @@ This sample contains schema definitions for the business entities 'customer' and
 
 ### 2.2 Storing the schemas package in the main Herbie repository
 1. In the root folder of your Herbie respository, commit your schema files according to the previously described package structure.
-1. In [`herbie/settings.py`](./herbie/settings.py), locate the variable `SCHEMA_REGISTRY_PACKAGE` variable and update the value with the name of your package.
+1. In [`herbie/settings.py`](herbie_core/settings.py), locate the variable `SCHEMA_REGISTRY_PACKAGE` variable and update the value with the name of your package.
 
        For example:
        ```
@@ -212,7 +212,7 @@ To replace the Kafka client with any other client, you just have to change the
 implementation of the internal `_send_message` method of the `MessagePublisher` class.
 
 Then you can also remove or replace the Kafka connection settings in
-[herbie/settings.py](herbie/settings.py), and also remove or replace the Kafka and
+[herbie/settings.py](herbie_core/settings.py), and also remove or replace the Kafka and
 Zookeeper images in the [docker-compose.yml](docker-compose-kafka.yml).
 
 

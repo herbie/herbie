@@ -2,16 +2,16 @@ import unittest.mock as mock
 
 from django.test import TestCase
 
-from herbie.models import AbstractBusinessEntity
-from herbie.services import MessagePublisher, EntityUpdateMessage, EntityDeleteMessage, settings
-from herbie.services.message_publisher.kafka_publisher import KafkaPublisher
+from herbie_core.models import AbstractBusinessEntity
+from herbie_core.services import MessagePublisher, EntityUpdateMessage, EntityDeleteMessage, settings
+from herbie_core.services.message_publisher.kafka_publisher import KafkaPublisher
 from tests.services.matcher import Matcher
 
 
 class MessageTestEntity(AbstractBusinessEntity):
     class Meta:
         managed = False
-        app_label = 'herbie-test'
+        app_label = 'herbie_core-test'
 
 
 key = '123'

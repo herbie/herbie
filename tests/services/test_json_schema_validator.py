@@ -3,8 +3,8 @@ from unittest import mock
 import json
 
 from django.test import TestCase
-from herbie.services import settings
-from herbie.services import JsonSchemaValidator, SchemaRegistry
+from herbie_core.services import settings
+from herbie_core.services import JsonSchemaValidator, SchemaRegistry
 
 
 class JsonSchemaValidatorTestCase(TestCase):

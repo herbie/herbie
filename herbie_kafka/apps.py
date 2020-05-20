@@ -1,5 +1,5 @@
 from django.apps import AppConfig
-from herbie.services.message_publisher.registry import Registry
+from herbie_core.services.message_publisher.registry import Registry
 from herbie_kafka.publisher import KafkaPublisher
 
 

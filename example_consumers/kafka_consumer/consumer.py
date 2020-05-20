@@ -11,7 +11,7 @@ entity_name = sys.argv[1]
 
 # Configuring the Kafka consumer to retrieve all messages that are currently stored in Kafka.
 # To receive only new messages, you can remove the auto_offset_reset parameter.
-consumer = KafkaConsumer(bootstrap_servers='herbie-kafka:9093',
+consumer = KafkaConsumer(bootstrap_servers='herbie_core-kafka:9093',
                          auto_offset_reset='earliest',
                          value_deserializer=lambda m: json.loads(m.decode('utf-8')))
 consumer.subscribe([entity_name])

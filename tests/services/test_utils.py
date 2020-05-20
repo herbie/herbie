@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from herbie.services import BusinessEntityUtils
+from herbie_core.services import BusinessEntityUtils
 
 
 class BusinessEntityUtilsTestCase(TestCase):

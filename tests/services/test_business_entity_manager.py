@@ -5,14 +5,14 @@ from django.contrib.auth.models import User
 from django.db.models import QuerySet
 from django.test import TestCase
 
-from herbie.models import AbstractBusinessEntity
-from herbie.services import BusinessEntityManager, BusinessEntityUtils, MessagePublisher
+from herbie_core.models import AbstractBusinessEntity
+from herbie_core.services import BusinessEntityManager, BusinessEntityUtils, MessagePublisher
 
 
 class ManagerTestEntity(AbstractBusinessEntity):
     class Meta:
         managed = False
-        app_label = 'herbie-test'
+        app_label = 'herbie_core-test'
 
 
 entity_name = 'manager_test_entity'

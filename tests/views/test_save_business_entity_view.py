@@ -3,8 +3,8 @@ from unittest.mock import patch
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from herbie.services import PermissionManager
-from herbie.services import BusinessEntityManager, settings
+from herbie_core.services import PermissionManager
+from herbie_core.services import BusinessEntityManager, settings
 
 
 class TestSaveBusinessEntityView(TestCase):

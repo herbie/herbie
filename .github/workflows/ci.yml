@@ -63,4 +63,4 @@ jobs:
 #        DATABASE_URL: postgres://user:password@localhost:5432/herbie_db
 #        SECRET_KEY: thisisasecret
 #        PUBSUB_EMULATOR_HOST: localhost:8085
-#        GCLOUD_PUBSUB_PROJECT_ID: herbie-app
+#        GCLOUD_PUBSUB_PROJECT_ID: herbie_core-app

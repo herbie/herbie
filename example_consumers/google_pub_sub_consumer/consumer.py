@@ -3,7 +3,7 @@ from google.cloud.pubsub_v1 import SubscriberClient
 
 
 class PubSubConsumer:
-    GCLOUD_PUBSUB_PROJECT_ID = 'herbie-app'
+    GCLOUD_PUBSUB_PROJECT_ID = 'herbie_core-app'
 
     def __init__(self):
         self._subscriber = SubscriberClient()
