@@ -3,16 +3,16 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 from herbieapp.models import AbstractBusinessEntity
 from herbie import settings
-from herbieapp.services.dependency_containers import ServiceDependencyContainer
-
+from herbieapp.services import BusinessEntityManager
+import inject
+from herbieapp.controllers.inject_config.controller_inject_config import ControllerInjectConfig
 
 class ReadOnlyAdmin(admin.ModelAdmin):
     fields = ('key', 'version', 'data_prettified', 'created', 'modified')
     list_display = ['key', 'version']
     search_fields = ['key', 'version']
 
-    # TODO check if possible injecting
-    _entity_manager = ServiceDependencyContainer.entity_manager_provider()
+    _entity_manager = inject.attr(BusinessEntityManager)
 
     def has_view_permission(self, request, obj=None):
         if super().has_view_permission(request, obj):

@@ -10,29 +10,26 @@ from rest_framework.permissions import IsAuthenticated
 
 from herbieapp.services.permission_manager import PermissionManager
 
+import inject
+from herbieapp.inject_config import InjectConfig
+
 
 class SaveBusinessEntityController(APIView):
-    _entity_manager = None
-    _logger = None
-    _validator = None
-    _schema_registry = None
-    _permission_manager = None
-    _permission_classes = None
-
+    @inject.autoparams()
     def __init__(
             self,
-            _entity_manager: BusinessEntityManager,
-            _validator: JsonSchemaValidator,
-            _schema_registry: SchemaRegistry,
-            _permission_classes: IsAuthenticated,
-            _permission_manager: PermissionManager,
+            entity_manager: BusinessEntityManager,
+            validator: JsonSchemaValidator,
+            schema_registry: SchemaRegistry,
+            permission_classes: IsAuthenticated,
+            permission_manager: PermissionManager,
             **kwargs
     ):
-        self._entity_manager = _entity_manager
-        self._validator = _validator
-        self._schema_registry = _schema_registry
-        self._permission_classes = _permission_classes
-        self._permission_manager = _permission_manager
+        self._entity_manager = entity_manager
+        self._validator = validator
+        self._schema_registry = schema_registry
+        self._permission_classes = permission_classes
+        self._permission_manager = permission_manager
         self._logger = logging.getLogger(__name__)
         super().__init__(**kwargs)
 

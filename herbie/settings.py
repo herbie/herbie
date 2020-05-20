@@ -58,7 +58,8 @@ INSTALLED_APPS = [
     'herbieapp.apps.HerbieappConfig',
     'rest_framework.authtoken',
     'social_django',
-    'dependency_injector'
+    'dependency_injector',
+    'inject'
 ]
 
 MIDDLEWARE = [

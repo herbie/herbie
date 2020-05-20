@@ -20,7 +20,7 @@ social-auth-core = "3.2.0"
 herbie-json-schema = { git = "https://github.com/project-a/herbie-json-schema.git", branch = "master" }
 google-cloud-pubsub = "^1.1.0"
 dependency-injector = "^3.15.6"
-
+Inject = "^4.2.0"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.7.9"

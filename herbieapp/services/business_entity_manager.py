@@ -3,13 +3,15 @@ from herbieapp.services import BusinessEntityUtils
 from django.db.models import QuerySet
 from herbieapp.models.models import AbstractBusinessEntity
 from herbieapp.services.message_publisher.message_publisher import MessagePublisher
+import inject
 
 
 class BusinessEntityManager:
     _message_publisher = None
 
-    def __init__(self, _message_publisher: MessagePublisher):
-        self._message_publisher = _message_publisher
+    @inject.autoparams()
+    def __init__(self, message_publisher: MessagePublisher):
+        self._message_publisher = message_publisher
 
     def update_or_create(
             self,

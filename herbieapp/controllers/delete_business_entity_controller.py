@@ -9,28 +9,25 @@ from herbieapp.constants import ControllerConstants as Constants
 from herbieapp.controllers.utils import ControllerUtils
 from herbieapp.services import BusinessEntityManager, JsonSchemaValidator
 from herbieapp.services.permission_manager import PermissionManager
+import inject
+from herbieapp.inject_config import InjectConfig
 
 
 class DeleteBusinessEntityController(APIView):
 
-    _entity_manager = None
-    _logger = None
-    _validator = None
-    _permission_manager = None
-    _permission_classes = None
-
+    @inject.autoparams()
     def __init__(
             self,
-            _entity_manager: BusinessEntityManager,
-            _validator: JsonSchemaValidator,
-            _permission_classes: IsAuthenticated,
-            _permission_manager: PermissionManager,
+            entity_manager: BusinessEntityManager,
+            validator: JsonSchemaValidator,
+            permission_classes: IsAuthenticated,
+            permission_manager: PermissionManager,
             **kwargs
     ):
-        self._entity_manager = _entity_manager
-        self._validator = _validator
-        self._permission_classes = _permission_classes
-        self._permission_manager = _permission_manager
+        self._entity_manager = entity_manager
+        self._validator = validator
+        self._permission_classes = permission_classes
+        self._permission_manager = permission_manager
         self._logger = logging.getLogger(__name__)
         super().__init__(**kwargs)
 
@@ -74,4 +71,3 @@ class DeleteBusinessEntityController(APIView):
             message.format(key, version),
             status.HTTP_200_OK
         )
-

@@ -1,12 +1,15 @@
 import json
+import inject
 from herbieapp.services import logging, SchemaRegistry, SchemaPackage
 from herbieapp.models import Schema
 
+
 class SchemaImporter:
 
-    def __init__(self):
+    @inject.autoparams()
+    def __init__(self, schema_package: SchemaPackage):
         self._logger = logging.getLogger(__name__)
-        self._schema_package = SchemaPackage()
+        self._schema_package = schema_package
 
     def import_schemas(self):
         schema_list = self._schema_package.get_all_json_schemas()

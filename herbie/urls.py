@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from herbieapp.controllers.dependency_containers import ControllerDependencyContainerView
+
+
+from herbieapp.controllers import SchemaRegistryController,\
+    SaveBusinessEntityController,\
+    DeleteBusinessEntityController
 
 
 admin.site.site_header = 'Herbie'
@@ -24,15 +28,9 @@ admin.site.index_title = 'Dashboard'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/<str:business_entity>/save',
-         ControllerDependencyContainerView.save_business_entity_controller_as_view
-         ),
-    path('api/<str:business_entity>/delete', ControllerDependencyContainerView.delete_business_entity_controller_as_view),
-    path('api/schema-registry/<str:business_entity>/<str:version>',
-         ControllerDependencyContainerView.schema_registry_controller_as_view
-         ),
-    path('api/schema-registry/<str:business_entity>/',
-         ControllerDependencyContainerView.schema_registry_controller_as_view, {'version': ''}
-         ),
+    path('api/<str:business_entity>/save', SaveBusinessEntityController().as_view()),
+    path('api/<str:business_entity>/delete', DeleteBusinessEntityController().as_view()),
+    path('api/schema-registry/<str:business_entity>/<str:version>', SchemaRegistryController().as_view()),
+    path('api/schema-registry/<str:business_entity>/', SchemaRegistryController().as_view(), {'version': ''}),
     path('oauth/', include('social_django.urls', namespace='social')),
 ]

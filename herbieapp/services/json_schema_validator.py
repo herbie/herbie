@@ -1,14 +1,15 @@
 import json
 import re
-
+import inject
 from herbieapp.services import SchemaRegistry
 from jsonschema import Draft7Validator
 from herbieapp.constants import ValidatorResponseConstants, ControllerConstants
 
 
 class JsonSchemaValidator:
-    def __init__(self, _schema_registry: SchemaRegistry):
-        self._schema_registry = _schema_registry
+    @inject.autoparams()
+    def __init__(self, schema_registry: SchemaRegistry):
+        self._schema_registry = schema_registry
 
     def validate_schema(self, json_data: json, business_entity: str, version: str) -> json:
         if not self.version_exist(version, business_entity):
