@@ -1,11 +1,10 @@
-from dependency_injector import providers
 from rest_framework.permissions import IsAuthenticated
-import inject
+from herbieapp.controllers.dependency_providers import ControllerDependencyProvider
 
 
 class ControllerInjectConfig:
-
     def inject_config(binder):
-        permission_classes_provider = providers.Singleton(IsAuthenticated)
-        binder.bind(IsAuthenticated, permission_classes_provider())
+        binder.bind(IsAuthenticated, ControllerDependencyProvider.permission_classes_provider)
 
+        # Using dependency injector package
+        # binder.bind(IsAuthenticated, ControllerDependencyProvider.permission_classes_provider())

@@ -1,15 +1,12 @@
 import logging
-import inject
 from herbieapp.models import AbstractBusinessEntity
 from herbieapp.models.message_models_and_serializers import EntityUpdateMessage, EntityDeleteMessage
 from herbieapp.services.utils import BusinessEntityUtils
-from herbieapp.services.message_publisher.utils import MessagePublisherUtils
 
 
 class MessagePublisher:
     _messaging_provider = None
 
-    @inject.params(messaging_provider=MessagePublisherUtils.get_messaging_provider())
     def __init__(
             self,
             messaging_provider,

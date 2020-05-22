@@ -1,11 +1,11 @@
 import json
+import inject
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from herbieapp.models import AbstractBusinessEntity
 from herbie import settings
 from herbieapp.services import BusinessEntityManager
-import inject
-from herbieapp.controllers.inject_config.controller_inject_config import ControllerInjectConfig
+
 
 class ReadOnlyAdmin(admin.ModelAdmin):
     fields = ('key', 'version', 'data_prettified', 'created', 'modified')

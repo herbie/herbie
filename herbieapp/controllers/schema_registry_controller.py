@@ -1,17 +1,14 @@
+import inject
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from herbieapp.services import SchemaRegistry
-import inject
 
 
 class SchemaRegistryController(APIView):
-    _schema_registry = None
 
-    @inject.params(
-        schema_registry=SchemaRegistry
-    )
+    @inject.autoparams()
     def __init__(self, schema_registry: SchemaRegistry, **kwargs):
         self._schema_registry = schema_registry
         super().__init__(**kwargs)

@@ -1,13 +1,12 @@
 import json
 import re
-import inject
 from herbieapp.services import SchemaRegistry
 from jsonschema import Draft7Validator
 from herbieapp.constants import ValidatorResponseConstants, ControllerConstants
 
 
 class JsonSchemaValidator:
-    @inject.autoparams()
+
     def __init__(self, schema_registry: SchemaRegistry):
         self._schema_registry = schema_registry
 

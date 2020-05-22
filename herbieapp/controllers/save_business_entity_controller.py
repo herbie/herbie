@@ -1,3 +1,4 @@
+import inject
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -7,14 +8,11 @@ from herbieapp.constants import ControllerConstants as Constants
 from herbieapp.controllers.utils import ControllerUtils
 from herbieapp.services import BusinessEntityManager, SchemaRegistry, JsonSchemaValidator
 from rest_framework.permissions import IsAuthenticated
-
 from herbieapp.services.permission_manager import PermissionManager
-
-import inject
-from herbieapp.inject_config import InjectConfig
 
 
 class SaveBusinessEntityController(APIView):
+
     @inject.autoparams()
     def __init__(
             self,

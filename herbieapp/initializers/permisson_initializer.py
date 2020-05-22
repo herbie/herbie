@@ -3,10 +3,17 @@ from herbieapp.services.permission_manager import PermissionManager
 
 
 class PermissionInitializer(AbstractInitializer):
+    _permission_manager = None
+
+    def __init__(
+            self,
+            permission_manager: PermissionManager,
+            **kwargs
+    ):
+        self._permission_manager = permission_manager
 
     def get_name(self) -> str:
         return 'permissions'
 
     def init(self):
-        permission_manager = PermissionManager()
-        permission_manager.create_group_and_permission_for_view_access()
+        self._permission_manager.create_group_and_permission_for_view_access()
