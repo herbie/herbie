@@ -5,10 +5,13 @@ from herbieapp.initializers.inject_config import InitializerInjectConfig
 
 
 class InjectConfig:
-    def inject_config(binder):
+    def __init__(self):
+        inject.configure_once(self.binder_config, bind_in_runtime=False)
+
+    def binder_config(self, binder):
         binder.install(ControllerInjectConfig.inject_config)
         binder.install(ServiceInjectConfig.inject_config)
         binder.install(InitializerInjectConfig.inject_config)
 
-    # @TODO configure calling function once when initializing
-    inject.configure_once(inject_config, bind_in_runtime=False)
+
+
