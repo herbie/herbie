@@ -7,4 +7,3 @@ class Schema(TimeStampedModel):
     name = models.TextField(null=False)
     version = models.TextField(null=False)
     content = JSONField(null=False)
-
