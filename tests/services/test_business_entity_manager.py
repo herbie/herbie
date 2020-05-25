@@ -12,7 +12,7 @@ from herbie_core.services import BusinessEntityManager, BusinessEntityUtils, Mes
 class ManagerTestEntity(AbstractBusinessEntity):
     class Meta:
         managed = False
-        app_label = 'herbie_core-test'
+        app_label = 'herbie_core'
 
 
 entity_name = 'manager_test_entity'

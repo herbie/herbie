@@ -11,7 +11,7 @@ from tests.services.matcher import Matcher
 class MessageTestEntity(AbstractBusinessEntity):
     class Meta:
         managed = False
-        app_label = 'herbie_core-test'
+        app_label = 'herbie_core'
 
 
 key = '123'

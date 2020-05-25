@@ -11,7 +11,7 @@ env = environ.Env()
 
 def pytest_configure(config):
     settings.configure(
-        APP_LABEL='herbie_core-test',
+        APP_LABEL='herbie_core',
         SECRET_KEY='not very secret in tests',
         SCHEMA_REGISTRY_PACKAGE='test',
         MESSAGING_PROVIDER='kafka',
