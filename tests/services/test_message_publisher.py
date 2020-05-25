@@ -4,7 +4,7 @@ from django.test import TestCase
 
 from herbie_core.models import AbstractBusinessEntity
 from herbie_core.services import MessagePublisher, EntityUpdateMessage, EntityDeleteMessage, settings
-from herbie_core.services.message_publisher.kafka_publisher import KafkaPublisher
+from herbie_kafka.publisher.kafka_publisher import KafkaPublisher
 from tests.services.matcher import Matcher
 
 

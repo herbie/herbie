@@ -1,6 +1,5 @@
 from unittest import mock
 from unittest.mock import Mock
-
 from django.test import TestCase
 from herbie_core.services import SchemaRegistry
 from herbie_core.models import Schema
