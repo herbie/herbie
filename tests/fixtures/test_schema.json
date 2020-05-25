@@ -1,7 +1,7 @@
 [
  {
    "pk": 1,
-   "model": "herbie.schema",
+   "model": "herbie_core-test.schema",
    "fields": {
      "name": "test_entity",
      "version": "v1",
