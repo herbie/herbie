@@ -4,7 +4,7 @@ from herbie_core.models.schema import Schema
 class SchemaRegistry:
     def find_schema(self, business_entity: str, version: str) -> str:
         schema = Schema.objects.filter(name=business_entity, version=version).first()
-        if schema == None:
+        if schema is None:
             return ''
 
         return schema.content
