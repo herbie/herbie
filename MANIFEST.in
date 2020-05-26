@@ -1,4 +1,4 @@
 include LICENSE
 include README.rst
-recursive-include herbie/static *
-recursive-include herbie/templates *
+recursive-include herbie_core/static *
+recursive-include herbie_core/templates *
