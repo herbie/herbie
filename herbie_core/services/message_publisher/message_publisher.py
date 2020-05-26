@@ -39,5 +39,6 @@ class MessagePublisher:
         self._send_message(delete_message)
 
     def _send_message(self, message: Message):
-        for publisher in self._publisher_list:
+        print(self._publisher_list)
+        for publisher in self._publisher_list.values():
             publisher.send_message(message)

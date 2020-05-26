@@ -4,7 +4,7 @@ from django.test import TestCase
 
 from herbie_core.models import AbstractBusinessEntity
 from herbie_core.services import MessagePublisher, EntityUpdateMessage, EntityDeleteMessage, settings
-from herbie_kafka.publisher.kafka_publisher import KafkaPublisher
+from unittest.mock import Mock
 from tests.services.matcher import Matcher
 
 
@@ -27,18 +27,22 @@ class MessagePublisherTestCase(TestCase):
         settings.MESSAGING_PROVIDER = 'kafka'
         self._message_publisher = MessagePublisher()
 
-    @mock.patch.object(KafkaPublisher, '_producer')
-    def test_send_entity_update_message(self, mock_producer):
+    def test_send_entity_update_message(self):
+        mock_producer = Mock(name='send_message')
+
+        self._message_publisher._publisher_list = {'logging': mock_producer}
         self._message_publisher.send_entity_update_message(entity)
 
-        mock_producer.send.assert_called_once_with(topic, key=key, value=Matcher(
+        mock_producer.send_message.assert_called_once_with(Matcher(
             EntityUpdateMessage, {'action': 'update', 'type': topic, 'key': key, 'version': version, 'payload': data, 'tags': []}
         ))
 
-    @mock.patch.object(KafkaPublisher, '_producer')
-    def test_send_entity_delete_message(self, mock_producer):
+    def test_send_entity_delete_message(self):
+        mock_producer = Mock(name='send_message')
+
+        self._message_publisher._publisher_list = {'logging': mock_producer}
         self._message_publisher.send_entity_delete_message(entity)
 
-        mock_producer.send.assert_called_once_with(topic, key=key, value=Matcher(
+        mock_producer.send_message.assert_called_once_with(Matcher(
             EntityDeleteMessage, {'action': 'delete', 'type': topic, 'key': key, 'version': version}
         ))

@@ -19,7 +19,7 @@ class TestDeleteBusinessEntityView(TestCase):
 
         client = APIClient()
         client.force_authenticate(user=None)
-        response = client.post('/api/test_entity/delete', data, format='json')
+        response = client.post('/test_entity/delete', data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -34,7 +34,7 @@ class TestDeleteBusinessEntityView(TestCase):
         with self.assertRaises(Exception):
             client = APIClient()
             client.force_authenticate(user=None)
-            response = client.post('/api/test_entity/delete', data, format='json')
+            response = client.post('/test_entity/delete', data, format='json')
 
             self.assertEqual(response.status_code, status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -48,7 +48,7 @@ class TestDeleteBusinessEntityView(TestCase):
 
         client = APIClient()
         client.force_authenticate(user=None)
-        response = client.post('/api/test_entity/delete', data, format='json')
+        response = client.post('/test_entity/delete', data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertEqual(response.data, {'message': 'unauthorized'})
@@ -62,7 +62,7 @@ class TestDeleteBusinessEntityView(TestCase):
 
         client = APIClient()
         client.force_authenticate(user=None)
-        response = client.post('/api/test_entity/delete', data, format='json')
+        response = client.post('/test_entity/delete', data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, {'message': 'entity with key x-id deleted from all versions'})
@@ -76,7 +76,7 @@ class TestDeleteBusinessEntityView(TestCase):
 
         client = APIClient()
         client.force_authenticate(user=None)
-        response = client.post('/api/test_entity/delete', data, format='json')
+        response = client.post('/test_entity/delete', data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, {'message': 'entity with key x-id not found'})
@@ -90,7 +90,7 @@ class TestDeleteBusinessEntityView(TestCase):
 
         client = APIClient()
         client.force_authenticate(user=None)
-        response = client.post('/api/test_entity/delete', data, format='json')
+        response = client.post('/test_entity/delete', data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertEqual(response.data, {'message': 'unauthorized'})
