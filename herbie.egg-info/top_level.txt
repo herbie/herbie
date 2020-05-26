@@ -1,0 +1,5 @@
+herbie_core
+herbie_google_pubsub
+herbie_kafka
+legacy
+tests

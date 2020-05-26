@@ -10,7 +10,6 @@ from herbie_core.services.utils import BusinessEntityUtils
 class MessagePublisher:
 
     def __init__(self):
-        self._logger = logging.getLogger(__name__)
         self._publisher_list = Registry.get_publisher_list()
 
     def send_entity_update_message(self, entity: AbstractBusinessEntity, tags=None):
@@ -39,6 +38,5 @@ class MessagePublisher:
         self._send_message(delete_message)
 
     def _send_message(self, message: Message):
-        print(self._publisher_list)
         for publisher in self._publisher_list.values():
             publisher.send_message(message)
