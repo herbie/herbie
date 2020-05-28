@@ -1,6 +1,6 @@
 import re
 
-import herbie_core.models
+from django.conf import settings
 from herbie_core.models import AbstractBusinessEntity
 
 
@@ -22,4 +22,4 @@ class BusinessEntityUtils:
 
     @staticmethod
     def get_entity_class(entity_type_name: str):
-        return getattr(herbie_core.models, BusinessEntityUtils.snake_to_camel(entity_type_name))
+        return getattr(settings.APP_LABEL + 'models', BusinessEntityUtils.snake_to_camel(entity_type_name))
