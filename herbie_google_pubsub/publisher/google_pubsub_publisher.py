@@ -13,6 +13,9 @@ class GooglePubsubPublisher(AbstractPublisher):
         self._logger = logging.getLogger(__name__)
         self._publisher = PublisherClient()
 
+    def get_name(self) -> str:
+        return 'google_pubsub'
+
     def send_message(self, message: Message):
         serializer = message.get_serializer()
 
