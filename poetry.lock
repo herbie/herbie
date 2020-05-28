@@ -76,17 +76,6 @@ version = "0.7.0rc1"
 
 [[package]]
 category = "main"
-description = "Dependency injection microframework for Python"
-name = "dependency-injector"
-optional = false
-python-versions = "*"
-version = "3.15.6"
-
-[package.dependencies]
-six = ">=1.7.0,<=1.14.0"
-
-[[package]]
-category = "main"
 description = "A high-level Python Web framework that encourages rapid development and clean, pragmatic design."
 name = "django"
 optional = false
@@ -625,7 +614,7 @@ python-versions = "*"
 version = "0.1.9"
 
 [metadata]
-content-hash = "3a0b6b2efdc247306d2d2c5aa0125c6286a78836c4e735ee4401bf6e32640e02"
+content-hash = "d7336bfab80f7e6df4fff09590d294dcd666874118f98c5abd9a43c737ab41ca"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -660,9 +649,6 @@ colorama = [
 defusedxml = [
     {file = "defusedxml-0.7.0rc1-py2.py3-none-any.whl", hash = "sha256:8ede8ba04cf5bf7999e1492fa77df545db83717f52c5eab625f97228ebd539bf"},
     {file = "defusedxml-0.7.0rc1.tar.gz", hash = "sha256:aa621655d72cdd30f57073893b96cd0c3831a85b08b8e4954531bdac47e3e8c8"},
-]
-dependency-injector = [
-    {file = "dependency-injector-3.15.6.tar.gz", hash = "sha256:fcca1464f567d902983bff507b9e2e3fda0f932ee009e36f74ed5b8c348d17f4"},
 ]
 django = [
     {file = "Django-3.0.6-py3-none-any.whl", hash = "sha256:051ba55d42daa3eeda3944a8e4df2bc96d4c62f94316dea217248a22563c3621"},

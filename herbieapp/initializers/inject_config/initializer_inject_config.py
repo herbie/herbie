@@ -7,6 +7,3 @@ class InitializerInjectConfig:
     def inject_config(binder):
         binder.bind(PermissionInitializer, InitializerDependencyProvider.permission_initializer)
         binder.bind(SchemaInitializer, InitializerDependencyProvider.schema_initializer)
-
-        #binder.bind(PermissionInitializer, InitializerDependencyProvider.permission_initializer())
-        #binder.bind(SchemaInitializer, InitializerDependencyProvider.schema_initializer())

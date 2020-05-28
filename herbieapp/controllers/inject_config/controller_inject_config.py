@@ -5,6 +5,3 @@ from herbieapp.controllers.dependency_providers import ControllerDependencyProvi
 class ControllerInjectConfig:
     def inject_config(binder):
         binder.bind(IsAuthenticated, ControllerDependencyProvider.permission_classes_provider)
-
-        # Using dependency injector package
-        # binder.bind(IsAuthenticated, ControllerDependencyProvider.permission_classes_provider())

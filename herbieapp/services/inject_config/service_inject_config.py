@@ -19,13 +19,3 @@ class ServiceInjectConfig:
         binder.bind(SchemaPackage, ServiceDependencyProvider.schema_package_provider)
         binder.bind(JsonSchemaValidator, ServiceDependencyProvider.validator_provider)
         binder.bind(SchemaImporter, ServiceDependencyProvider.schema_importer_provider)
-
-        # Using dependency injector package
-        # binder.bind(MessagePublisherUtils.get_messaging_provider(), ServiceDependencyProvider.messaging_provider())
-        # binder.bind(MessagePublisher, ServiceDependencyProvider.message_publisher_provider())
-        # binder.bind(BusinessEntityManager, ServiceDependencyProvider.entity_manager_provider())
-        # binder.bind(SchemaRegistry, ServiceDependencyProvider.schema_registry_provider())
-        # binder.bind(PermissionManager, ServiceDependencyProvider.permission_manager_provider())
-        # binder.bind(SchemaPackage, ServiceDependencyProvider.schema_package_provider())
-        # binder.bind(JsonSchemaValidator, ServiceDependencyProvider.validator_provider())
-        # binder.bind(SchemaImporter, ServiceDependencyProvider.schema_importer_provider())
