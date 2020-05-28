@@ -23,6 +23,6 @@ class BusinessEntityUtils:
 
     @staticmethod
     def get_entity_class(entity_type_name: str):
-        model_module = importlib.import_module(settings.APP_LABEL + 'models')
+        model_module = importlib.import_module(settings.APP_LABEL + '.models')
 
         return getattr(model_module, BusinessEntityUtils.snake_to_camel(entity_type_name))
