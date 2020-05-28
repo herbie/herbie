@@ -26,7 +26,6 @@ admin.site.site_header = 'Herbie'
 admin.site.site_title = 'Herbie'
 admin.site.index_title = 'Dashboard'
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/<str:business_entity>/save', SaveBusinessEntityController().as_view()),

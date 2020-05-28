@@ -1,7 +1,6 @@
 import logging
-
+import inject
 from django.core.management import BaseCommand
-
 from herbieapp.services import SchemaPackage
 from herbieapp.services.message_publisher.google_pub_sub_publisher import GooglePubSubPublisher
 
@@ -9,11 +8,17 @@ from herbieapp.services.message_publisher.google_pub_sub_publisher import Google
 class Command(BaseCommand):
     help = 'initialize pubsub topics'
 
-    def __init__(self, **kwargs):
+    @inject.autoparams()
+    def __init__(
+            self,
+            publisher: GooglePubSubPublisher,
+            schema_package: SchemaPackage,
+            **kwargs
+    ):
         super().__init__(**kwargs)
         self._logger = logging.getLogger(__name__)
-        self._publisher = GooglePubSubPublisher()
-        self._schema_package = SchemaPackage()
+        self._publisher = publisher
+        self._schema_package = schema_package
 
     def handle(self, *args, **kwargs):
         names = self._schema_package.get_all_schema_names()

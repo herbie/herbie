@@ -1,3 +1,4 @@
+import inject
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -7,21 +8,28 @@ from herbieapp.constants import ControllerConstants as Constants
 from herbieapp.controllers.utils import ControllerUtils
 from herbieapp.services import BusinessEntityManager, SchemaRegistry, JsonSchemaValidator
 from rest_framework.permissions import IsAuthenticated
-
 from herbieapp.services.permission_manager import PermissionManager
 
 
 class SaveBusinessEntityController(APIView):
-    _entity_manager = None
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self._entity_manager = BusinessEntityManager()
+    @inject.autoparams()
+    def __init__(
+            self,
+            entity_manager: BusinessEntityManager,
+            validator: JsonSchemaValidator,
+            schema_registry: SchemaRegistry,
+            permission_classes: IsAuthenticated,
+            permission_manager: PermissionManager,
+            **kwargs
+    ):
+        self._entity_manager = entity_manager
+        self._validator = validator
+        self._schema_registry = schema_registry
+        self._permission_classes = permission_classes
+        self._permission_manager = permission_manager
         self._logger = logging.getLogger(__name__)
-        self._validator = JsonSchemaValidator()
-        self._schema_registry = SchemaRegistry()
-        self._permission_classes = (IsAuthenticated,)
-        self._permission_manager = PermissionManager()
+        super().__init__(**kwargs)
 
     def post(self, request: Request, business_entity: str) -> Response:
         if not self._validator.business_entity_exist(business_entity):

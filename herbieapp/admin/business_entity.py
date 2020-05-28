@@ -1,4 +1,5 @@
 import json
+import inject
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from herbieapp.models import AbstractBusinessEntity
@@ -11,7 +12,7 @@ class ReadOnlyAdmin(admin.ModelAdmin):
     list_display = ['key', 'version']
     search_fields = ['key', 'version']
 
-    _entity_manager = BusinessEntityManager()
+    _entity_manager = inject.attr(BusinessEntityManager)
 
     def has_view_permission(self, request, obj=None):
         if super().has_view_permission(request, obj):

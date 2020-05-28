@@ -6,8 +6,10 @@ from herbieapp.services.message_publisher.message_publisher import MessagePublis
 
 
 class BusinessEntityManager:
+    _message_publisher = None
 
-    _message_publisher = MessagePublisher()
+    def __init__(self, message_publisher: MessagePublisher):
+        self._message_publisher = message_publisher
 
     def update_or_create(
             self,

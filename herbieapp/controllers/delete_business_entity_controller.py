@@ -1,4 +1,4 @@
-from django.contrib.auth.models import Permission
+import inject
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
@@ -13,15 +13,21 @@ from herbieapp.services.permission_manager import PermissionManager
 
 class DeleteBusinessEntityController(APIView):
 
-    _entity_manager = None
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self._entity_manager = BusinessEntityManager()
+    @inject.autoparams()
+    def __init__(
+            self,
+            entity_manager: BusinessEntityManager,
+            validator: JsonSchemaValidator,
+            permission_classes: IsAuthenticated,
+            permission_manager: PermissionManager,
+            **kwargs
+    ):
+        self._entity_manager = entity_manager
+        self._validator = validator
+        self._permission_classes = permission_classes
+        self._permission_manager = permission_manager
         self._logger = logging.getLogger(__name__)
-        self._validator = JsonSchemaValidator()
-        self._permission_classes = (IsAuthenticated,)
-        self._permission_manager = PermissionManager()
+        super().__init__(**kwargs)
 
     def post(self, request: Request, business_entity: str) -> Response:
         if not self._permission_manager.has_delete_permission(business_entity, request):
@@ -63,4 +69,3 @@ class DeleteBusinessEntityController(APIView):
             message.format(key, version),
             status.HTTP_200_OK
         )
-

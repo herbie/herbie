@@ -5,7 +5,7 @@ class SchemaRegistry:
     def find_schema(self, business_entity: str, version: str) -> str:
         schema = Schema.objects.filter(name=business_entity, version=version).first()
         if schema == None:
-            return ''
+            return {}
 
         return schema.content
 
@@ -27,4 +27,3 @@ class SchemaRegistry:
         schema = Schema.objects.filter(name=schema_name).order_by('version').first()
 
         return schema.version
-
