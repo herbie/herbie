@@ -6,10 +6,25 @@ from herbie import settings
 from herbieapp.services import BusinessEntityManager
 
 
+gdpr_delete_fields = ['email', 'person_email', 'person_gender', 'person_phone']
+gdpr_anonname_fields = ['firstName', 'lastName', 'person_name']
+
+def anonymize(modeladmin, request, queryset):
+    for obj in queryset:
+        for k in obj.data:
+            if k in gdpr_delete_fields:
+                obj.data[k] = None
+            if k in gdpr_anonname_fields:
+                obj.data[k] = 'Anonymous'
+        obj.save()
+anonymize.short_description = 'Delete all personal information'
+
+
 class ReadOnlyAdmin(admin.ModelAdmin):
     fields = ('key', 'version', 'data_prettified', 'created', 'modified')
     list_display = ['key', 'version']
-    search_fields = ['key', 'version']
+    search_fields = ['key', 'version', 'data']
+    actions = [anonymize]
 
     _entity_manager = BusinessEntityManager()
 
