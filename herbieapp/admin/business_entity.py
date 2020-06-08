@@ -18,6 +18,7 @@ def anonymize(modeladmin, request, queryset):
                 obj.data[k] = 'Anonymous'
         obj.save()
 anonymize.short_description = 'Delete all personal information'
+anonymize.allowed_permissions = ('change',)
 
 
 class ReadOnlyAdmin(admin.ModelAdmin):
