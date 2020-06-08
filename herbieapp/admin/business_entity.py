@@ -7,7 +7,7 @@ from herbieapp.services import BusinessEntityManager
 
 
 gdpr_delete_fields = ['email', 'person_email', 'person_gender', 'person_phone']
-gdpr_anonname_fields = ['firstName', 'lastName', 'person_name']
+gdpr_anonname_fields = ['firstName', 'lastName', 'person_name', 'person_first_name', 'person_last_name']
 
 def anonymize(modeladmin, request, queryset):
     for obj in queryset:
