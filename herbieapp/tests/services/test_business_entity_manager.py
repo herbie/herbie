@@ -27,22 +27,21 @@ class BusinessEntityManagerTestCase(TestCase):
     def setUp(self):
         self._entity_manager = BusinessEntityManager()
 
-    @mock.patch.object(MessagePublisher, 'send_entity_update_message')
+    @mock.patch.object(MessagePublisher, 'send_entity_create_message')
     @mock.patch.object(ManagerTestEntity, 'objects')
     @mock.patch.object(BusinessEntityUtils, 'get_entity_class', return_value=ManagerTestEntity)
-    def test_create(self, mock_entity_utils, mock_objects, mock_send_entity_update_message):
+    def test_create(self, mock_entity_utils, mock_objects, mock_send_entity_create_message):
         mock_objects.update_or_create.return_value = (entity, True)
         created = self._entity_manager.update_or_create(entity_name, key, version, test_user, data)
 
         self.assertTrue(created)
         mock_objects.update_or_create.assert_called_once()
-        mock_send_entity_update_message.assert_called_once_with(entity)
+        mock_send_entity_create_message.assert_called_once_with(entity)
 
     @mock.patch.object(MessagePublisher, 'send_entity_update_message')
     @mock.patch.object(ManagerTestEntity, 'objects')
     @mock.patch.object(BusinessEntityUtils, 'get_entity_class', return_value=ManagerTestEntity)
     def test_update(self, mock_entity_utils, mock_objects, mock_send_entity_update_message):
-        # create entity, should send one message
         mock_objects.update_or_create.return_value = (entity, False)
         created = self._entity_manager.update_or_create(entity_name, key, version, test_user, data)
 

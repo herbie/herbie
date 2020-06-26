@@ -1,6 +1,6 @@
 import logging
 from herbieapp.models import AbstractBusinessEntity
-from herbieapp.models.message_models_and_serializers import EntityUpdateMessage, EntityDeleteMessage
+from herbieapp.models.message_models_and_serializers import EntityCreateMessage, EntityUpdateMessage, EntityDeleteMessage
 from herbieapp.services.message_publisher.utils import MessagePublisherUtils
 from herbieapp.services.utils import BusinessEntityUtils
 
@@ -11,6 +11,18 @@ class MessagePublisher:
         super().__init__(**kwargs)
         self._logger = logging.getLogger(__name__)
         self._messaging_provider = MessagePublisherUtils.get_messaging_provider()
+
+    def send_entity_create_message(self, entity: AbstractBusinessEntity, tags=None):
+        if tags is None:
+            tags = []
+        self._send_message(EntityCreateMessage(
+            BusinessEntityUtils.get_entity_type_name(entity),
+            entity.key,
+            entity.version,
+            entity.data,
+            entity.created,
+            tags
+        ))
 
     def send_entity_update_message(self, entity: AbstractBusinessEntity, tags=None):
         if tags is None:

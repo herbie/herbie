@@ -44,5 +44,6 @@ class GroupConstants:
 
 
 class MessageActionConstants:
+    CREATE = 'create'
     UPDATE = 'update'
     DELETE = 'delete'
