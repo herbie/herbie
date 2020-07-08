@@ -15,8 +15,4 @@ else
   echo "'extra_packages' folder not existing … skipping"
 fi
 
-pip install -r $REQUIREMENTS_FILE
-
-RESULT=$(( RESULT + $? ))
-
 exit $RESULT
