@@ -12,7 +12,7 @@ class Command(BaseCommand):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._logger = logging.getLogger(__name__)
-        self._publisher = GooglePubSubPublisher()
+        self._publisher = GooglePubsubPublisher()
         self._schema_package = SchemaPackage()
 
     def handle(self, *args, **kwargs):
