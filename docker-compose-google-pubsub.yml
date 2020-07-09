@@ -8,19 +8,19 @@ services:
     volumes:
       - '.:/data/www'
     depends_on:
-      - 'herbie_core-google-pub-sub'
+      - 'herbie_core-google-pubsub'
       - 'herbie_core-db'
     environment:
       - 'DATABASE_URL=postgres://user:password@herbie_core-db:5432/herbie_db'
       - 'SECRET_KEY=thisisasecret'
       - 'GCLOUD_PUBSUB_PROJECT_ID=herbie_core-app'
-      - 'PUBSUB_EMULATOR_HOST=herbie_core-google-pub-sub:8085'
+      - 'PUBSUB_EMULATOR_HOST=herbie_core-google-pubsub:8085'
     ports:
       - '8000:8000'
     networks:
       - 'herbie_core-network'
 
-  herbie-db:
+  herbie_core-db:
     container_name: 'herbie_core-db'
     image: 'postgres:11.5'
     volumes:
@@ -34,8 +34,8 @@ services:
     networks:
       - 'herbie_core-network'
 
-  herbie-google-pub-sub:
-    container_name: 'herbie_core-google-pub-sub'
+  herbie_core-google-pubsub:
+    container_name: 'herbie_core-google-pubsub'
     image: 'knarz/pubsub-emulator'
     ports:
       - '8085:8085'
@@ -48,5 +48,5 @@ volumes:
     driver: 'local'
 
 networks:
-  herbie-network:
+  herbie_core-network:
     driver: 'bridge'

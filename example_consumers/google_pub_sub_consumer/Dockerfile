@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3-slim
 
 ENV PYTHONUNBUFFERED 1
 
@@ -6,15 +6,9 @@ RUN mkdir -p /data/www/
 
 WORKDIR /data/www/
 
-### Setup poetry ################################
-RUN pip install poetry
-RUN poetry config virtualenvs.create false
+COPY requirements.txt /data/www/
 
-COPY poetry.lock /data/www/
-COPY pyproject.toml /data/www/
-
-### Poetry install ##############################
-RUN poetry install --no-interaction;
+RUN pip install -r requirements.txt
 
 COPY . /data/www/
 

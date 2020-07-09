@@ -1,6 +1,4 @@
 from django.apps import AppConfig
-from herbie_core.services.message_publisher.registry import Registry
-from herbie_google_pubsub.publisher import GooglePubsubPublisher
 
 
 class HerbieGooglePubsubConfig(AppConfig):
@@ -8,4 +6,7 @@ class HerbieGooglePubsubConfig(AppConfig):
     verbose_name = 'HerbieGooglePubsub'
 
     def ready(self):
+        from herbie_core.services.message_publisher.registry import Registry
+        from herbie_google_pubsub.publisher import GooglePubsubPublisher
+
         Registry.add_publisher(GooglePubsubPublisher())
