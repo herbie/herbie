@@ -1,3 +1,5 @@
+import sys
+
 from google.api_core.exceptions import AlreadyExists
 from google.cloud.pubsub_v1 import SubscriberClient
 
@@ -35,6 +37,12 @@ class PubSubConsumer:
         print(message.data)
 
 
+if len(sys.argv) < 2:
+    print('Please provide a Topic to subscribe to e.g: "python kafka_consumer.py test"')
+    exit()
+
+topic = sys.argv[1]
+
 consumer = PubSubConsumer()
-consumer.create_subscription('test', 'subscription_customer')
+consumer.create_subscription(topic, 'subscription_customer')
 consumer.subscribe('subscription_customer')
