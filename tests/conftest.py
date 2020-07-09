@@ -14,7 +14,7 @@ def pytest_configure(config):
         APP_LABEL='herbie_core',
         SECRET_KEY='not very secret in tests',
         SCHEMA_REGISTRY_PACKAGE='test',
-        MESSAGING_PROVIDER='kafka',
+        MESSAGING_PROVIDER='google_pubsub',
         LANGUAGE_CODE='en-us',
         TIME_ZONE='UTC',
         USE_I18N=True,

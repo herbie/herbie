@@ -38,7 +38,7 @@ class PubSubConsumer:
 
 
 if len(sys.argv) < 2:
-    print('Please provide a Topic to subscribe to e.g: "python kafka_consumer.py test"')
+    print('Please provide a Topic to subscribe to e.g: "python consumer.py customer"')
     exit()
 
 topic = sys.argv[1]

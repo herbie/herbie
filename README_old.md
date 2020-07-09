@@ -161,7 +161,7 @@ implementation of the internal `_send_message` method of the `MessagePublisher` 
 
 Then you can also remove or replace the Kafka connection settings in
 [herbie/settings.py](herbie_core/settings.py), and also remove or replace the Kafka and
-Zookeeper images in the [docker-compose.yml](docker-compose-kafka.yml).
+Zookeeper images in the [docker-compose.yml](legacy/docker-compose-kafka.yml).
 
 
 ## Herbie - Development

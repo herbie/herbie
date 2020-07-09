@@ -4,7 +4,7 @@ services:
 
   herbie-app:
     container_name: 'herbie_core-app'
-    build: .
+    build: ..
     volumes:
       - '.:/data/www'
     depends_on:
