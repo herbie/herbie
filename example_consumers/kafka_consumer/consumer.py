@@ -24,7 +24,10 @@ for consumer_record in consumer:
     key = message['key']
     action = message['action']
     if action == 'update':
-        print(f'saving {entity_name} with id {key} to database: {message["payload"]}')
+        print(f'saving a updated {entity_name} with id {key} to database: {message["payload"]}')
+        # ...
+    elif action == 'create':
+        print(f'saving a created {entity_name} with id {key} to database: {message["payload"]}')
         # ...
     elif action == 'delete':
         print(f'deleting {entity_name} with id {key} from database')

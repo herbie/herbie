@@ -29,7 +29,10 @@ class BusinessEntityManager:
             }
         )
 
-        self._message_publisher.send_entity_update_message(business_entity)
+        if created:
+            self._message_publisher.send_entity_create_message(business_entity)
+        else:
+            self._message_publisher.send_entity_update_message(business_entity)
 
         return created
 
