@@ -24,7 +24,8 @@ class JsonSchemaValidatorTestCase(TestCase):
 
         json_data = {
             "testId": 12,
-            "name": "testName"
+            "name": "testName",
+            "created_at": "2020-07-10T15:03:23+02:00",
         }
 
         validation_messages = self._schema_validator.validate_schema(json_data, self._business_entity, self._version_1)
@@ -88,6 +89,31 @@ class JsonSchemaValidatorTestCase(TestCase):
             {
                 'error_message': "'wrongType' is not of type 'integer'",
                 'validation_error': 'integer'
+            }
+        }
+
+        self.assertEqual(message_response_expected, validation_messages)
+
+
+    @mock.patch.object(SchemaRegistry, 'find_schema')
+    @mock.patch.object(SchemaRegistry, 'get_all_versions')
+    def test_validate_string_date_time_format(self, mock_get_all_versions, mock_find_schema):
+        mock_get_all_versions.return_value = [self._version_1]
+        mock_find_schema.return_value = self._load_test_schema(self._business_entity, self._version_1)
+
+        invalid_date_time= "2020/10/07 16:00:00"
+
+        json_data = {
+            "testId": 123,
+            "name": "testName",
+            "created_at": invalid_date_time,
+        }
+
+        validation_messages = self._schema_validator.validate_schema(json_data, self._business_entity, self._version_1)
+        message_response_expected = {'created_at':
+            {
+                'error_message': f"'{invalid_date_time}' is not a 'date-time'",
+                'validation_error': 'date-time'
             }
         }
 
