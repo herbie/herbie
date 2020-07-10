@@ -2,7 +2,7 @@ import json
 import re
 
 from herbieapp.services import SchemaRegistry
-from jsonschema import Draft7Validator
+from jsonschema import Draft7Validator, draft7_format_checker
 from herbieapp.constants import ValidatorResponseConstants, ControllerConstants
 
 
@@ -14,7 +14,7 @@ class JsonSchemaValidator:
         if not self.version_exist(version, business_entity):
             return ControllerConstants.VERSION_NOT_EXIST.format(version)
         schema = self._get_json_schema(business_entity, version)
-        data_validated = Draft7Validator(schema)
+        data_validated = Draft7Validator(schema, format_checker=draft7_format_checker)
         sorted_errors = sorted(data_validated.iter_errors(json_data), key=lambda e: e.path)
         errors = {}
 
