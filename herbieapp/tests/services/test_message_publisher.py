@@ -43,7 +43,7 @@ class MessagePublisherTestCase(TestCase):
         ))
 
     @mock.patch.object(KafkaPublisher, '_producer')
-    def test_send_entity_delete_message(self, mock_producer):
+    def test_send_entity_create_message(self, mock_producer):
         self._message_publisher.send_entity_create_message(entity)
 
         mock_producer.send.assert_called_once_with(topic, key=key, value=Matcher(
