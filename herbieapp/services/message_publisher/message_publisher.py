@@ -15,7 +15,7 @@ class MessagePublisher:
     def send_entity_create_message(self, entity: AbstractBusinessEntity, tags=None):
         if tags is None:
             tags = []
-        self._send_message(EntityCreateMessage(
+        self._messaging_provider.send_message(EntityCreateMessage(
             BusinessEntityUtils.get_entity_type_name(entity),
             entity.key,
             entity.version,

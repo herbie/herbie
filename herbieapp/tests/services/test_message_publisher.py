@@ -3,7 +3,7 @@ import unittest.mock as mock
 from django.test import TestCase
 
 from herbieapp.models import AbstractBusinessEntity
-from herbieapp.services import MessagePublisher, EntityUpdateMessage, EntityDeleteMessage, settings
+from herbieapp.services import MessagePublisher, EntityCreateMessage, EntityUpdateMessage, EntityDeleteMessage, settings
 from herbieapp.services.message_publisher.kafka_publisher import KafkaPublisher
 from herbieapp.tests.services.matcher import Matcher
 
@@ -40,4 +40,12 @@ class MessagePublisherTestCase(TestCase):
 
         mock_producer.send.assert_called_once_with(topic, key=key, value=Matcher(
             EntityDeleteMessage, {'action': 'delete', 'type': topic, 'key': key, 'version': version}
+        ))
+
+    @mock.patch.object(KafkaPublisher, '_producer')
+    def test_send_entity_create_message(self, mock_producer):
+        self._message_publisher.send_entity_create_message(entity)
+
+        mock_producer.send.assert_called_once_with(topic, key=key, value=Matcher(
+            EntityCreateMessage, {'action': 'create', 'type': topic, 'key': key, 'version': version, 'payload': data, 'tags': []}
         ))
