@@ -1,6 +1,6 @@
 from django.conf import settings
 from herbie_core.exceptions import InvalidMessagingProvider
-from herbie_google_pubsub.publisher.google_pubsub_publisher import GooglePubsubPublisher
+from google_pubsub_adapter.publisher.google_pubsub_publisher import GooglePubsubPublisher
 
 
 class MessagePublisherUtils:
