@@ -32,29 +32,20 @@ jobs:
       run: |
         sudo apt-get -yqq install libpq-dev
 
-    - name: Cache requirements
-      uses: actions/cache@v1
-      id: cache
+    - name: Install latest versions of pip, setuptools and wheel
+      run: |
+        python -m pip install --upgrade pip setuptools wheel
+
+    - name: Cache pip
+      uses: actions/cache@v2
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements-testing.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
+        key: pip-${{ hashFiles('setup.cfg') }}
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements-testing.txt
-        pip install wheel
-        python setup.py bdist_wheel
+        python -m pip install -e .[tests]
 
     - name: Lint with flake8
       run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-
-    - name: Test with pytest
-      run: |
-        pytest --verbose
+        flake8
