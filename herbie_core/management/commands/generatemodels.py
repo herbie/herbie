@@ -1,6 +1,8 @@
 from django.core.management.base import BaseCommand
-from herbie_core.services import BusinessEntityUtils, SchemaPackage
 from django.conf import settings
+
+from herbie_core.services.schema_package import SchemaPackage
+from herbie_core.services.utils import BusinessEntityUtils
 
 model_filename = "/models/generated_models.py"
 
