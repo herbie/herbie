@@ -3,7 +3,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from herbie_core.services import SchemaRegistry
+from herbie_core.services.schema_registry import SchemaRegistry
 
 
 class SchemaRegistryView(APIView):

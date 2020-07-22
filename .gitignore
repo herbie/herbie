@@ -9,6 +9,6 @@ __pycache__/
 test
 dist
 .eggs
-herbie.egg-info
+*.egg-info/
 .tox
 build

@@ -1,7 +1,10 @@
+import logging
+
+from django.conf import settings
 from django.core.management import BaseCommand
-from django.core.paginator import Paginator, Page
 from herbie_core.constants import CommandsConstants as Constants
-from herbie_core.services import BusinessEntityManager, logging, settings, MessagePublisher
+from herbie_core.services.business_entity_manager import BusinessEntityManager
+from herbie_core.services.message_publisher.message_publisher import MessagePublisher
 
 
 class Command(BaseCommand):

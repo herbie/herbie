@@ -1,7 +1,7 @@
 import logging
 
-from herbie_core.services import AbstractPublisher
 from herbie_core.models.message_models_and_serializers import Message
+from herbie_core.services.message_publisher.abstract_publisher import AbstractPublisher
 
 
 class LoggingPublisher(AbstractPublisher):

@@ -1,8 +1,9 @@
 from unittest import mock
 from unittest.mock import Mock
 from django.test import TestCase
-from herbie_core.services import SchemaRegistry
-from herbie_core.models import Schema
+
+from herbie_core.models.schema import Schema
+from herbie_core.services.schema_registry import SchemaRegistry
 
 
 class TestSchemaRegistry(TestCase):
@@ -56,8 +57,7 @@ class TestSchemaRegistry(TestCase):
         self.assertEqual(self._version_latest, schema_latest_version)
 
     def _get_test_schema(self, version=None):
-        if version == None:
+        if version is None:
             version = self._version_1
 
         return Schema(name=self._schema_name, version=version, content=self._schema_content)
-

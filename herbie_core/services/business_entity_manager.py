@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
-from herbie_core.services import BusinessEntityUtils
 from django.db.models import QuerySet
 from herbie_core.models.models import AbstractBusinessEntity
 from herbie_core.services.message_publisher.message_publisher import MessagePublisher
+from herbie_core.services.utils import BusinessEntityUtils
 
 
 class BusinessEntityManager:

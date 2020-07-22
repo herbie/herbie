@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 from django.conf import settings
 
-from herbie_core.models import Schema
+from herbie_core.models.schema import Schema
 
 
 class JsonSchemaAdmin(admin.ModelAdmin):

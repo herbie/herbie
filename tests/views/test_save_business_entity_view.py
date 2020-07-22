@@ -1,10 +1,11 @@
+from django.conf import settings
 from django.test import TestCase
 from unittest.mock import patch
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from herbie_core.services import PermissionManager
-from herbie_core.services import BusinessEntityManager, settings
+from herbie_core.services.business_entity_manager import BusinessEntityManager
+from herbie_core.services.permission_manager import PermissionManager
 
 
 class TestSaveBusinessEntityView(TestCase):

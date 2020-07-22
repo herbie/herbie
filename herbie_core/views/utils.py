@@ -29,7 +29,7 @@ class ViewUtils:
             },
             status=status_code
         )
-    
+
     @staticmethod
     def extract_body(request: Request) -> dict:
         body_unicode = request.body.decode('utf-8')

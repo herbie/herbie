@@ -1,9 +1,8 @@
 from django.urls import path
 
-from herbie_core.views import SchemaRegistryView
-from herbie_core.views import SaveBusinessEntityView
-from herbie_core.views import DeleteBusinessEntityView
-
+from herbie_core.views.delete_business_entity_view import DeleteBusinessEntityView
+from herbie_core.views.save_business_entity_view import SaveBusinessEntityView
+from herbie_core.views.schema_registry_view import SchemaRegistryView
 
 urlpatterns = [
     path('<str:business_entity>/save', SaveBusinessEntityView().as_view()),

@@ -1,9 +1,10 @@
+import logging
+
 from django.core.management import BaseCommand
 
 from herbie_core.initializers.abstract_initializer import AbstractInitializer
 from herbie_core.initializers.permisson_initializer import PermissionInitializer
 from herbie_core.initializers.schema_initializer import SchemaInitializer
-from herbie_core.services import logging
 
 
 class Command(BaseCommand):

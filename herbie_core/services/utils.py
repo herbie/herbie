@@ -1,7 +1,7 @@
 import re
 import importlib
 from django.conf import settings
-from herbie_core.models import AbstractBusinessEntity
+from herbie_core.models.models import AbstractBusinessEntity
 
 
 class BusinessEntityUtils:

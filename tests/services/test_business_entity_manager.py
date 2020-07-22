@@ -5,32 +5,33 @@ from django.contrib.auth.models import User
 from django.db.models import QuerySet
 from django.test import TestCase
 
-from herbie_core.models import AbstractBusinessEntity
-from herbie_core.services import BusinessEntityManager, BusinessEntityUtils, MessagePublisher
+from herbie_core.models.models import AbstractBusinessEntity
+from herbie_core.services.business_entity_manager import BusinessEntityManager
+from herbie_core.services.message_publisher.message_publisher import MessagePublisher
+from herbie_core.services.utils import BusinessEntityUtils
 
 
 class ManagerTestEntity(AbstractBusinessEntity):
     class Meta:
         managed = False
-        app_label = 'herbie_core'
+        app_label = "herbie_core"
 
 
-entity_name = 'manager_test_entity'
-key = '123'
-version = 'v1'
+entity_name = "manager_test_entity"
+key = "123"
+version = "v1"
 test_user = User(username="test-user")
 data = '{"field": "value"}'
 entity = ManagerTestEntity(key=key, version=version, publisher=test_user, data=data)
 
 
 class BusinessEntityManagerTestCase(TestCase):
-
     def setUp(self):
         self._entity_manager = BusinessEntityManager()
 
-    @mock.patch.object(MessagePublisher, 'send_entity_update_message')
-    @mock.patch.object(ManagerTestEntity, 'objects')
-    @mock.patch.object(BusinessEntityUtils, 'get_entity_class', return_value=ManagerTestEntity)
+    @mock.patch.object(MessagePublisher, "send_entity_update_message")
+    @mock.patch.object(ManagerTestEntity, "objects")
+    @mock.patch.object(BusinessEntityUtils, "get_entity_class", return_value=ManagerTestEntity)
     def test_create(self, mock_entity_utils, mock_objects, mock_send_entity_update_message):
         mock_objects.update_or_create.return_value = (entity, True)
         created = self._entity_manager.update_or_create(entity_name, key, version, test_user, data)
@@ -39,9 +40,9 @@ class BusinessEntityManagerTestCase(TestCase):
         mock_objects.update_or_create.assert_called_once()
         mock_send_entity_update_message.assert_called_once_with(entity)
 
-    @mock.patch.object(MessagePublisher, 'send_entity_update_message')
-    @mock.patch.object(ManagerTestEntity, 'objects')
-    @mock.patch.object(BusinessEntityUtils, 'get_entity_class', return_value=ManagerTestEntity)
+    @mock.patch.object(MessagePublisher, "send_entity_update_message")
+    @mock.patch.object(ManagerTestEntity, "objects")
+    @mock.patch.object(BusinessEntityUtils, "get_entity_class", return_value=ManagerTestEntity)
     def test_update(self, mock_entity_utils, mock_objects, mock_send_entity_update_message):
         # create entity, should send one message
         mock_objects.update_or_create.return_value = (entity, False)
@@ -51,10 +52,10 @@ class BusinessEntityManagerTestCase(TestCase):
         mock_objects.update_or_create.assert_called_once()
         mock_send_entity_update_message.assert_called_once_with(entity)
 
-    @mock.patch.object(MessagePublisher, 'send_entity_delete_message')
-    @mock.patch.object(QuerySet, 'delete')
-    @mock.patch.object(QuerySet, 'all')
-    @mock.patch.object(BusinessEntityUtils, 'get_entity_class', return_value=ManagerTestEntity)
+    @mock.patch.object(MessagePublisher, "send_entity_delete_message")
+    @mock.patch.object(QuerySet, "delete")
+    @mock.patch.object(QuerySet, "all")
+    @mock.patch.object(BusinessEntityUtils, "get_entity_class", return_value=ManagerTestEntity)
     def test_delete(self, mock_entity_utils, mock_queryset_all, mock_queryset_delete, mock_send_entity_delete_message):
         mock_queryset_all.return_value = [entity]
         mock_queryset_delete.return_value = (1, {})
@@ -63,11 +64,13 @@ class BusinessEntityManagerTestCase(TestCase):
         self.assertEqual(1, delete_count)
         mock_send_entity_delete_message.assert_called_once_with(entity)
 
-    @mock.patch.object(MessagePublisher, 'send_entity_delete_message')
-    @mock.patch.object(QuerySet, 'delete')
-    @mock.patch.object(QuerySet, 'all')
-    @mock.patch.object(BusinessEntityUtils, 'get_entity_class', return_value=ManagerTestEntity)
-    def test_delete_by_key(self, mock_entity_utils, mock_queryset_all, mock_queryset_delete, mock_send_entity_delete_message):
+    @mock.patch.object(MessagePublisher, "send_entity_delete_message")
+    @mock.patch.object(QuerySet, "delete")
+    @mock.patch.object(QuerySet, "all")
+    @mock.patch.object(BusinessEntityUtils, "get_entity_class", return_value=ManagerTestEntity)
+    def test_delete_by_key(
+        self, mock_entity_utils, mock_queryset_all, mock_queryset_delete, mock_send_entity_delete_message
+    ):
         mock_queryset_all.return_value = [entity, entity]
         mock_queryset_delete.return_value = (2, {})
         delete_count = self._entity_manager.delete_by_key(entity_name, key)

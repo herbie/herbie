@@ -27,4 +27,3 @@ class SchemaRegistry:
         schema = Schema.objects.filter(name=schema_name).order_by('version').first()
 
         return schema.version
-

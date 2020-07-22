@@ -2,8 +2,9 @@ import json
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from django.conf import settings
-from herbie_core.models import AbstractBusinessEntity
-from herbie_core.services import BusinessEntityManager
+
+from herbie_core.models.models import AbstractBusinessEntity
+from herbie_core.services.business_entity_manager import BusinessEntityManager
 
 
 class ReadOnlyAdmin(admin.ModelAdmin):
