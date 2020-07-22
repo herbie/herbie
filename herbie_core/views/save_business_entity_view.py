@@ -34,10 +34,7 @@ class SaveBusinessEntityView(APIView):
         body = ViewUtils.extract_body(request)
 
         if Constants.VERSION not in body:
-            return ViewUtils.custom_response(
-                Constants.VERSION_MISSING,
-                status.HTTP_400_BAD_REQUEST
-            )
+            return ViewUtils.custom_response(Constants.VERSION_MISSING, status.HTTP_400_BAD_REQUEST)
 
         version = body[Constants.VERSION]
         key = body[Constants.KEY]
@@ -47,20 +44,12 @@ class SaveBusinessEntityView(APIView):
         if error_messages:
             return ViewUtils.custom_response(error_messages, status.HTTP_400_BAD_REQUEST)
 
-        created = self._entity_manager.update_or_create(
-            business_entity, key, version, request.user, payload
-        )
+        created = self._entity_manager.update_or_create(business_entity, key, version, request.user, payload)
 
         return self._create_response(created, key, version)
 
     def _create_response(self, created, key, version):
         if created:
-            return ViewUtils.custom_response(
-                Constants.SAVE_MESSAGE.format(key, version),
-                status.HTTP_201_CREATED
-            )
+            return ViewUtils.custom_response(Constants.SAVE_MESSAGE.format(key, version), status.HTTP_201_CREATED)
 
-        return ViewUtils.custom_response(
-            Constants.UPDATE_MESSAGE.format(key, version),
-            status.HTTP_200_OK
-        )
+        return ViewUtils.custom_response(Constants.UPDATE_MESSAGE.format(key, version), status.HTTP_200_OK)

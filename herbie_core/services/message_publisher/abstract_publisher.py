@@ -3,7 +3,6 @@ from herbie_core.models.message_models_and_serializers import Message
 
 
 class AbstractPublisher:
-
     @abstractmethod
     def get_name(self) -> str:
         pass

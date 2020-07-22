@@ -1,6 +1,4 @@
-
 class AbstractInitializer:
-
     def get_name(self) -> str:
         raise NotImplementedError
 

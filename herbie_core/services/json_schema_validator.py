@@ -24,18 +24,18 @@ class JsonSchemaValidator:
                 if error_property:
                     errors[error_property.group(1)] = {
                         ValidatorResponseConstants.ERROR_MESSAGE: error.message,
-                        ValidatorResponseConstants.VALIDATE_KEY: error.validator
+                        ValidatorResponseConstants.VALIDATE_KEY: error.validator,
                     }
             elif error.validator == ValidatorResponseConstants.ADDITIONAL_PROPERTIES:
                 errors[error.validator] = {
                     ValidatorResponseConstants.ERROR_MESSAGE: error.message,
-                    ValidatorResponseConstants.VALIDATE_KEY: error.validator
+                    ValidatorResponseConstants.VALIDATE_KEY: error.validator,
                 }
             else:
                 for error_property in error.path:
                     errors[error_property] = {
                         ValidatorResponseConstants.ERROR_MESSAGE: error.message,
-                        ValidatorResponseConstants.VALIDATE_KEY: error.validator_value
+                        ValidatorResponseConstants.VALIDATE_KEY: error.validator_value,
                     }
 
         return errors

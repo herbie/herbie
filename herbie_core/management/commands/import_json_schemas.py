@@ -3,7 +3,7 @@ from herbie_core.services.schema_importer import SchemaImporter
 
 
 class Command(BaseCommand):
-    help = 'import all json schemas to db'
+    help = "import all json schemas to db"
 
     def handle(self, *args, **kwargs):
         schema_importer = SchemaImporter()

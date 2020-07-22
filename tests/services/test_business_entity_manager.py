@@ -29,9 +29,9 @@ class BusinessEntityManagerTestCase(TestCase):
     def setUp(self):
         self._entity_manager = BusinessEntityManager()
 
-    @mock.patch.object(MessagePublisher, 'send_entity_create_message')
-    @mock.patch.object(ManagerTestEntity, 'objects')
-    @mock.patch.object(BusinessEntityUtils, 'get_entity_class', return_value=ManagerTestEntity)
+    @mock.patch.object(MessagePublisher, "send_entity_create_message")
+    @mock.patch.object(ManagerTestEntity, "objects")
+    @mock.patch.object(BusinessEntityUtils, "get_entity_class", return_value=ManagerTestEntity)
     def test_create(self, mock_entity_utils, mock_objects, mock_send_entity_create_message):
         mock_objects.update_or_create.return_value = (entity, True)
         created = self._entity_manager.update_or_create(entity_name, key, version, test_user, data)

@@ -3,9 +3,8 @@ from herbie_core.services.schema_importer import SchemaImporter
 
 
 class SchemaInitializer(AbstractInitializer):
-
     def get_name(self) -> str:
-        return 'schemas'
+        return "schemas"
 
     def init(self):
         schema_importer = SchemaImporter()

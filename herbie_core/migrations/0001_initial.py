@@ -10,22 +10,29 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Schema',
+            name="Schema",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, editable=False, verbose_name='created')),
-                ('modified', model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, editable=False, verbose_name='modified')),
-                ('name', models.TextField()),
-                ('version', models.TextField()),
-                ('content', django.contrib.postgres.fields.jsonb.JSONField()),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "created",
+                    model_utils.fields.AutoCreatedField(
+                        default=django.utils.timezone.now, editable=False, verbose_name="created"
+                    ),
+                ),
+                (
+                    "modified",
+                    model_utils.fields.AutoLastModifiedField(
+                        default=django.utils.timezone.now, editable=False, verbose_name="modified"
+                    ),
+                ),
+                ("name", models.TextField()),
+                ("version", models.TextField()),
+                ("content", django.contrib.postgres.fields.jsonb.JSONField()),
             ],
-            options={
-                'abstract': False,
-            },
+            options={"abstract": False,},
         ),
     ]

@@ -10,23 +10,11 @@ class BusinessEntityManager:
     _message_publisher = MessagePublisher()
 
     def update_or_create(
-            self,
-            entity_name: str,
-            key: str,
-            version: str,
-            user: User,
-            data: str
+        self, entity_name: str, key: str, version: str, user: User, data: str
     ) -> (AbstractBusinessEntity, bool):
         business_entity_class = BusinessEntityUtils.get_entity_class(entity_name)
         business_entity, created = business_entity_class.objects.update_or_create(
-            key=key,
-            version=version,
-            defaults={
-                'key': key,
-                'version': version,
-                'publisher': user,
-                'data': data
-            }
+            key=key, version=version, defaults={"key": key, "version": version, "publisher": user, "data": data}
         )
 
         if created:

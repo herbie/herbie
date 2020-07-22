@@ -2,8 +2,8 @@ from django.apps import AppConfig
 
 
 class HerbieCoreConfig(AppConfig):
-    name = 'herbie_core'
-    verbose_name = 'HerbieCore'
+    name = "herbie_core"
+    verbose_name = "HerbieCore"
 
     def ready(self):
         from herbie_core.services.message_publisher import Registry

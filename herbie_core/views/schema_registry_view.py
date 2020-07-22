@@ -14,7 +14,7 @@ class SchemaRegistryView(APIView):
         self._schema_registry = SchemaRegistry()
 
     def get(self, request: Request, business_entity: str, version: str) -> Response:
-        if version == '':
+        if version == "":
             version = self._schema_registry.get_schema_latest_version(business_entity)
 
         json_data = self._schema_registry.find_schema(business_entity, version)

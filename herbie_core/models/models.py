@@ -8,11 +8,12 @@ class AbstractBusinessEntity(TimeStampedModel):
     """
     Abstract class that defines the generic data model for every business entity.
     """
+
     key = models.TextField(null=False)
-    version = models.TextField(null=False, default='v1')
+    version = models.TextField(null=False, default="v1")
     publisher = models.ForeignKey(User, null=False, on_delete=models.PROTECT)
     data = JSONField(null=False)
 
     class Meta:
         abstract = True
-        unique_together = ('key', 'version')
+        unique_together = ("key", "version")

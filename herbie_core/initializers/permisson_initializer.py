@@ -3,9 +3,8 @@ from herbie_core.services.permission_manager import PermissionManager
 
 
 class PermissionInitializer(AbstractInitializer):
-
     def get_name(self) -> str:
-        return 'permissions'
+        return "permissions"
 
     def init(self):
         permission_manager = PermissionManager()

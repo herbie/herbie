@@ -9,7 +9,7 @@ from herbie_core.services.message_publisher.message_publisher import MessagePubl
 
 class Command(BaseCommand):
 
-    help = 'publish all data from a business entity to the business entity channel/topic'
+    help = "publish all data from a business entity to the business entity channel/topic"
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -20,7 +20,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(Constants.BUSINESS_ENTITY, type=str)
-        parser.add_argument(Constants.CHUNK_SIZE, type=int, nargs='?', default=settings.DEFAULT_CHUNK_SIZE)
+        parser.add_argument(Constants.CHUNK_SIZE, type=int, nargs="?", default=settings.DEFAULT_CHUNK_SIZE)
 
     def handle(self, *args, **kwargs):
         self._chunk_size = kwargs[Constants.CHUNK_SIZE]

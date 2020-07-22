@@ -37,31 +37,26 @@ class DeleteBusinessEntityView(APIView):
         return self._delete_from_version(body, business_entity, key)
 
     def _delete_all_versions(self, business_entity, key) -> Response:
-        number_of_deleted_objects = self._entity_manager.delete_by_key(
-            business_entity, key
-        )
+        number_of_deleted_objects = self._entity_manager.delete_by_key(business_entity, key)
 
-        message = Constants.DELETE_ALL_VERSIONS_MESSAGE if number_of_deleted_objects > 0 \
+        message = (
+            Constants.DELETE_ALL_VERSIONS_MESSAGE
+            if number_of_deleted_objects > 0
             else Constants.DELETE_ALL_VERSIONS_MESSAGE_NOT_FOUND
-
-        return ViewUtils.custom_response(
-            message.format(key),
-            status.HTTP_200_OK
         )
+
+        return ViewUtils.custom_response(message.format(key), status.HTTP_200_OK)
 
     def _delete_from_version(self, body, business_entity, key) -> Response:
         version = body[Constants.VERSION]
         if not self._validator.version_exist(version, business_entity):
-            return ViewUtils.custom_response(
-                Constants.VERSION_NOT_EXIST.format(version),
-                status.HTTP_400_BAD_REQUEST
-            )
+            return ViewUtils.custom_response(Constants.VERSION_NOT_EXIST.format(version), status.HTTP_400_BAD_REQUEST)
         number_of_deleted_objects = self._entity_manager.delete(business_entity, key, version)
 
-        message = Constants.DELETE_FROM_VERSION_MESSAGE if number_of_deleted_objects > 0 \
+        message = (
+            Constants.DELETE_FROM_VERSION_MESSAGE
+            if number_of_deleted_objects > 0
             else Constants.DELETE_FROM_VERSION_MESSAGE_NOT_FOUND
-
-        return ViewUtils.custom_response(
-            message.format(key, version),
-            status.HTTP_200_OK
         )
+
+        return ViewUtils.custom_response(message.format(key, version), status.HTTP_200_OK)

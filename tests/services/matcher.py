@@ -3,6 +3,7 @@ from typing import Type
 
 class Matcher:
     """ helper class that matches attributes of an object based on a dictionary"""
+
     def __init__(self, type_: Type, attributes: dict):
         self.type_ = type_
         self.attributes = attributes
