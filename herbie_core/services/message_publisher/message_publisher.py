@@ -1,4 +1,4 @@
-from herbie_core.models.message_models_and_serializers import EntityUpdateMessage
+from herbie_core.models.message_models_and_serializers import EntityUpdateMessage, EntityCreateMessage
 from herbie_core.models.message_models_and_serializers import EntityDeleteMessage
 from herbie_core.models.message_models_and_serializers import Message
 from herbie_core.models.models import AbstractBusinessEntity
@@ -10,6 +10,18 @@ class MessagePublisher:
 
     def __init__(self):
         self._publisher_list = Registry.get_publisher_list()
+
+    def send_entity_create_message(self, entity: AbstractBusinessEntity, tags=None):
+        if tags is None:
+            tags = []
+        self._send_message(EntityCreateMessage(
+            BusinessEntityUtils.get_entity_type_name(entity),
+            entity.key,
+            entity.version,
+            entity.data,
+            entity.created,
+            tags
+        ))
 
     def send_entity_update_message(self, entity: AbstractBusinessEntity, tags=None):
         if tags is None:
