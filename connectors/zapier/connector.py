@@ -42,24 +42,28 @@ for consumer_record in consumer:
             connection = http.client.HTTPSConnection(host, 443)
             connection.request('POST', absolute_hook_path, zapier_params, {'Content-Type': 'application/json'})
 
-            herbie_params = json.dumps(to_zapier_object(absolute_hook_path, json.loads(connection.getresponse().read())))
+            response_as_dict = json.loads(connection.getresponse().read())
+            herbie_params = json.dumps(
+                to_zapier_object(
+                    message['payload']['carl_id'],
+                    absolute_hook_path,
+                    response_as_dict
+                )
+            )
             try:
                 host, port = STORE_HOST.split(':', 1)
             except ValueError:
                 host = STORE_HOST
                 port = 443
 
-            print(host)
-            print(port)
-
             if port != 443:
                 connection = http.client.HTTPConnection(host, port)
             else:
                 connection = http.client.HTTPSConnection(host, port)
 
-            print({'Content-Type': 'application/json', 'Authorization': f'Token {STORE_KEY}'})
-
             connection.request('POST', STORE_PATH, herbie_params, {'Content-Type': 'application/json', 'Authorization': f'Token {STORE_KEY}'})
+
+            raise json.loads(connection.getresponse().read())
         else:
             logging.warning(f'zapier connector is not processing: {action} for {entity_name} messages')
     except Exception as e:

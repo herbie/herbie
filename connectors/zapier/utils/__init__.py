@@ -125,8 +125,8 @@ def map_message_to_zapier(entity_name, message):
     return mapped
 
 
-def to_zapier_object(hook_url, za_response):
-    ret = {'hook_url': hook_url}
+def to_zapier_object(carl_id, hook_url, za_response):
+    ret = {'carl_id': carl_id, 'hook_url': hook_url}
     ret['transferred_at'] = datetime.now().astimezone().isoformat()
     for k,v in za_response.items():
         ret['za_' + k] = v
@@ -134,6 +134,6 @@ def to_zapier_object(hook_url, za_response):
     return {
         'key': str(uuid4()),
         'payload': ret,
-        'version': 1,
+        'version': 'v1',
     }
 
