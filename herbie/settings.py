@@ -25,7 +25,7 @@ SCHEMA_REGISTRY_PACKAGE = 'carl_business_json_schema' # must be installed throug
 DEFAULT_CHUNK_SIZE = 100
 
 # message_provider (e.g. kafka, google pubsub)
-MESSAGING_PROVIDER = 'google_pub_sub'
+MESSAGING_PROVIDER = 'kafka'
 
 # Google Cloud Pub/Sub
 GCLOUD_PUBSUB_PROJECT_ID = env.str('GCLOUD_PUBSUB_PROJECT_ID', " ")
@@ -42,7 +42,7 @@ SECRET_KEY = env.str('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['herbie-app', 'localhost']
 
 
 # Application definition

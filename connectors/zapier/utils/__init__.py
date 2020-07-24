@@ -4,7 +4,7 @@ from os import environ
 
 STORE_KEY = environ['HERBIE_TOKEN']
 STORE_HOST = environ['HERBIE_HOST']
-STORE_PATH = '/api/funnel_exec/save'
+STORE_PATH = '/api/zapier_start/save'
 
 MAPPING = {
     '_ga': 'ga_session_id',
@@ -125,10 +125,15 @@ def map_message_to_zapier(entity_name, message):
     return mapped
 
 
-def zapier_request_business_object(zapier_response):
+def to_zapier_object(hook_url, za_response):
+    ret = {'hook_url': hook_url}
+    ret['transferred_at'] = datetime.now().astimezone().isoformat()
+    for k,v in za_response.items():
+        ret['za_' + k] = v
+
     return {
-        'key': uuid4(),
-        'data': normalize_to_zapier_object(zapier_response),
+        'key': str(uuid4()),
+        'payload': ret,
         'version': 1,
     }
 
