@@ -1,5 +1,10 @@
 from datetime import datetime
 from uuid import uuid4
+from os import environ
+
+STORE_KEY = environ['HERBIE_TOKEN']
+STORE_HOST = environ['HERBIE_HOST']
+STORE_PATH = '/api/funnel_exec/save'
 
 MAPPING = {
     '_ga': 'ga_session_id',

@@ -2,13 +2,14 @@ import json
 import os
 import sys
 import http.client
+import traceback
 
 from time import sleep
 from kafka import KafkaConsumer, errors
 from utils import *
 
 import logging
-logging.basicConfig(format='[%(asctime)s] %(levelname)s %(message)s')
+logging.basicConfig(level='INFO', format='[%(asctime)s] %(levelname)s %(message)s')
 
 entity_name = 'funnel_exec'
 
@@ -36,7 +37,7 @@ for consumer_record in consumer:
     try:
         if action == 'create':
             zapier_params = json.dumps(map_message_to_zapier(entity_name, message['payload'])).encode('ascii')
-            host, path = PRODUCT_ID_TO_HOOK[message['payload']['product_id']].split('/')
+            host, path = PRODUCT_ID_TO_HOOK[message['payload']['product_id']].split('/', 1)
             connection = http.client.HTTPSConnection(host, 443)
             connection.request('POST', '/' + path, zapier_params, {'Content-Type': 'application/json'})
             logging.info(f'{connection.getresponse().read().decode()}')
@@ -44,6 +45,8 @@ for consumer_record in consumer:
             logging.warning(f'zapier connector is not processing: {action} for {entity_name} messages')
     except Exception as e:
         if 'payload' in message:
-            logging.error(f'unable to consume {message["payload"]}; ({type(e).__name__}: {e})')
+            logging.error(f'unable to consume {message["payload"]}; ({type(e).__name__} below))')
+            logging.error(traceback.format_exc())
         else:
-            logging.error(f'unable to process message: {message} ({type(e).__name__}: {e})')
+            logging.error(f'unable to process message: {message} ({type(e).__name__} below)')
+            loggin.error(traceback.format_exc())
