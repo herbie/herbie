@@ -26,6 +26,8 @@ services:
       - 'herbie-zookeeper'
       - 'herbie-kafka'
     environment:
+      - 'HERBIE_HOST=${HERBIE_HOST}'
+      - 'HERBIE_TOKEN=${HERBIE_TOKEN}'
       - 'KAFKA_URL=herbie-kafka:9093'
     networks:
       - 'herbie-network'
