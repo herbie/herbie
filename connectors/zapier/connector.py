@@ -63,7 +63,7 @@ for consumer_record in consumer:
 
             connection.request('POST', STORE_PATH, herbie_params, {'Content-Type': 'application/json', 'Authorization': f'Token {STORE_KEY}'})
 
-            raise json.loads(connection.getresponse().read())
+            logging.info(f'zapier_start service: {connection.getresponse().read()}')
         else:
             logging.warning(f'zapier connector is not processing: {action} for {entity_name} messages')
     except Exception as e:
