@@ -16,7 +16,7 @@ class Command(BaseCommand):
 
         w = open(settings.APP_LABEL + model_filename, "w")
         w.write("# generated file, should not be modified manually!\n")
-        w.write("from herbie_core.models import AbstractBusinessEntity\n")
+        w.write("from herbie_core.models.models import AbstractBusinessEntity\n")
 
         for entity_name in sorted(entity_names_camel_case):
             w.write("\n\nclass {}(AbstractBusinessEntity):\n    pass\n".format(entity_name))
