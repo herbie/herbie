@@ -83,15 +83,15 @@ MAPPING = {
 }
 
 PRODUCT_ID_TO_HOOK = {
-    'spk_rating_long': 'hooks.zapier.com/hooks/catch/2517134/o6beprz/',
-    'standalone_rating_long': 'hooks.zapier.com/hooks/catch/2517134/o6beprz/',
-    'rating_long': 'hooks.zapier.com/hooks/catch/2517134/o6beprz/',
-    'standalone_rating_short': 'hooks.zapier.com/hooks/catch/2517134/o6beprz/',
-    'rating_short': 'hooks.zapier.com/hooks/catch/2517134/o6beprz/',
-    'standalone_sell': 'hooks.zapier.com/hooks/catch/2517134/odbs7bw/',
-    'sell': 'hooks.zapier.com/hooks/catch/2517134/odbs7bw/',
-    'standalone_tax': 'hooks.zapier.com/hooks/catch/2517134/o3jq1of/',
-    'tax':  'hooks.zapier.com/hooks/catch/2517134/o3jq1of/',
+    'spk_rating_long': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
+    'standalone_rating_long': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
+    'rating_long': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
+    'standalone_rating_short': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
+    'rating_short': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
+    'standalone_sell': 'hooks.zapier.com/hooks/catch/2517134/o356ehs/',
+    'sell': 'hooks.zapier.com/hooks/catch/2517134/o356ehs/',
+    'standalone_tax': 'hooks.zapier.com/hooks/catch/2517134/odq2hzt/',
+    'tax':  'hooks.zapier.com/hooks/catch/2517134/odq2hzt/',
 }
 
 def current_ts():
