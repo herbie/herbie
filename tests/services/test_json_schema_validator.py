@@ -90,7 +90,7 @@ class JsonSchemaValidatorTestCase(TestCase):
         mock_get_all_versions.return_value = [self._version_1]
         mock_find_schema.return_value = self._load_test_schema(self._business_entity, self._version_1)
 
-        invalid_date_time= "2020/10/07 16:00:00"
+        invalid_date_time = "2020/10/07 16:00:00"
 
         json_data = {
             "testId": 123,
@@ -99,10 +99,11 @@ class JsonSchemaValidatorTestCase(TestCase):
         }
 
         validation_messages = self._schema_validator.validate_schema(json_data, self._business_entity, self._version_1)
-        message_response_expected = {'created_at':
-            {
-                'error_message': f"'{invalid_date_time}' is not a 'date-time'",
-                'validation_error': 'date-time'
+
+        message_response_expected = {
+            "created_at": {
+                "error_message": f"'{invalid_date_time}' is not a 'date-time'",
+                "validation_error": "date-time",
             }
         }
 
