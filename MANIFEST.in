@@ -1,4 +1,10 @@
+include *.yml
 include LICENSE
-include README.rst
-recursive-include herbie_core/static *
-recursive-include herbie_core/templates *
+include pytest.ini
+recursive-include docs *.md
+recursive-include docs *.png
+recursive-include herbie_core *.css
+recursive-include herbie_core *.html
+recursive-include herbie_core *.js
+recursive-include herbie_core *.py
+recursive-include tests *.json

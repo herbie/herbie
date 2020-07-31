@@ -14,12 +14,12 @@ Once all your systems are connected to Herbie, they can then talk to one another
 ## Overview
 
 Herbie uses a _schema registry_ combined with a _central data store_ for business 
-entities. 
+entities.
 * It's built with _Django_ and comes with a simple API to create business entities.
 * The _json-schema_ integration allows you to define custom schema definitions which Herbie uses to validate the entities. 
-* By default, we provide support for _Kafka_ or _Google Pub/Sub_ to provide _event streams_ — your services can subscribe to these event streams and find out when a certain entity-type is updated.
+* By default, we provide support for _Google Pub/Sub_ or _AWS SNS/SQS_ to provide _event streams_ — your services can subscribe to these event streams and find out when a certain entity-type is updated.
 
-    However, you don't have to use Kafka - you can also update Herbie to [use your preferred messaging system](#changing-the-messaging-system).
+    However, you don't have to use Google Pub/Sub - you can also update Herbie to [use your preferred messaging system](#changing-the-messaging-system).
 
 The philosophy behind Herbie is to avoid behavior that seems like a "black box" and is instead built in very
 straightforward way, following Django best practices. It is also meant to be extendable and easy to adapt.
@@ -41,15 +41,13 @@ The easiest and recommended way to start a new project is to clone the [sandbox]
 
 1. Herbie is based on the Django framework, so the first step is to start a [new Django project](https://www.djangoproject.com/start/) using **postgres** as database technology.
 
-1. After the Django-skeleton is set up, Herbie can be installed using a common package manager like pip or poetry.
+1. After the Django-skeleton is set up, Herbie can be installed using a common package manager like pip.
 
     ```
-    python -m pip install Herbie
-    
-    poetry add Herbie
+    python -m pip install herbie
     ```
    
-   You can also add Herbie to your `requirements.txt` or `pyproject.toml`.
+   You can also add Herbie to your `requirements.txt`.
 
 1. The next step is to configure the settings accordingly:
     
@@ -76,7 +74,7 @@ The easiest and recommended way to start a new project is to clone the [sandbox]
    
     c) Define Schema package
     
-    d) Select a Queueing technology (Kafka vs. Google Pubsub)
+    d) Select a Queueing technology (AWS SNS/SQS vs. Google Pubsub)
     
     e) Register herbie urls in your urls.py:
     ```python
@@ -114,3 +112,17 @@ The easiest and recommended way to start a new project is to clone the [sandbox]
        ```
        python manage.py createsuperuser --username "username" --email "email@email-address.com"
        ```
+
+#### Changing the messaging system
+By default [Herbie sandbox](https://github.com/herbie/sandbox) setup uses _Google Pubsub_ for distributing
+the business entity messages in a JSON format. But it should be easy to use any other
+messaging system:
+
+The different messaging systems are distributed as Python packages and are also based on Django. To use or add a new one it is as
+easy as registering a new Django app.
+
+Check [Google Pubsub adapter](https://github.com/herbie/google-pubsub-adapter) repository for detailed instructions.
+
+
+#### Admin Panel
+- [How to add social login?](docs/social_login.md)
