@@ -1,5 +1,26 @@
 # Social Login for Admin Panel
 
+## Dependencies
+
+Social login is set as an optional dependency and not enabled by default.
+
+#### Installing/enabling dependencies
+
+1. Add to `requirements.txt` or `pip install` the following packages:
+
+    ```
+        social-auth-app-django
+    ```
+
+2. Register the package in Django installed apps:s
+    
+    ```python
+    INSTALLED_APPS = [
+        # ...
+        'social_django',
+    ]
+    ```
+
 ## Create Social api key and secret (google,github, etc.)
 
 
@@ -18,6 +39,7 @@
 #### Github
 
 `SOCIAL_AUTH_GITHUB_KEY = env.str('SOCIAL_AUTH_GITHUB_KEY')`
+
 `SOCIAL_AUTH_GITHUB_SECRET = env.str('SOCIAL_AUTH_GITHUB_SECRET')`
 
 ###### Helpful Tutorials

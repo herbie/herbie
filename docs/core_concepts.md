@@ -16,7 +16,7 @@ repository or in a separate one. The version of a schema can be specified in its
 ```json
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://herbie.json-schema/customer/customer_v1.json",
+  "$id": "http://herbie_core.json-schema/customer/customer_v1.json",
   "title": "Customer",
   "description": "Customer info",
   "type": "object",
