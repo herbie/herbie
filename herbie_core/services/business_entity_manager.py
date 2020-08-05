@@ -1,3 +1,5 @@
+from typing import Optional
+
 from django.contrib.auth.models import User
 from django.db.models import QuerySet
 from herbie_core.models.models import AbstractBusinessEntity
@@ -27,6 +29,16 @@ class BusinessEntityManager:
     def find_all(self, entity_name: str) -> QuerySet:
         business_entity_class = BusinessEntityUtils.get_entity_class(entity_name)
         return business_entity_class.objects.all()
+
+    def find_by_key_and_version(self, entity_name: str, key: str, version: str) -> Optional[AbstractBusinessEntity]:
+        business_entity_class = BusinessEntityUtils.get_entity_class(entity_name)
+
+        try:
+            business_entity = business_entity_class.objects.get(key=key, version=version)
+        except business_entity_class.DoesNotExist:
+            business_entity = None
+
+        return business_entity
 
     def delete(self, entity_name: str, key: str, version: str) -> int:
         business_entity_class = BusinessEntityUtils.get_entity_class(entity_name)
