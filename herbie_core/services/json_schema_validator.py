@@ -16,6 +16,7 @@ class JsonSchemaValidator:
         schema = self._get_json_schema(business_entity, version)
         data_validated = Draft7Validator(schema, format_checker=draft7_format_checker)
         sorted_errors = sorted(data_validated.iter_errors(json_data), key=lambda e: e.path)
+
         errors = {}
 
         for error in sorted_errors:
