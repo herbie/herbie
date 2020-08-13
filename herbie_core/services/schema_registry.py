@@ -26,4 +26,7 @@ class SchemaRegistry:
     def get_schema_latest_version(self, schema_name: str) -> str:
         schema = Schema.objects.filter(name=schema_name).order_by("version").first()
 
+        if schema is None:
+            return schema
+
         return schema.version

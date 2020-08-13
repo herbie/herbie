@@ -76,3 +76,19 @@ class BusinessEntityManagerTestCase(TestCase):
 
         self.assertEqual(2, delete_count)
         mock_send_entity_delete_message.assert_has_calls([call(entity), call(entity)])
+
+    @mock.patch.object(ManagerTestEntity, "objects")
+    @mock.patch.object(BusinessEntityUtils, "get_entity_class", return_value=ManagerTestEntity)
+    def test_find_by_key_and_version(self, mock_entity_utils, mock_objects):
+        mock_objects.get.return_value = entity
+
+        entity_data = self._entity_manager.find_by_key_and_version(entity_name, key, version)
+
+        self.assertEqual(entity_data, entity)
+
+    @mock.patch.object(ManagerTestEntity, "objects")
+    @mock.patch.object(BusinessEntityUtils, "get_entity_class", return_value=ManagerTestEntity)
+    def test_find_by_key_and_version_returns_none_when_not_found(self, mock_entity_utils, mock_objects):
+        mock_objects.get.side_effect = ManagerTestEntity.DoesNotExist
+
+        self.assertIsNone(self._entity_manager.find_by_key_and_version(entity_name, "random", version))
