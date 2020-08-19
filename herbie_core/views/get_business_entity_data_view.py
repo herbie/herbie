@@ -11,7 +11,7 @@ from herbie_core.services.schema_registry import SchemaRegistry
 from herbie_core.views.utils import ViewUtils
 
 
-class GetBusinessEntityData(APIView):
+class GetBusinessEntityDataView(APIView):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._entity_manager = BusinessEntityManager()
