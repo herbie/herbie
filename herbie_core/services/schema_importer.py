@@ -1,6 +1,10 @@
 import json
 import logging
 
+from jsonschema import Draft7Validator, draft7_format_checker
+
+from herbie_core.services.json_schema_validator import JsonSchemaValidator
+
 from herbie_core.models.schema import Schema
 from herbie_core.services.schema_package import SchemaPackage
 from herbie_core.services.schema_registry import SchemaRegistry
@@ -22,6 +26,18 @@ class SchemaImporter:
 
         for schema in schema_list:
             schema_data = json.loads(schema)
+
+            against = {"firstName": "Rui"}
+
+            print(schema_data["data"])
+
+            d = json.loads(schema_data["data"])
+
+            data_validated = Draft7Validator(d, format_checker=draft7_format_checker)
+            errors = sorted(data_validated.iter_errors(against), key=lambda e: e.path)
+
+            print(errors)
+
             self._create_update_json_schema(
                 schema_data["business_entity"], schema_data["version"], schema_data["data"]
             )
