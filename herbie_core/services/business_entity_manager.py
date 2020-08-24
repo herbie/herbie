@@ -30,6 +30,11 @@ class BusinessEntityManager:
         business_entity_class = BusinessEntityUtils.get_entity_class(entity_name)
         return business_entity_class.objects.all()
 
+    def find_by_version(self, entity_name: str, version: str) -> QuerySet:
+        business_entity_class = BusinessEntityUtils.get_entity_class(entity_name)
+
+        return business_entity_class.objects.filter(version=version)
+
     def find_by_key_and_version(self, entity_name: str, key: str, version: str) -> Optional[AbstractBusinessEntity]:
         business_entity_class = BusinessEntityUtils.get_entity_class(entity_name)
 

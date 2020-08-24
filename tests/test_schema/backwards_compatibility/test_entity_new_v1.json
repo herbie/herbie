@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "test/test_entity_new_v1.json",
+  "title": "test_entity",
+  "description": "Test Entity schema",
+  "type": "object",
+  "properties": {
+    "firstName": {"type": "string"},
+    "lastName": {"type": "string"},
+    "thirdName": {"type": "string"}
+  },
+  "required": [ "firstName"],
+  "additionalProperties": false
+}

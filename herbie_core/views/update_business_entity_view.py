@@ -1,3 +1,6 @@
+import json
+
+from herbie_core.services.schema_registry import SchemaRegistry
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
@@ -19,6 +22,7 @@ class UpdateBusinessEntityView(APIView):
         self._permission_classes = (IsAuthenticated,)
         self._permission_manager = PermissionManager()
         self._validator = JsonSchemaValidator()
+        self._schema_registry = SchemaRegistry()
 
     def patch(self, request: Request, business_entity: str, key: str, version: str):
         entity = self._entity_manager.find_by_key_and_version(business_entity, key, version)
@@ -32,7 +36,9 @@ class UpdateBusinessEntityView(APIView):
         body = ViewUtils.extract_body(request)
         entity_dict = self._update_fields(entity, body)
 
-        error_messages = self._validator.validate_schema(entity_dict, business_entity, version)
+        schema = self._get_json_schema(business_entity=business_entity, version=version)
+
+        error_messages = self._validator.validate_schema(schema, entity_dict, business_entity, version)
 
         if error_messages:
             return ViewUtils.custom_response(error_messages, status.HTTP_400_BAD_REQUEST)
@@ -43,3 +49,6 @@ class UpdateBusinessEntityView(APIView):
 
     def _update_fields(self, entity: AbstractBusinessEntity, payload_data: dict):
         return {**entity.data, **payload_data}
+
+    def _get_json_schema(self, business_entity, version) -> json:
+        return self._schema_registry.find_schema(business_entity, version)

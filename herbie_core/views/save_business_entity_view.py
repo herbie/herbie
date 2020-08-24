@@ -1,3 +1,5 @@
+import json
+
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -39,7 +41,10 @@ class SaveBusinessEntityView(APIView):
         version = body[Constants.VERSION]
         key = body[Constants.KEY]
         payload = body[Constants.PAYLOAD]
-        error_messages = self._validator.validate_schema(payload, business_entity, version)
+
+        schema = self._get_json_schema(business_entity=business_entity, version=version)
+
+        error_messages = self._validator.validate_schema(schema, payload, business_entity, version)
 
         if error_messages:
             return ViewUtils.custom_response(error_messages, status.HTTP_400_BAD_REQUEST)
@@ -53,3 +58,6 @@ class SaveBusinessEntityView(APIView):
             return ViewUtils.custom_response(Constants.SAVE_MESSAGE.format(key, version), status.HTTP_201_CREATED)
 
         return ViewUtils.custom_response(Constants.UPDATE_MESSAGE.format(key, version), status.HTTP_200_OK)
+
+    def _get_json_schema(self, business_entity, version) -> json:
+        return self._schema_registry.find_schema(business_entity, version)
