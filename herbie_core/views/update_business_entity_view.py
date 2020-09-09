@@ -38,7 +38,7 @@ class UpdateBusinessEntityView(APIView):
 
         schema = self._get_json_schema(business_entity=business_entity, version=version)
 
-        error_messages = self._validator.validate_schema(schema, entity_dict, business_entity, version)
+        error_messages = self._validator.validate_schema(schema, entity_dict)
 
         if error_messages:
             return ViewUtils.custom_response(error_messages, status.HTTP_400_BAD_REQUEST)

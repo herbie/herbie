@@ -39,12 +39,16 @@ class SaveBusinessEntityView(APIView):
             return ViewUtils.custom_response(Constants.VERSION_MISSING, status.HTTP_400_BAD_REQUEST)
 
         version = body[Constants.VERSION]
+
+        if not self._validator.version_exist(version=version, business_entity=business_entity):
+            return ViewUtils.business_entity_version_not_exist_response(version)
+
         key = body[Constants.KEY]
         payload = body[Constants.PAYLOAD]
 
         schema = self._get_json_schema(business_entity=business_entity, version=version)
 
-        error_messages = self._validator.validate_schema(schema, payload, business_entity, version)
+        error_messages = self._validator.validate_schema(schema, payload)
 
         if error_messages:
             return ViewUtils.custom_response(error_messages, status.HTTP_400_BAD_REQUEST)

@@ -47,3 +47,36 @@ class MessageActionConstants:
     CREATE = "create"
     UPDATE = "update"
     DELETE = "delete"
+
+
+class JsonSchemaPropertiesConstants:
+    DATA_TYPE_OBJECT = "object"
+    DATA_TYPE_NUMBER = "number"
+    DATA_TYPE_INTEGER = "integer"
+    DATA_TYPE_STRING = "string"
+    DATA_TYPE_BOOLEAN = "boolean"
+    DATA_TYPE_ARRAY = "array"
+    DATA_TYPE_CONST = "const"
+
+    PROPERTY_REQUIRED = "required"
+    PROPERTY_TYPE = "type"
+    PROPERTY_PROPERTIES = "properties"
+    PROPERTY_ADDITIONAL_PROPERTIES = "additionalProperties"
+
+    ARRAY_TYPE_ITEMS = "items"
+    ARRAY_TYPE_MIN_ITEMS = "minItems"
+    ARRAY_TYPE_MAX_ITEMS = "maxItems"
+
+    STRING_TYPE_MIN_LENGTH = "minLength"
+    STRING_TYPE_MAX_LENGTH = "maxLength"
+    STRING_TYPE_ENUM = "enum"
+    STRING_TYPE_PATTERN = "pattern"
+    STRING_TYPE_FORMAT = "format"
+
+    CONST_TYPE_PROPERTY = "const"
+
+    NUMBER_TYPE_MULTIPLE_OF = "multipleOf"
+    NUMBER_TYPE_MINIMUM = "minimum"
+    NUMBER_TYPE_MAXIMUM = "maximum"
+    NUMBER_TYPE_EXCLUSIVE_MAXIMUM = "exclusiveMaximum"
+    NUMBER_TYPE_EXCLUSIVE_MINIMUM = "exclusiveMinimum"

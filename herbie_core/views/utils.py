@@ -17,6 +17,12 @@ class ViewUtils:
         )
 
     @staticmethod
+    def business_entity_version_not_exist_response(version: str) -> Response:
+        return ViewUtils.custom_response(
+            ControllerConstants.VERSION_NOT_EXIST.format(version), status.HTTP_400_BAD_REQUEST
+        )
+
+    @staticmethod
     def custom_response(message: str, status_code: status) -> Response:
         return Response({"message": message}, status=status_code)
 
