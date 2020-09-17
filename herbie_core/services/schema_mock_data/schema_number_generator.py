@@ -10,7 +10,7 @@ class SchemaNumberGenerator:
     def __init__(self):
         self._faker = Faker()
 
-    def generate_number(self, schema):
+    def generate_number(self, schema: dict) -> int:
         multiple_of = schema.get(JsonSchemaPropertiesConstants.NUMBER_TYPE_MULTIPLE_OF, None)
         minimum = schema.get(JsonSchemaPropertiesConstants.NUMBER_TYPE_MINIMUM, self.MIN_INTEGER)
         maximum = schema.get(JsonSchemaPropertiesConstants.NUMBER_TYPE_MAXIMUM, self.MAX_INTEGER)
@@ -26,9 +26,9 @@ class SchemaNumberGenerator:
         if minimum == exclusive_minimum:
             minimum = minimum + 1
 
-        if multiple_of is None:
-            return self._faker.pyint(min_value=minimum, max_value=maximum)
+        if multiple_of:
+            numbers_allowed = [value for value in range(minimum, maximum + 1) if value % multiple_of == 0]
 
-        numbers_allowed = [value for value in range(minimum, maximum + 1) if value % multiple_of == 0]
+            return self._faker.random_elements(elements=numbers_allowed, length=1)[0]
 
-        return self._faker.random_elements(elements=numbers_allowed, length=1)[0]
+        return self._faker.pyint(min_value=minimum, max_value=maximum)

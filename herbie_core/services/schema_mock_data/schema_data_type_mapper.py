@@ -2,7 +2,7 @@ from herbie_core.constants import JsonSchemaPropertiesConstants
 
 
 class SchemaDataTypeMapper:
-    def generate_from_data_type(self, data_type, schema):
+    def generate_from_data_type(self, data_type: str, schema: dict):
         from herbie_core.services.schema_mock_data.schema_array_generator import SchemaArrayGenerator
         from herbie_core.services.schema_mock_data.schema_boolean_generator import SchemaBooleanGenerator
         from herbie_core.services.schema_mock_data.schema_const_generator import SchemaConstGenerator

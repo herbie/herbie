@@ -8,7 +8,7 @@ class SchemaStringGenerator:
     def __init__(self):
         self._faker = Faker()
 
-    def generate_string(self, schema):
+    def generate_string(self, schema: dict) -> str:
         format = schema.get(JsonSchemaPropertiesConstants.STRING_TYPE_FORMAT, None)
         min_length = schema.get(JsonSchemaPropertiesConstants.STRING_TYPE_MIN_LENGTH, None)
         max_length = schema.get(JsonSchemaPropertiesConstants.STRING_TYPE_MAX_LENGTH, None)
@@ -26,11 +26,10 @@ class SchemaStringGenerator:
                 max_length = 5
             return self._faker.pystr(min_length, max_length)
 
-        if format is None:
-            return self._faker.name()
-
         if format:
             return self._generate_from_string_format(format)
+
+        return self._faker.name()
 
     def _generate_from_string_format(self, format):
         return {

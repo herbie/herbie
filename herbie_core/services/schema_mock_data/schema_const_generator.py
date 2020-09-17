@@ -6,5 +6,5 @@ class SchemaConstGenerator:
     def __init__(self):
         self._faker = Faker()
 
-    def generate_const(self, schema):
+    def generate_const(self, schema: dict):
         return schema[JsonSchemaPropertiesConstants.CONST_TYPE_PROPERTY]

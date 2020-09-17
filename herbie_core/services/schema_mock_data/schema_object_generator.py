@@ -9,7 +9,7 @@ class SchemaObjectGenerator:
         self._faker = Faker()
         self._data_type_mapper = SchemaDataTypeMapper()
 
-    def generate_object(self, schema):
+    def generate_object(self, schema: dict):
         required_fields = schema.get(JsonSchemaPropertiesConstants.PROPERTY_REQUIRED, [])
 
         schema_object = {}
@@ -20,7 +20,8 @@ class SchemaObjectGenerator:
             if additional_properties is None or additional_properties is True:
                 return ""
 
-        for key in schema[JsonSchemaPropertiesConstants.PROPERTY_PROPERTIES].keys():
+        schema_keys = schema[JsonSchemaPropertiesConstants.PROPERTY_PROPERTIES].keys()
+        for key in schema_keys:
             if key in required_fields:
                 schema_properties = schema[JsonSchemaPropertiesConstants.PROPERTY_PROPERTIES][key]
 
@@ -29,6 +30,8 @@ class SchemaObjectGenerator:
                     schema_object[key] = self._data_type_mapper.generate_from_data_type(
                         JsonSchemaPropertiesConstants.CONST_TYPE_PROPERTY, const
                     )
+
+                    continue
 
                 property_type = schema_properties[JsonSchemaPropertiesConstants.PROPERTY_TYPE]
                 schema_object[key] = self._data_type_mapper.generate_from_data_type(property_type, schema_properties)
