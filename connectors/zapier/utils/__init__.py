@@ -1,3 +1,6 @@
+import http.client
+import logging
+
 from datetime import datetime
 from uuid import uuid4
 from os import environ
@@ -84,14 +87,11 @@ MAPPING = {
 
 PRODUCT_ID_TO_HOOK = {
     'spk_rating_long': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
-    'standalone_rating_long': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
     'rating_long': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
-    'standalone_rating_short': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
     'rating_short': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
-    'standalone_sell': 'hooks.zapier.com/hooks/catch/2517134/o356ehs/',
     'sell': 'hooks.zapier.com/hooks/catch/2517134/o356ehs/',
-    'standalone_tax': 'hooks.zapier.com/hooks/catch/2517134/odq2hzt/',
     'tax':  'hooks.zapier.com/hooks/catch/2517134/odq2hzt/',
+    'ratingv2': 'hooks.zapier.com/hooks/catch/2517134/owv1qgv/',
 }
 
 def current_ts():
@@ -136,4 +136,23 @@ def to_zapier_object(carl_id, hook_url, za_response):
         'payload': ret,
         'version': 'v1',
     }
+
+def product_id_to_hook_url(message):
+    return PRODUCT_ID_TO_HOOK[message['payload']['product_id'].lower()].split('/', 1)
+
+def save_zapier_execution(message):
+    try:
+        host, port = STORE_HOST.split(':', 1)
+    except ValueError:
+        host = STORE_HOST
+        port = 443
+
+    if port != 443:
+        connection = http.client.HTTPConnection(host, port)
+    else:
+        connection = http.client.HTTPSConnection(host, port)
+
+    connection.request('POST', STORE_PATH, message, {'Content-Type': 'application/json', 'Authorization': f'Token {STORE_KEY}'})
+
+    logging.info(f'zapier_start service: {connection.getresponse().read()}')
 
