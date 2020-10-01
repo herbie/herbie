@@ -6,7 +6,7 @@ import traceback
 
 from time import sleep
 from kafka import KafkaConsumer, errors
-from utils import map_message_to_zapier, to_zapier_object,
+from utils import map_message_to_zapier, to_zapier_object, \
                   product_id_to_hook_url, save_zapier_execution
 
 import logging
@@ -61,7 +61,7 @@ for consumer_record in consumer:
             else:
                 logging.info(not_processing_ratingv2)
         elif action == 'update':
-            if 'completed_at' in message['payload'] && message['payload']['product_id'].lower() == 'ratingv2':
+            if 'completed_at' in message['payload'] and message['payload']['product_id'].lower() == 'ratingv2':
                 hand_off_to_zapier(entity_name, message)
             else:
                 logging.info(not_processing_ratingv2)
