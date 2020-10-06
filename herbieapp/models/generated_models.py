@@ -8,3 +8,7 @@ class Customer(AbstractBusinessEntity):
 
 class FunnelExec(AbstractBusinessEntity):
     pass
+
+
+class ZapierStart(AbstractBusinessEntity):
+    pass
