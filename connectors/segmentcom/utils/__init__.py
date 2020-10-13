@@ -1,8 +1,4 @@
-import http.client
-import logging
-
 from base64 import b64encode
-from datetime import datetime
 from os import getenv
 from strict_rfc3339 import now_to_rfc3339_utcoffset
 

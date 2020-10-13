@@ -32,6 +32,18 @@ services:
     networks:
       - 'herbie-network'
 
+  segmentcom-connector:
+    container_name: 'segmentcom-connector'
+    build: './connectors/segmentcom'
+    depends_on:
+      - 'herbie-zookeeper'
+      - 'herbie-kafka'
+    environment:
+      - 'SEGMENTCOM_API_KEY=${SEGMENTCOM_API_KEY}'
+      - 'KAFKA_URL=herbie-kafka:9093'
+    networks:
+      - 'herbie-network'
+
   herbie-db:
     container_name: 'herbie-db'
     image: 'postgres:11.5'
