@@ -34,7 +34,7 @@ def hand_off_to_segmentcom(message):
 
     response = connection.getresponse()
     status, body_bytes = response.status, response.read()
-    logging.info(f'segmentcom returned HTTP#{status} {body_bytes.encode("ascii")}')
+    logging.info(f'segmentcom returned HTTP#{status} {body_bytes.decode("ascii")}')
 
 logging.info(f'start reading messages from topic: {entity_name}')
 # The iterator will be blocked forever, because we didn't set a consumer_timeout_ms parameter
