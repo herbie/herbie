@@ -29,8 +29,8 @@ while starting < 8:
 
 def hand_off_to_segmentcom(message):
     segmentcom_params = json.dumps(map_message_to_segmentcom(message['payload'])).encode('ascii')
-    connection = http.client.HTTPSConnection(host, 443) # always connect port 443 and SSL
-    connection.request('POST', absolute_hook_path, segmentcom_params, {'Content-Type': 'application/json', 'Authorization': segmentcom_auth()})
+    connection = http.client.HTTPSConnection(TRACK_HOST, 443) # always connect port 443 and SSL
+    connection.request('POST', TRACK_PATH, segmentcom_params, {'Content-Type': 'application/json', 'Authorization': segmentcom_auth()})
 
     response = connection.getresponse()
     status, body_bytes = response.status, response.read()
