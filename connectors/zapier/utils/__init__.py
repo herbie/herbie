@@ -16,7 +16,7 @@ MAPPING = {
     'age': 'person_age',
     'ageTax': 'is_person_age_55',
     'ageTax_de': 'is_person_age_55_de',
-    'appFunnel': '', # what to map from?
+    'appFunnel': '',  # what to map from?
     'carlId': 'carl_id',
     'corporateForm': 'company_corporate_form',
     'dateActivity': 'lead_set_activity_at',
@@ -32,15 +32,15 @@ MAPPING = {
     'email': 'person_email',
     'employees': 'company_count_employees_range',
     'evavg': 'company_enterprise_value_avg',
-    'evavg-Carl': '', # what to map from
+    'evavg-Carl': '',  # what to map from
     'evavgNoCarlRounded': 'company_enterprise_value_avg_80_rounded',
     'evavgRounded': 'company_enterprise_value_avg_rounded',
     'evmax': 'company_enterprise_value_max',
-    'evmax-Carl': '', #what to map from
+    'evmax-Carl': '',  # what to map from
     'evmaxNoCarlRounded': 'company_enterprise_value_max_80_rounded',
     'evmaxRounded': 'company_enterprise_value_max_rounded',
     'evmin': 'company_enterprise_value_min',
-    'evmin-Carl': '', # what to map from
+    'evmin-Carl': '',  # what to map from
     'evminNoCarlRounded': 'company_enterprise_value_min_80_rounded',
     'evminRounded': 'company_enterprise_value_min_rounded',
     'familyBusiness': 'is_company_family_business',
@@ -51,7 +51,7 @@ MAPPING = {
     'focus': 'person_focus',
     'focus_de': 'person_focus_de',
     'foundingDate': 'company_founding_time_range',
-    'funnelID': '', # what to map from
+    'funnelID': '',  # what to map from
     'gclid': 'ga_gclid',
     'gender': 'person_gender',
     'keyword': 'ga_keyword',
@@ -90,12 +90,14 @@ PRODUCT_ID_TO_HOOK = {
     'rating_long': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
     'rating_short': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
     'sell': 'hooks.zapier.com/hooks/catch/2517134/o356ehs/',
-    'tax':  'hooks.zapier.com/hooks/catch/2517134/odq2hzt/',
+    'tax': 'hooks.zapier.com/hooks/catch/2517134/odq2hzt/',
     'ratingv2': 'hooks.zapier.com/hooks/catch/2517134/owv1qgv/',
 }
 
+
 def current_ts():
     return datetime.now().isoformat()
+
 
 def map_message_to_zapier(entity_name, message):
     mapped = {
@@ -104,13 +106,13 @@ def map_message_to_zapier(entity_name, message):
     }
 
     for orig_k, v in message.items():
-        if type(v) == str:
+        if isinstance(v, str):
             # special handling for intent fields
             if orig_k == 'valution_intent' or orig_k == 'tax_intent':
-                mappend['intent'] += v
+                mapped['intent'] += v
 
             if orig_k == 'valution_intent_de' or orig_k == 'tax_intent_de':
-                mappend['intent_de'] += v
+                mapped['intent_de'] += v
 
         do_map = None
         for to_k, from_k in MAPPING.items():
@@ -128,7 +130,7 @@ def map_message_to_zapier(entity_name, message):
 def to_zapier_object(carl_id, hook_url, za_response):
     ret = {'carl_id': carl_id, 'hook_url': hook_url}
     ret['transferred_at'] = datetime.now().astimezone().isoformat()
-    for k,v in za_response.items():
+    for k, v in za_response.items():
         ret['za_' + k] = v
 
     return {
@@ -137,8 +139,11 @@ def to_zapier_object(carl_id, hook_url, za_response):
         'version': 'v1',
     }
 
+
 def product_id_to_hook_url(message):
-    return PRODUCT_ID_TO_HOOK[message['payload']['product_id'].lower()].split('/', 1)
+    return PRODUCT_ID_TO_HOOK[message['payload']
+                              ['product_id'].lower()].split('/', 1)
+
 
 def save_zapier_execution(message):
     try:
@@ -152,7 +157,7 @@ def save_zapier_execution(message):
     else:
         connection = http.client.HTTPSConnection(host, port)
 
-    connection.request('POST', STORE_PATH, message, {'Content-Type': 'application/json', 'Authorization': f'Token {STORE_KEY}'})
+    connection.request('POST', STORE_PATH, message, {
+                       'Content-Type': 'application/json', 'Authorization': f'Token {STORE_KEY}'})
 
     logging.info(f'zapier_start service: {connection.getresponse().read()}')
-

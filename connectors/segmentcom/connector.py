@@ -1,6 +1,5 @@
 import json
 import os
-import sys
 import http.client
 import traceback
 
@@ -9,7 +8,8 @@ from kafka import KafkaConsumer, errors
 from utils import TRACK_HOST, TRACK_PATH, map_message_to_segmentcom, segmentcom_auth
 
 import logging
-logging.basicConfig(level='INFO', format='[%(asctime)s] %(levelname)s %(message)s')
+logging.basicConfig(
+    level='INFO', format='[%(asctime)s] %(levelname)s %(message)s')
 
 entity_name = 'funnel_exec'
 
@@ -27,14 +27,24 @@ while starting < 8:
         sleep(2)
         continue
 
+
 def hand_off_to_segmentcom(message):
-    segmentcom_params = json.dumps(map_message_to_segmentcom(message['payload'])).encode('ascii')
-    connection = http.client.HTTPSConnection(TRACK_HOST, 443) # always connect port 443 and SSL
-    connection.request('POST', TRACK_PATH, segmentcom_params, {'Content-Type': 'application/json', 'Authorization': segmentcom_auth()})
+    segmentcom_params = json.dumps(
+        map_message_to_segmentcom(message['payload'])).encode('ascii')
+    connection = http.client.HTTPSConnection(
+        TRACK_HOST, 443)  # always connect port 443 and SSL
+    connection.request(
+        'POST',
+        TRACK_PATH,
+        segmentcom_params,
+        {'Content-Type': 'application/json', 'Authorization': segmentcom_auth()}
+    )
 
     response = connection.getresponse()
     status, body_bytes = response.status, response.read()
-    logging.info(f'segmentcom returned HTTP#{status} {body_bytes.decode("ascii")}')
+    logging.info(
+        f'segmentcom returned HTTP#{status} {body_bytes.decode("ascii")}')
+
 
 logging.info(f'start reading messages from topic: {entity_name}')
 # The iterator will be blocked forever, because we didn't set a consumer_timeout_ms parameter
@@ -52,16 +62,20 @@ for consumer_record in consumer:
             else:
                 logging.info(not_processing_ratingv2)
         elif action == 'update':
-            if 'completed_at' in message['payload'] and message['payload']['product_id'].lower() == 'ratingv2':
+            if 'completed_at' in message['payload'] and message['payload']['product_id'].lower(
+            ) == 'ratingv2':
                 hand_off_to_segmentcom(message)
             else:
                 logging.info(not_processing_ratingv2)
         else:
-            logging.warning(f'segmentcom connector is not processing: {action} for {entity_name} messages')
+            logging.warning(
+                f'segmentcom connector is not processing: {action} for {entity_name} messages')
     except Exception as e:
         if 'payload' in message:
-            logging.error(f'unable to consume {message["payload"]}; ({type(e).__name__} below))')
+            logging.error(
+                f'unable to consume {message["payload"]}; ({type(e).__name__} below))')
             logging.error(traceback.format_exc())
         else:
-            logging.error(f'unable to process message: {message} ({type(e).__name__} below)')
-            loggin.error(traceback.format_exc())
+            logging.error(
+                f'unable to process message: {message} ({type(e).__name__} below)')
+            logging.error(traceback.format_exc())

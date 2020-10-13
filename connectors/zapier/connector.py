@@ -1,16 +1,16 @@
 import json
 import os
-import sys
 import http.client
 import traceback
 
 from time import sleep
 from kafka import KafkaConsumer, errors
 from utils import map_message_to_zapier, to_zapier_object, \
-                  product_id_to_hook_url, save_zapier_execution
+    product_id_to_hook_url, save_zapier_execution
 
 import logging
-logging.basicConfig(level='INFO', format='[%(asctime)s] %(levelname)s %(message)s')
+logging.basicConfig(
+    level='INFO', format='[%(asctime)s] %(levelname)s %(message)s')
 
 entity_name = 'funnel_exec'
 
@@ -28,12 +28,15 @@ while starting < 8:
         sleep(2)
         continue
 
+
 def hand_off_to_zapier(entity_name, message):
-    zapier_params = json.dumps(map_message_to_zapier(entity_name, message['payload'])).encode('ascii')
+    zapier_params = json.dumps(map_message_to_zapier(
+        entity_name, message['payload'])).encode('ascii')
     host, path = product_id_to_hook_url(message)
     absolute_hook_path = '/' + path
     connection = http.client.HTTPSConnection(host, 443)
-    connection.request('POST', absolute_hook_path, zapier_params, {'Content-Type': 'application/json'})
+    connection.request('POST', absolute_hook_path, zapier_params, {
+                       'Content-Type': 'application/json'})
 
     response_as_dict = json.loads(connection.getresponse().read())
     herbie_params = json.dumps(
@@ -44,6 +47,7 @@ def hand_off_to_zapier(entity_name, message):
         )
     )
     save_zapier_execution(herbie_params)
+
 
 logging.info(f'start reading messages from topic: {entity_name}')
 # The iterator will be blocked forever, because we didn't set a consumer_timeout_ms parameter
@@ -61,16 +65,20 @@ for consumer_record in consumer:
             else:
                 logging.info(not_processing_ratingv2)
         elif action == 'update':
-            if 'completed_at' in message['payload'] and message['payload']['product_id'].lower() == 'ratingv2':
+            if 'completed_at' in message['payload'] and message['payload']['product_id'].lower(
+            ) == 'ratingv2':
                 hand_off_to_zapier(entity_name, message)
             else:
                 logging.info(not_processing_ratingv2)
         else:
-            logging.warning(f'zapier connector is not processing: {action} for {entity_name} messages')
+            logging.warning(
+                f'zapier connector is not processing: {action} for {entity_name} messages')
     except Exception as e:
         if 'payload' in message:
-            logging.error(f'unable to consume {message["payload"]}; ({type(e).__name__} below))')
+            logging.error(
+                f'unable to consume {message["payload"]}; ({type(e).__name__} below))')
             logging.error(traceback.format_exc())
         else:
-            logging.error(f'unable to process message: {message} ({type(e).__name__} below)')
-            loggin.error(traceback.format_exc())
+            logging.error(
+                f'unable to process message: {message} ({type(e).__name__} below)')
+            logging.error(traceback.format_exc())
