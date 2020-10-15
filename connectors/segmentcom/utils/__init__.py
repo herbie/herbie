@@ -16,7 +16,7 @@ def map_message_to_segmentcom(message):
 
 
 def map_attribution_to_segmentcom(message):
-    keys = ['marketing_attribution', 'marketing_attribution_de']
+    keys = ['marketing_attribution', 'marketing_attribution_de', 'carl_id']
     return {
         'event': f'Attribution Set {message["product_id"]}',
         'anonymousId': message["carl_id"],
