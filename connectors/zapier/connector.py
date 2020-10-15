@@ -59,7 +59,7 @@ for consumer_record in consumer:
     not_processing_ratingv2 = 'zapier connector is not processing ratingv2 without completed_at set; '\
                               f'for {entity_name} messages'
     has_attribution_ratingv2 = 'zapier connector is not processing ratingv2 attribution set; '\
-                              f'for {entity_name} messages
+                               f'for {entity_name} messages'
     try:
         if action == 'create':
             if message['payload']['product_id'].lower() != 'ratingv2':
