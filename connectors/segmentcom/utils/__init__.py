@@ -15,6 +15,16 @@ def map_message_to_segmentcom(message):
     }
 
 
+def map_attribution_to_segmentcom(message):
+    keys = ['marketing_attribution', 'marketing_attribution_de']
+    return {
+        'event': f'Attribution Set {message["product_id"]}',
+        'anonymousId': message["carl_id"],
+        'timestamp': now_to_rfc3339_utcoffset(),
+        'properties': {k: v for k, v in message.iteritems() if k in keys}
+    }
+
+
 def segmentcom_auth():
     return 'Basic ' + \
         b64encode(getenv('SEGMENTCOM_API_KEY').encode('ascii')).decode('ascii')

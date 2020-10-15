@@ -5,7 +5,10 @@ import traceback
 
 from time import sleep
 from kafka import KafkaConsumer, errors
-from utils import TRACK_HOST, TRACK_PATH, map_message_to_segmentcom, segmentcom_auth
+from utils import TRACK_HOST, TRACK_PATH, \
+                  map_message_to_segmentcom, \
+                  map_attribution_to_segmentcom, \
+                  segmentcom_auth
 
 import logging
 logging.basicConfig(
@@ -28,11 +31,14 @@ while starting < 8:
         continue
 
 
-def hand_off_to_segmentcom(message):
+def hand_off_to_segmentcom(cb, message):
     segmentcom_params = json.dumps(
-        map_message_to_segmentcom(message['payload'])).encode('ascii')
+        cb(message['payload'])
+    ).encode('ascii')
+
     connection = http.client.HTTPSConnection(
         TRACK_HOST, 443)  # always connect port 443 and SSL
+
     connection.request(
         'POST',
         TRACK_PATH,
@@ -58,13 +64,18 @@ for consumer_record in consumer:
     try:
         if action == 'create':
             if message['payload']['product_id'].lower() != 'ratingv2':
-                hand_off_to_segmentcom(message)
+                hand_off_to_segmentcom(map_message_to_segmentcom, message)
             else:
                 logging.info(not_processing_ratingv2)
         elif action == 'update':
             if 'completed_at' in message['payload'] and message['payload']['product_id'].lower(
             ) == 'ratingv2':
-                hand_off_to_segmentcom(message)
+                if not 'marketing_attribution' in message['payload']:
+                    # map normally
+                    hand_off_to_segmentcom(map_message_to_segmentcom, message)
+                else:
+                    # map attribution only
+                    hand_off_to_segmentcom(map_attribution_to_segmentcom, message)
             else:
                 logging.info(not_processing_ratingv2)
         else:
