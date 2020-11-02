@@ -94,6 +94,10 @@ PRODUCT_ID_TO_HOOK = {
     'ratingv2': 'hooks.zapier.com/hooks/catch/2517134/owv1qgv/',
 }
 
+PAGE_ID_TO_RATING_HOOK = {
+    'kooperation-db': 'https://hooks.zapier.com/hooks/catch/2517134/oadyfuy/',
+    'default': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/', # likely doens't work - Q: How can we create a fallback option?
+}
 
 def current_ts():
     return datetime.now().isoformat()
@@ -141,9 +145,12 @@ def to_zapier_object(carl_id, hook_url, za_response):
 
 
 def product_id_to_hook_url(message):
-    return PRODUCT_ID_TO_HOOK[message['payload']
+    if [message['payload']['product_id'] == 'rating_long':
+        return PAGE_ID_TO_RATING_HOOK[message['payload']
+                              ['page_id'].lower()].split('/', 1)
+    else:
+        return PRODUCT_ID_TO_HOOK[message['payload']
                               ['product_id'].lower()].split('/', 1)
-
 
 def save_zapier_execution(message):
     try:
