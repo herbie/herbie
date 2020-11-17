@@ -87,7 +87,6 @@ MAPPING = {
 
 PRODUCT_ID_TO_HOOK = {
     'spk_rating_long': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
-    'rating_long': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
     'rating_short': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
     'sell': 'hooks.zapier.com/hooks/catch/2517134/o356ehs/',
     'tax': 'hooks.zapier.com/hooks/catch/2517134/odq2hzt/',
@@ -96,7 +95,7 @@ PRODUCT_ID_TO_HOOK = {
 
 PAGE_ID_TO_RATING_HOOK = {
     'kooperation-db': 'https://hooks.zapier.com/hooks/catch/2517134/oadyfuy/',
-    'default': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/', # likely doens't work - Q: How can we create a fallback option?
+    '_default': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
 }
 
 def current_ts():
@@ -146,11 +145,23 @@ def to_zapier_object(carl_id, hook_url, za_response):
 
 def product_id_to_hook_url(message):
     if [message['payload']['product_id'] == 'rating_long':
-        return PAGE_ID_TO_RATING_HOOK[message['payload']
-                              ['page_id'].lower()].split('/', 1)
+        hook_key = key_page_id(message)
+        if hook_key in PAGE_ID_TO_RATING_HOOK:
+            return PAGE_ID_TO_RATING_HOOK[hook_key].split('/', 1)
+        else:
+            return PAGE_ID_TO_RATING_HOOK['_default'].split('/', 1)
     else:
-        return PRODUCT_ID_TO_HOOK[message['payload']
-                              ['product_id'].lower()].split('/', 1)
+        hook_key = key_product_id(message)
+        return PRODUCT_ID_TO_HOOK[hook_key].split('/', 1)
+
+
+def key_page_id(message):
+    return message['payload']['page_id'].lower()
+
+
+def key_product_id(message):
+    return message['payload']['product_id'].lower()
+
 
 def save_zapier_execution(message):
     try:
