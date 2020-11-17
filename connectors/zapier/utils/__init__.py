@@ -144,7 +144,7 @@ def to_zapier_object(carl_id, hook_url, za_response):
 
 
 def product_id_to_hook_url(message):
-    if [message['payload']['product_id'] == 'rating_long':
+    if message['payload']['product_id'] == 'rating_long':
         hook_key = key_page_id(message)
         if hook_key in PAGE_ID_TO_RATING_HOOK:
             return PAGE_ID_TO_RATING_HOOK[hook_key].split('/', 1)
