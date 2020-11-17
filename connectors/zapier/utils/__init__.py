@@ -94,7 +94,7 @@ PRODUCT_ID_TO_HOOK = {
 }
 
 PAGE_ID_TO_RATING_HOOK = {
-    'kooperation-db': 'https://hooks.zapier.com/hooks/catch/2517134/oadyfuy/',
+    'kooperation-db': 'hooks.zapier.com/hooks/catch/2517134/oadyfuy/',
     '_default': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
 }
 
