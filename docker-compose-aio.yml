@@ -28,6 +28,7 @@ services:
     environment:
       - 'HERBIE_HOST=${HERBIE_HOST}'
       - 'HERBIE_TOKEN=${HERBIE_TOKEN}'
+      - 'HOOK_RATING_V2=${HOOK_RATING_V2}'
       - 'KAFKA_URL=herbie-kafka:9093'
     networks:
       - 'herbie-network'
