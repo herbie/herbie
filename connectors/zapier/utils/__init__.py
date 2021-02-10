@@ -86,7 +86,6 @@ MAPPING = {
 }
 
 PRODUCT_ID_TO_HOOK = {
-    'spk_rating_long': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
     'rating_short': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
     'sell': 'hooks.zapier.com/hooks/catch/2517134/o356ehs/',
     'tax': 'hooks.zapier.com/hooks/catch/2517134/odq2hzt/',
@@ -95,6 +94,10 @@ PRODUCT_ID_TO_HOOK = {
 
 PAGE_ID_TO_RATING_HOOK = {
     'kooperation-db': 'hooks.zapier.com/hooks/catch/2517134/oadyfuy/',
+    '_default': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
+}
+
+PAGE_ID_TO_SPK_RATING_HOOK = {
     'haspa': 'hooks.zapier.com/hooks/catch/2517134/octb2ee/',
     '_default': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
 }
@@ -151,6 +154,12 @@ def product_id_to_hook_url(message):
             return PAGE_ID_TO_RATING_HOOK[hook_key].split('/', 1)
         else:
             return PAGE_ID_TO_RATING_HOOK['_default'].split('/', 1)
+    elif message['payload']['product_id'] == 'spk_rating_long':
+        hook_key = key_page_id(message)
+        if hook_key in PAGE_ID_TO_SPK_RATING_HOOK:
+            return PAGE_ID_TO_SPK_RATING_HOOK[hook_key].split('/', 1)
+        else:
+            return PAGE_ID_TO_SPK_RATING_HOOK['_default'].split('/', 1)
     else:
         hook_key = key_product_id(message)
         return PRODUCT_ID_TO_HOOK[hook_key].split('/', 1)
