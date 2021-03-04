@@ -88,6 +88,7 @@ MAPPING = {
 PRODUCT_ID_TO_HOOK = {
     'rating_short': 'hooks.zapier.com/hooks/catch/2517134/o3qhca0/',
     'sell': 'hooks.zapier.com/hooks/catch/2517134/o356ehs/',
+    'sellv2': 'hooks.zapier.com/hooks/catch/2517134/o356ehs/',
     'tax': 'hooks.zapier.com/hooks/catch/2517134/odq2hzt/',
     'ratingv2': environ['HOOK_RATING_V2'],
 }
