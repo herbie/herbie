@@ -60,9 +60,13 @@ for consumer_record in consumer:
                               f'for {entity_name} messages'
     has_attribution_ratingv2 = 'zapier connector is not processing ratingv2 attribution set; '\
                                f'for {entity_name} messages'
+    not_processing_sellv2 = 'zapier connector is not processing sellv2 without completed_at set; '\
+                              f'for {entity_name} messages'
+    has_attribution_sellv2 = 'zapier connector is not processing sellv2 attribution set; '\
+                               f'for {entity_name} messages'
     try:
         if action == 'create':
-            if message['payload']['product_id'].lower() != 'ratingv2':
+            if message['payload']['product_id'].lower() != 'ratingv2' and message['payload']['product_id'] != 'sellv2':
                 hand_off_to_zapier(entity_name, message)
             else:
                 logging.info(not_processing_ratingv2)
@@ -71,6 +75,11 @@ for consumer_record in consumer:
             ) == 'ratingv2':
                 if 'marketing_attribution' in message['payload']:
                     logging.info(has_attribution_ratingv2)
+                else:
+                    hand_off_to_zapier(entity_name, message)
+            elif 'completed_at' in message['payload'] and message['payload']['product_id'] == 'sellv2':
+                if 'marketing_attribution' in message['payload']:
+                    logging.info(has_attribution_sellv2)
                 else:
                     hand_off_to_zapier(entity_name, message)
             else:
