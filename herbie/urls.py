@@ -15,11 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
-
-from herbieapp.controllers import SchemaRegistryController,\
-    SaveBusinessEntityController,\
-    DeleteBusinessEntityController
+from herbie_core import urls as herbie_urls
 
 
 admin.site.site_header = 'Herbie'
@@ -29,10 +25,6 @@ admin.site.index_title = 'Dashboard'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/<str:business_entity>/save', SaveBusinessEntityController().as_view()),
-    path('api/<str:business_entity>/delete', DeleteBusinessEntityController().as_view()),
-    path('api/schema-registry/<str:business_entity>/<str:version>', SchemaRegistryController().as_view()),
-    path('api/schema-registry/<str:business_entity>/', SchemaRegistryController().as_view(), {'version': ''}),
-    path('oauth/', include('social_django.urls', namespace='social')),
-    path('bigquery_export/', include('herbie_bigquery_export.urls', namespace='bigquery_export')),
-]
+    path('api/', include(herbie_urls)),
+    # path('bigquery_export', include('herbie_bigquery_export.urls', namespace='bigquery_export'))
+ ]

@@ -13,25 +13,27 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 import environ
 
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 env = environ.Env()
+
+ENV_PATH = os.path.join(BASE_DIR, '.env')
+
+if os.path.exists(ENV_PATH):
+    env.read_env(ENV_PATH)
 
 # Business entity application label
 APP_LABEL = 'herbieapp'
 
 # Json schema package for validation of business objects
-SCHEMA_REGISTRY_PACKAGE = 'carl_business_json_schema' # must be installed through extra packages system
+SCHEMA_REGISTRY_PACKAGE = 'schema'
 
 # chunk size for exporting data
 DEFAULT_CHUNK_SIZE = 100
 
-# message_provider (e.g. kafka, google pubsub)
-MESSAGING_PROVIDER = 'kafka'
-
 # Google Cloud Pub/Sub
-GCLOUD_PUBSUB_PROJECT_ID = env.str('GCLOUD_PUBSUB_PROJECT_ID', " ")
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+GCLOUD_PUBSUB_PROJECT_ID = env.str("GCLOUD_PUBSUB_PROJECT_ID")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -42,24 +44,25 @@ SECRET_KEY = env.str('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['herbie-app', 'localhost']
 
+ALLOWED_HOSTS = ['*']
 
-# Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'herbie_core.apps.HerbieCoreConfig',
+    'herbieapp.apps.HerbieAppConfig',
+    'django.contrib.admin',
     'rest_framework',
-    'herbieapp.apps.HerbieappConfig',
     'rest_framework.authtoken',
-    'social_django',
-    'herbie_bigquery_export.apps.HerbieBigqueryExportConfig'
+    'google_pubsub_adapter.apps.HerbieGooglePubsubAdapterConfig',
 ]
+# Application definition
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -69,26 +72,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social_django.middleware.SocialAuthExceptionMiddleware'
 ]
 
 ROOT_URLCONF = 'herbie.urls'
-
-
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
-SOCIAL_AUTH_PIPELINE = (
-    'social_core.pipeline.social_auth.social_details',
-    'social_core.pipeline.social_auth.social_uid',
-    'social_core.pipeline.social_auth.auth_allowed',
-    'social_core.pipeline.social_auth.social_user',
-    'social_core.pipeline.user.get_username',
-    'social_core.pipeline.user.create_user',
-    'social_core.pipeline.social_auth.associate_user',
-    'social_core.pipeline.social_auth.load_extra_data',
-    'social_core.pipeline.user.user_details',
-    'herbieapp.authentication.social_authentication.process_roles'
-)
-
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -113,8 +99,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -126,9 +110,9 @@ WSGI_APPLICATION = 'herbie.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-DEV_DEFAULT_DB = {'ENGINE': 'django.db.backends.postgresql', 'NAME': 'herbie'}
+
 DATABASES = {
-    'default': {**DEV_DEFAULT_DB, **env.db('DATABASE_URL')}
+    'default': env.db('DATABASE_URL')
 }
 
 LOGGING = {
@@ -151,9 +135,14 @@ LOGGING = {
             'level': 'DEBUG',
             'handlers': ['console']
         },
-        'kafka': {
-            'handlers': ['console'],
-            'level': 'WARNING'
+        # Boto library is quite noisy logging on DEBUG
+        'botocore': {
+            'level': 'INFO',
+            'handlers': ['console']
+        },
+        'urllib3': {
+            'level': 'INFO',
+            'handlers': ['console']
         },
     }
 }
@@ -209,9 +198,4 @@ JSON_VIEWER = {
 HERBIE_ADMIN = {
     'JS_URL': 'js/herbie-admin.js',
     'CSS_URL': 'css/herbie-admin.css',
-}
-
-KAFKA = {
-    'SERVERS': 'herbie-kafka:9093',
-    'TIMEOUT': 30000
 }

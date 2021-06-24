@@ -1,6 +1,6 @@
 from django.apps import AppConfig
-from herbie import settings
+from django.conf import settings
 
 
-class HerbieappConfig(AppConfig):
+class HerbieAppConfig(AppConfig):
     name = settings.APP_LABEL

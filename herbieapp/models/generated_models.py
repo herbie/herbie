@@ -1,5 +1,5 @@
 # generated file, should not be modified manually!
-from herbieapp.models import AbstractBusinessEntity
+from herbie_core.models.models import AbstractBusinessEntity
 
 
 class Customer(AbstractBusinessEntity):

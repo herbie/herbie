@@ -1,0 +1,9 @@
+herbie==1.0b1
+herbie-google-pubsub-adapter==1.0b1
+asgiref==3.2.7
+Django==3.0.7
+pytz==2020.1
+sqlparse==0.3.1
+gunicorn==20.0.4
+django-environ==0.4.5
+psycopg2-binary>=2.8,<2.9
