@@ -3,24 +3,24 @@ version: '3'
 services:
 
   herbie:
-    container_name: 'herbie'
+    container_name: 'carl_herbie'
     build: .
     volumes:
       - './src:/data/www'
     depends_on:
-      - 'herbie-db'
+      - 'carl-herbie-db'
     environment:
-      - 'DATABASE_URL=postgres://user:password@herbie-db:5432/herbie_db'
+      - 'DATABASE_URL=postgres://user:password@carl-herbie-db:5432/herbie_db'
       - 'SECRET_KEY=thisisasecret'
-      - 'GCLOUD_PUBSUB_PROJECT_ID=herbie-app'
-      - 'PUBSUB_EMULATOR_HOST=herbie-google-pub-sub:8085'
+      - 'GCLOUD_PUBSUB_PROJECT_ID=carl_herbie-app'
+      - 'PUBSUB_EMULATOR_HOST=carl_herbie-google-pub-sub:8085'
     ports:
       - '8080:8080'
     networks:
-      - 'herbie-network'
+      - 'carl-herbie-network'
 
   herbie-db:
-    container_name: 'herbie-db'
+    container_name: 'carl_herbie-db'
     image: 'postgres:11.5'
     volumes:
       - 'db-data:/var/lib/postgresql/data'
@@ -29,15 +29,35 @@ services:
       - 'POSTGRES_USER=user'
       - 'POSTGRES_PASSWORD=password'
     networks:
-      - 'herbie-network'
+      - 'carl-herbie-network'
+
+  zapier-connector:
+    container_name: 'zapier-connector'
+    build: './connectors/zapier'
+    environment:
+      - 'HERBIE_HOST=${HERBIE_HOST}'
+      - 'HERBIE_TOKEN=${HERBIE_TOKEN}'
+      - 'HOOK_RATING_V2=${HOOK_RATING_V2}'
+      - 'KAFKA_URL=herbie-kafka:9093'
+    networks:
+      - 'carl-herbie-network'
+
+  segmentcom-connector:
+    container_name: 'segmentcom-connector'
+    build: './connectors/segmentcom'
+    environment:
+      - 'SEGMENTCOM_API_KEY=${SEGMENTCOM_API_KEY}'
+      - 'KAFKA_URL=herbie-kafka:9093'
+    networks:
+      - 'carl-herbie-network'
 
   herbie-google-pub-sub:
-    container_name: 'herbie-google-pub-sub'
+    container_name: 'carl_herbie-google-pub-sub'
     image: 'knarz/pubsub-emulator'
     ports:
       - '8085:8085'
     networks:
-      - 'herbie-network'
+      - 'carl-herbie-network'
 
 volumes:
   db-data:

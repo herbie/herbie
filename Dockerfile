@@ -22,7 +22,7 @@ COPY requirements.txt /data/www/
 RUN pip install -r requirements.txt --upgrade
 
 
-# copy herbie files
+# copy carl_herbie files
 COPY src /data/www/
 
 # setup entrypoint

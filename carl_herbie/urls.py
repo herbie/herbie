@@ -1,7 +1,7 @@
-"""herbie URL Configuration
+"""carl_herbie URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.2/topics/http/urls/
+    https://docs.djangoproject.com/en/3.2/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -17,14 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 from herbie_core import urls as herbie_urls
 
-
-admin.site.site_header = 'Herbie'
-admin.site.site_title = 'Herbie'
-admin.site.index_title = 'Dashboard'
-
+admin.site.site_header = 'Carl Herbie'
+admin.site.site_title = 'Carl Herbie'
+admin.site.index_title = 'Carl Herbie Dashboard'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(herbie_urls)),
-    # path('bigquery_export', include('herbie_bigquery_export.urls', namespace='bigquery_export'))
- ]
+    path('bigquery_export/', include(herbie_urls))
+]
