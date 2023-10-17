@@ -91,6 +91,7 @@ PRODUCT_ID_TO_HOOK = {
     'sellv2': 'hooks.zapier.com/hooks/catch/2517134/o356ehs/',
     'tax': 'hooks.zapier.com/hooks/catch/2517134/odq2hzt/',
     'ratingv2': environ['HOOK_RATING_V2'],
+    'ratingv6': 'hooks.zapier.com/hooks/catch/15581271/3se02c8/',
 }
 
 PAGE_ID_TO_RATING_HOOK = {
